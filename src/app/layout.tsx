@@ -12,10 +12,6 @@ const notoSerif = Noto_Serif_JP({
 export const metadata: Metadata = {
   title: 'Whisky Guide | あなたの一本を見つける',
   description: 'ウイスキー銘柄の紹介と好みに合った銘柄を見つけるアプリ',
-  icons: {
-    icon: '/icon.png',
-    apple: '/apple-icon.png',
-  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
