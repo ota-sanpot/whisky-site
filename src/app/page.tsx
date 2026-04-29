@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { getWhiskies } from '@/lib/notion'
 import WhiskyCard from '@/components/WhiskyCard'
 import FlavorTag from '@/components/FlavorTag'
+import SearchBar from '@/components/SearchBar'
 import type { FlavorTag as FlavorTagType, Origin } from '@/lib/types'
 
 export const revalidate = false
@@ -95,9 +96,10 @@ export default async function TopPage() {
         <h1 className="text-4xl sm:text-5xl font-semibold mb-5 leading-tight">
           あなたの一本を、<br />見つけよう。
         </h1>
-        <p className="text-gray-500 mb-8 max-w-lg mx-auto leading-relaxed">
+        <p className="text-gray-500 mb-6 max-w-lg mx-auto leading-relaxed">
           初心者から愛好家まで。{whiskies.length}銘柄の中から、好みに合ったウイスキーをご紹介します。
         </p>
+        <SearchBar whiskies={whiskies} />
         <div className="flex flex-wrap gap-3 justify-center mb-12">
           <Link
             href="/finder"
