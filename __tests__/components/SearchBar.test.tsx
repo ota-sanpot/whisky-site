@@ -1,5 +1,5 @@
 // __tests__/components/SearchBar.test.tsx
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SearchBar from '@/components/SearchBar'
 import { Whisky } from '@/lib/types'
@@ -104,7 +104,8 @@ describe('SearchBar', () => {
     const user = userEvent.setup()
     render(<SearchBar whiskies={manyWhiskies} />)
     await user.type(screen.getByRole('searchbox'), '日本')
-    const items = screen.getAllByRole('button')
+    const listbox = screen.getByRole('listbox')
+    const items = within(listbox).getAllByRole('button')
     expect(items.length).toBe(5)
   })
 
@@ -122,5 +123,6 @@ describe('SearchBar', () => {
     expect(screen.getByRole('listbox')).toBeInTheDocument()
     await user.keyboard('{Escape}')
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+    expect(screen.getByRole('searchbox')).toHaveValue('')
   })
 })
