@@ -140,7 +140,6 @@ export default async function TopPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {BASICS.map(item => (
             <div key={item.title} className="bg-stone-100 rounded-xl p-5">
-              <div className="text-3xl mb-3">{item.icon}</div>
               <h3 className="font-semibold mb-2">{item.title}</h3>
               <p className="text-sm text-gray-600 leading-relaxed">{item.text}</p>
             </div>
