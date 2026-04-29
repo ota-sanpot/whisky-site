@@ -59,14 +59,14 @@ describe('SearchBar', () => {
   it('1文字以上入力するとドロップダウンが表示される', async () => {
     const user = userEvent.setup()
     render(<SearchBar whiskies={mockWhiskies} />)
-    await user.type(screen.getByRole('searchbox'), '山')
+    await user.type(screen.getByRole('combobox'), '山')
     expect(screen.getByRole('listbox')).toBeInTheDocument()
   })
 
   it('銘柄名（name）で部分一致検索できる', async () => {
     const user = userEvent.setup()
     render(<SearchBar whiskies={mockWhiskies} />)
-    await user.type(screen.getByRole('searchbox'), '山崎')
+    await user.type(screen.getByRole('combobox'), '山崎')
     expect(screen.getByText('山崎 12年')).toBeInTheDocument()
     expect(screen.queryByText('ラガヴーリン 16年')).not.toBeInTheDocument()
   })
@@ -74,7 +74,7 @@ describe('SearchBar', () => {
   it('蒸留所名（distillery）で部分一致検索できる', async () => {
     const user = userEvent.setup()
     render(<SearchBar whiskies={mockWhiskies} />)
-    await user.type(screen.getByRole('searchbox'), 'ニッカ')
+    await user.type(screen.getByRole('combobox'), 'ニッカ')
     expect(screen.getByText('余市')).toBeInTheDocument()
     expect(screen.queryByText('山崎 12年')).not.toBeInTheDocument()
   })
@@ -82,7 +82,7 @@ describe('SearchBar', () => {
   it('産地（origin）で部分一致検索できる', async () => {
     const user = userEvent.setup()
     render(<SearchBar whiskies={mockWhiskies} />)
-    await user.type(screen.getByRole('searchbox'), 'スコットランド')
+    await user.type(screen.getByRole('combobox'), 'スコットランド')
     expect(screen.getByText('ラガヴーリン 16年')).toBeInTheDocument()
     expect(screen.queryByText('山崎 12年')).not.toBeInTheDocument()
   })
@@ -103,7 +103,7 @@ describe('SearchBar', () => {
     }))
     const user = userEvent.setup()
     render(<SearchBar whiskies={manyWhiskies} />)
-    await user.type(screen.getByRole('searchbox'), '日本')
+    await user.type(screen.getByRole('combobox'), '日本')
     const listbox = screen.getByRole('listbox')
     const items = within(listbox).getAllByRole('button')
     expect(items.length).toBe(5)
@@ -112,17 +112,17 @@ describe('SearchBar', () => {
   it('マッチしない場合「見つかりません」と表示される', async () => {
     const user = userEvent.setup()
     render(<SearchBar whiskies={mockWhiskies} />)
-    await user.type(screen.getByRole('searchbox'), 'zzz存在しない')
+    await user.type(screen.getByRole('combobox'), 'zzz存在しない')
     expect(screen.getByText('見つかりません')).toBeInTheDocument()
   })
 
   it('ESCキーでドロップダウンが閉じる', async () => {
     const user = userEvent.setup()
     render(<SearchBar whiskies={mockWhiskies} />)
-    await user.type(screen.getByRole('searchbox'), '山崎')
+    await user.type(screen.getByRole('combobox'), '山崎')
     expect(screen.getByRole('listbox')).toBeInTheDocument()
     await user.keyboard('{Escape}')
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
-    expect(screen.getByRole('searchbox')).toHaveValue('')
+    expect(screen.getByRole('combobox')).toHaveValue('')
   })
 })

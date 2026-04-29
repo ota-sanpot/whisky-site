@@ -15,10 +15,11 @@ export default function SearchBar({ whiskies }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
 
+  const lowerQuery = query.toLowerCase()
   const filtered = query.length > 0
     ? whiskies.filter(w =>
         [w.name, w.distillery, w.origin].some(field =>
-          field.toLowerCase().includes(query.toLowerCase())
+          field.toLowerCase().includes(lowerQuery)
         )
       ).slice(0, 5)
     : []
@@ -46,23 +47,25 @@ export default function SearchBar({ whiskies }: Props) {
 
   return (
     <div ref={containerRef} className="relative max-w-md mx-auto mb-8" onBlur={handleBlur}>
-      <div className="flex gap-2">
-        <input
-          type="search"
-          role="searchbox"
-          value={query}
-          onChange={e => { setQuery(e.target.value); setIsOpen(true) }}
-          onKeyDown={handleKeyDown}
-          placeholder="銘柄名・蒸留所・産地で検索…"
-          className="flex-1 border border-amber-400 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-300"
-          aria-autocomplete="list"
-          aria-haspopup="listbox"
-          aria-expanded={showDropdown}
-        />
-      </div>
+      <input
+        type="search"
+        role="combobox"
+        id="whisky-search"
+        value={query}
+        onChange={e => { setQuery(e.target.value); setIsOpen(true) }}
+        onKeyDown={handleKeyDown}
+        placeholder="銘柄名・蒸留所・産地で検索…"
+        aria-label="ウイスキーを検索"
+        aria-autocomplete="list"
+        aria-haspopup="listbox"
+        aria-expanded={showDropdown}
+        aria-controls="whisky-search-listbox"
+        className="w-full border border-amber-400 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-300"
+      />
 
       {showDropdown && (
         <ul
+          id="whisky-search-listbox"
           role="listbox"
           className="absolute left-0 right-0 top-full mt-1 bg-white border border-stone-200 rounded-xl shadow-lg z-50 overflow-hidden"
         >
