@@ -208,7 +208,7 @@ export default async function TopPage() {
         </div>
         <div className="flex flex-wrap gap-3">
           {FLAVOR_TAGS.map(tag => (
-            <Link key={tag} href="/whisky" className="hover:opacity-70 transition-opacity">
+            <Link key={tag} href={`/whisky?flavor=${encodeURIComponent(tag)}`} className="hover:opacity-70 transition-opacity">
               <FlavorTag tag={tag} />
             </Link>
           ))}
