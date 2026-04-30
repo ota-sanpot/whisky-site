@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import WhiskyCard from '@/components/WhiskyCard'
-import type { Whisky } from '@/lib/types'
+import type { Whisky, FlavorTag } from '@/lib/types'
 
 type Props = {
   whiskies: Whisky[]
@@ -15,6 +15,42 @@ const PRICES = ['¥3,000未満', '¥3,000〜¥10,000', '¥10,000以上'] as cons
 const FLAVORS = ['甘口', 'スモーキー', 'フルーティ', 'ピーティ', 'スパイシー', 'フローラル', 'ナッティ', 'ウッディ'] as const
 
 type Section = '産地' | '種別' | '価格帯' | 'フレーバー'
+
+type AccordionSectionProps = {
+  label: string
+  section: Section
+  selectedLabel: string | null
+  openSection: Section | null
+  onToggle: (s: Section) => void
+  children: React.ReactNode
+}
+
+function AccordionSection({ label, section, selectedLabel, openSection, onToggle, children }: AccordionSectionProps) {
+  const isOpen = openSection === section
+  return (
+    <div className="border-b border-stone-200 last:border-0">
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        onClick={() => onToggle(section)}
+        className="w-full flex items-center justify-between px-4 py-3 text-left text-sm font-medium text-gray-700 hover:bg-stone-50 transition-colors"
+      >
+        <span>
+          {label}
+          {selectedLabel && (
+            <span className="ml-2 text-amber-600 font-normal">› {selectedLabel}</span>
+          )}
+        </span>
+        <span className="text-gray-400 text-xs">{isOpen ? '▲' : '▼'}</span>
+      </button>
+      {isOpen && (
+        <div className="px-4 pb-3 flex flex-wrap gap-2">
+          {children}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function WhiskyListClient({ whiskies }: Props) {
   const searchParams = useSearchParams()
@@ -34,7 +70,7 @@ export default function WhiskyListClient({ whiskies }: Props) {
     if (selectedOrigin && w.origin !== selectedOrigin) return false
     if (selectedCategory && w.category !== selectedCategory) return false
     if (selectedPrice && w.priceRange !== selectedPrice) return false
-    if (selectedFlavor && !(w.flavorTags as string[]).includes(selectedFlavor)) return false
+    if (selectedFlavor && !w.flavorTags.includes(selectedFlavor as FlavorTag)) return false
     return true
   })
 
@@ -63,43 +99,6 @@ export default function WhiskyListClient({ whiskies }: Props) {
       ? 'bg-amber-500 text-white border border-amber-500 rounded-full px-3 py-1 text-xs font-medium'
       : 'border border-stone-200 text-gray-700 rounded-full px-3 py-1 text-xs hover:border-amber-300 transition-colors'
 
-  // アコーディオンセクションコンポーネント（openSection と toggleSection をクロージャで参照）
-  const AccordionSection = ({
-    label,
-    section,
-    children,
-    selectedLabel,
-  }: {
-    label: string
-    section: Section
-    children: React.ReactNode
-    selectedLabel: string | null
-  }) => {
-    const isOpen = openSection === section
-    return (
-      <div className="border-b border-stone-200 last:border-0">
-        <button
-          type="button"
-          onClick={() => toggleSection(section)}
-          className="w-full flex items-center justify-between px-4 py-3 text-left text-sm font-medium text-gray-700 hover:bg-stone-50 transition-colors"
-        >
-          <span>
-            {label}
-            {selectedLabel && (
-              <span className="ml-2 text-amber-600 font-normal">› {selectedLabel}</span>
-            )}
-          </span>
-          <span className="text-gray-400 text-xs">{isOpen ? '▲' : '▼'}</span>
-        </button>
-        {isOpen && (
-          <div className="px-4 pb-3 flex flex-wrap gap-2">
-            {children}
-          </div>
-        )}
-      </div>
-    )
-  }
-
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
@@ -121,7 +120,7 @@ export default function WhiskyListClient({ whiskies }: Props) {
 
       {/* アコーディオンフィルター */}
       <div className="border border-stone-200 rounded-xl overflow-hidden mb-4">
-        <AccordionSection label="産地" section="産地" selectedLabel={selectedOrigin}>
+        <AccordionSection label="産地" section="産地" selectedLabel={selectedOrigin} openSection={openSection} onToggle={toggleSection}>
           {ORIGINS.map(o => (
             <button
               key={o}
@@ -134,7 +133,7 @@ export default function WhiskyListClient({ whiskies }: Props) {
           ))}
         </AccordionSection>
 
-        <AccordionSection label="種別" section="種別" selectedLabel={selectedCategory}>
+        <AccordionSection label="種別" section="種別" selectedLabel={selectedCategory} openSection={openSection} onToggle={toggleSection}>
           {CATEGORIES.map(c => (
             <button
               key={c}
@@ -147,7 +146,7 @@ export default function WhiskyListClient({ whiskies }: Props) {
           ))}
         </AccordionSection>
 
-        <AccordionSection label="価格帯" section="価格帯" selectedLabel={selectedPrice}>
+        <AccordionSection label="価格帯" section="価格帯" selectedLabel={selectedPrice} openSection={openSection} onToggle={toggleSection}>
           {PRICES.map(p => (
             <button
               key={p}
@@ -160,7 +159,7 @@ export default function WhiskyListClient({ whiskies }: Props) {
           ))}
         </AccordionSection>
 
-        <AccordionSection label="フレーバー" section="フレーバー" selectedLabel={selectedFlavor}>
+        <AccordionSection label="フレーバー" section="フレーバー" selectedLabel={selectedFlavor} openSection={openSection} onToggle={toggleSection}>
           {FLAVORS.map(f => (
             <button
               key={f}

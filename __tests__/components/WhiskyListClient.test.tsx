@@ -3,9 +3,10 @@ import userEvent from '@testing-library/user-event'
 import { Suspense } from 'react'
 import WhiskyListClient from '@/components/WhiskyListClient'
 import type { Whisky } from '@/lib/types'
+import * as Navigation from 'next/navigation'
 
 jest.mock('next/navigation', () => ({
-  useSearchParams: () => new URLSearchParams(),
+  useSearchParams: jest.fn(() => new URLSearchParams()),
 }))
 
 const mockWhiskies: Whisky[] = [
@@ -146,8 +147,8 @@ describe('WhiskyListClient', () => {
   })
 
   it('URLパラメータ flavor で初期フレーバーを設定する', async () => {
-    jest.spyOn(require('next/navigation'), 'useSearchParams').mockReturnValueOnce(
-      new URLSearchParams('flavor=スモーキー')
+    jest.spyOn(Navigation, 'useSearchParams').mockReturnValueOnce(
+      new URLSearchParams('flavor=スモーキー') as unknown as ReturnType<typeof Navigation.useSearchParams>
     )
     renderWithSuspense(<WhiskyListClient whiskies={mockWhiskies} />)
     expect(screen.getByText('ラガヴーリン 16年')).toBeInTheDocument()
