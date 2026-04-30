@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { getWhiskies } from '@/lib/notion'
 import WhiskyCard from '@/components/WhiskyCard'
 import FlavorTag from '@/components/FlavorTag'
@@ -173,6 +174,34 @@ export default async function TopPage() {
             </Link>
           ))}
         </div>
+
+        <div className="mt-8 space-y-6">
+          <div>
+            <p className="text-xs text-gray-400 font-medium uppercase tracking-widest mb-3">Reference Chart</p>
+            <div className="overflow-x-auto rounded-xl border border-stone-200 shadow-sm">
+              <Image
+                src="/world-whisky-guide.png"
+                alt="世界のウイスキー完全ガイド 産地別・種別一覧表"
+                width={900}
+                height={1400}
+                className="min-w-[640px] w-full h-auto"
+              />
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs text-gray-400 font-medium uppercase tracking-widest mb-3">Japanese Whisky Map</p>
+            <div className="overflow-x-auto rounded-xl border border-stone-200 shadow-sm">
+              <Image
+                src="/japanese-whisky-map.png"
+                alt="ジャパニーズウイスキー特徴マップ 香り×濃さで銘柄を比較"
+                width={1400}
+                height={900}
+                className="min-w-[640px] w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ウイスキーの歴史 */}
@@ -212,6 +241,19 @@ export default async function TopPage() {
               <FlavorTag tag={tag} />
             </Link>
           ))}
+        </div>
+
+        <div className="mt-8">
+          <p className="text-xs text-gray-400 font-medium uppercase tracking-widest mb-3">Flavor Map</p>
+          <div className="overflow-x-auto rounded-xl border border-stone-200 shadow-sm">
+            <Image
+              src="/world-whisky-map.png"
+              alt="世界のウイスキー一覧マップ 香り×濃さの比較図"
+              width={1200}
+              height={1600}
+              className="min-w-[640px] w-full h-auto"
+            />
+          </div>
         </div>
       </section>
 
