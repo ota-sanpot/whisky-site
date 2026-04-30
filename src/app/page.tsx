@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { getWhiskies } from '@/lib/notion'
 import WhiskyCard from '@/components/WhiskyCard'
 import FlavorTag from '@/components/FlavorTag'
@@ -179,11 +178,10 @@ export default async function TopPage() {
           <div>
             <p className="text-xs text-gray-400 font-medium uppercase tracking-widest mb-3">Reference Chart</p>
             <div className="overflow-x-auto rounded-xl border border-stone-200 shadow-sm">
-              <Image
-                src="/world-whisky-guide.png"
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/world-whisky-guide.png`}
                 alt="世界のウイスキー完全ガイド 産地別・種別一覧表"
-                width={900}
-                height={1400}
                 className="min-w-[640px] w-full h-auto"
               />
             </div>
@@ -192,11 +190,10 @@ export default async function TopPage() {
           <div>
             <p className="text-xs text-gray-400 font-medium uppercase tracking-widest mb-3">Japanese Whisky Map</p>
             <div className="overflow-x-auto rounded-xl border border-stone-200 shadow-sm">
-              <Image
-                src="/japanese-whisky-map.png"
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/japanese-whisky-map.png`}
                 alt="ジャパニーズウイスキー特徴マップ 香り×濃さで銘柄を比較"
-                width={1400}
-                height={900}
                 className="min-w-[640px] w-full h-auto"
               />
             </div>
@@ -246,11 +243,10 @@ export default async function TopPage() {
         <div className="mt-8">
           <p className="text-xs text-gray-400 font-medium uppercase tracking-widest mb-3">Flavor Map</p>
           <div className="overflow-x-auto rounded-xl border border-stone-200 shadow-sm">
-            <Image
-              src="/world-whisky-map.png"
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/world-whisky-map.png`}
               alt="世界のウイスキー一覧マップ 香り×濃さの比較図"
-              width={1200}
-              height={1600}
               className="min-w-[640px] w-full h-auto"
             />
           </div>
