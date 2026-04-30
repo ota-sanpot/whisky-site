@@ -8,7 +8,7 @@ export default function Nav() {
           Whisky Guide
         </Link>
         <div className="flex gap-3 sm:gap-6 text-xs sm:text-sm text-gray-600">
-          <Link href="/whisky" className="whitespace-nowrap hover:text-amber-700 transition-colors">銘柄を探す</Link>
+          <Link href="/whisky" className="whitespace-nowrap hover:text-amber-700 transition-colors">銘柄一覧</Link>
           <Link href="/finder" className="whitespace-nowrap hover:text-amber-700 transition-colors">好みを見つける</Link>
           <Link href="/articles" className="whitespace-nowrap hover:text-amber-700 transition-colors">読みもの</Link>
         </div>
