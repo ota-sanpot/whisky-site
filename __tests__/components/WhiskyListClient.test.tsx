@@ -144,4 +144,13 @@ describe('WhiskyListClient', () => {
     expect(screen.getByText('山崎 12年')).toBeInTheDocument()
     expect(screen.getByText('ラガヴーリン 16年')).toBeInTheDocument()
   })
+
+  it('URLパラメータ flavor で初期フレーバーを設定する', async () => {
+    jest.spyOn(require('next/navigation'), 'useSearchParams').mockReturnValueOnce(
+      new URLSearchParams('flavor=スモーキー')
+    )
+    renderWithSuspense(<WhiskyListClient whiskies={mockWhiskies} />)
+    expect(screen.getByText('ラガヴーリン 16年')).toBeInTheDocument()
+    expect(screen.queryByText('山崎 12年')).not.toBeInTheDocument()
+  })
 })
