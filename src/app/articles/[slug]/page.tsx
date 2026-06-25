@@ -46,6 +46,9 @@ export default async function ArticleDetailPage({ params }: Props) {
                 <p key={j} className="text-gray-700 leading-relaxed text-sm">{p}</p>
               ))}
             </div>
+            {section.embedHtml && (
+              <div className="mt-6 flex justify-center" dangerouslySetInnerHTML={{ __html: section.embedHtml }} />
+            )}
           </section>
         ))}
       </div>

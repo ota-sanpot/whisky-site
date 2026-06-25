@@ -30,6 +30,7 @@ export type Whisky = {
 export type ArticleSection = {
   heading: string
   paragraphs: string[]
+  embedHtml?: string
 }
 
 export type Article = {
