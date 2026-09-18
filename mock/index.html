@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ジャパニーズウイスキー図鑑（仮）</title>
+<meta name="description" content="ジャパニーズウイスキーを1本ずつ。産地、中身の原酒、味、飲み方まで。リニューアルのモックです。">
+<meta name="theme-color" content="#15100c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap site-header-in">
+    <a class="brand" href="#/"><span class="brand-dot" aria-hidden="true"></span><span class="brand-name">ジャパニーズウイスキー図鑑</span><span class="brand-tag">仮称・モック</span></a>
+    <a class="header-search" href="#/">探す</a>
+  </div>
+</header>
+<main id="app" class="wrap"></main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p>ジャパニーズウイスキー図鑑（仮称）のモックです。掲載している事実は、各ページの出典で<span id="checked-at"></span>に確認しました。</p>
+    <p>運営：大田区サンポット</p>
+    <p class="footer-note">20歳未満の飲酒は法律で禁止されています。飲酒運転は絶対にやめましょう。</p>
+  </div>
+</footer>
+<script type="application/json" id="wdata">
+{
+  "checkedAt": "2026-09-18",
+  "standards": {
+    "jw": { "label": "ジャパニーズウイスキー", "desc": "日本洋酒酒造組合の表示基準に合う、とメーカーが示している銘柄。" },
+    "foreign": { "label": "海外原酒を含む", "desc": "海外で造られた原酒を使っている、とメーカーが公表している銘柄。" },
+    "unknown": { "label": "区分 未確認", "desc": "公表されている情報からは、どちらか判断できない銘柄。" }
+  },
+  "standardRule": {
+    "title": "「ジャパニーズウイスキー」と名乗れる条件",
+    "summary": "2021年2月に日本洋酒酒造組合が定めた自主基準です。移行期間を経て、2024年4月1日から本格的に施行されています。",
+    "items": [
+      { "k": "原材料", "v": "麦芽・穀類・日本国内で採水した水だけ。麦芽は必ず使う" },
+      { "k": "造り", "v": "糖化・発酵・蒸留を、日本国内の蒸留所で行う" },
+      { "k": "熟成", "v": "700リットル以下の木樽に詰め、日本国内で3年以上" },
+      { "k": "瓶詰め", "v": "日本国内で詰め、アルコール分は40度以上" },
+      { "k": "その他", "v": "色の微調整のためのカラメルは使ってよい" }
+    ],
+    "sources": [
+      { "title": "日本洋酒酒造組合「ウイスキーにおけるジャパニーズウイスキーの表示に関する基準」", "url": "https://www.yoshu.or.jp/pages/151/", "used": "基準の名称と制定者" },
+      { "title": "アサヒビール「『ウイスキーにおけるジャパニーズウイスキーの表示に関する基準』について」", "url": "https://www.asahibeer.co.jp/whisky_brandy/info/", "used": "要件（原材料・造り・熟成・瓶詰め・カラメル）、制定時期、本格施行日" }
+    ]
+  },
+  "distilleries": [
+    {
+      "id": "yamazaki",
+      "name": "山崎蒸溜所",
+      "nameEn": "Yamazaki Distillery",
+      "kana": "やまざき",
+      "maker": "サントリー",
+      "pref": "大阪府",
+      "hasPage": true,
+      "address": "大阪府三島郡島本町山崎5-2-1",
+      "founded": "1923年に建設を始め、1924年に完成",
+      "lead": "日本で最初のモルトウイスキー蒸溜所。サントリーの創業者・鳥井信治郎が、全国の候補地から選んだ土地です。",
+      "features": [
+        { "k": "水", "v": "古くから名水の地。近くに日本名水百選のひとつ「離宮の水」があります" },
+        { "k": "立地", "v": "北に天王山、南に桂川・宇治川・木津川の合流点。霧が出やすく、熟成に向いた湿潤な環境です" },
+        { "k": "造り", "v": "工程ごとに複数の要素を組み合わせて、多彩な原酒をつくり分けています" },
+        { "k": "樽", "v": "ミズナラ樽、ワイン樽、スパニッシュオーク樽、アメリカンオーク樽などで熟成した原酒を、製品ごとに組み合わせます" }
+      ],
+      "singleMalts": ["山崎（年数表記なし）", "山崎12年", "山崎18年", "山崎25年"],
+      "sources": [
+        { "title": "サントリー 山崎蒸溜所「アクセス」", "url": "https://www.suntory.co.jp/factory/yamazaki/access/", "used": "所在地" },
+        { "title": "サントリー公式ブログ「【100周年企画】ジャパニーズウイスキーの始まりの場所～山崎蒸溜所～」", "url": "https://www.suntory.co.jp/factory/blog-d/000196.html", "used": "着工・竣工の年、創業者が選んだ経緯、離宮の水、天王山と三川、霧と湿度" },
+        { "title": "サントリー 山崎蒸溜所「ものづくりのこだわり」", "url": "https://www.suntory.co.jp/factory/yamazaki/about/", "used": "多彩な原酒のつくり分け" },
+        { "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーシングルモルトウイスキー 山崎」", "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000099.html", "used": "樽の種類、定番のシングルモルト" },
+        { "title": "WHISKY Magazine Japan「響 JAPANESE HARMONY」発表（2015年3月17日）", "url": "https://whiskymag.jp/hjh_2/", "used": "響 JAPANESE HARMONY への山崎モルト原酒の使用" },
+        { "title": "サントリー ニュースリリース No.14955（2025年12月16日）", "url": "https://www.suntory.co.jp/news/article/14955.html", "used": "碧Ao への山崎モルト原酒の使用" }
+      ]
+    },
+    { "id": "hakushu", "name": "白州蒸溜所", "nameEn": "Hakushu Distillery", "kana": "はくしゅう", "maker": "サントリー", "pref": "山梨県", "hasPage": false },
+    { "id": "chita", "name": "知多蒸溜所", "nameEn": "Chita Distillery", "kana": "ちた", "maker": "サントリー", "pref": "愛知県", "hasPage": false },
+    { "id": "yoichi", "name": "余市蒸溜所", "nameEn": "Yoichi Distillery", "kana": "よいち", "maker": "ニッカウヰスキー", "pref": "北海道", "hasPage": false },
+    { "id": "miyagikyo", "name": "宮城峡蒸溜所", "nameEn": "Miyagikyo Distillery", "kana": "みやぎきょう", "maker": "ニッカウヰスキー", "pref": "宮城県", "hasPage": false }
+  ],
+  "whiskies": [
+    {
+      "id": "hibiki-jh",
+      "name": "響 JAPANESE HARMONY",
+      "nameEn": "Hibiki Japanese Harmony",
+      "short": "響 JH",
+      "kana": "ひびき じゃぱにーずはーもにー",
+      "aliases": ["hibiki", "ひびき", "ヒビキ", "響", "japanese harmony", "ジャパニーズハーモニー"],
+      "maker": "サントリー",
+      "type": "ブレンデッド",
+      "standard": "jw",
+      "standardNote": "メーカーの商品情報に「表示基準に合致した製品」と明記されています",
+      "look": { "liquid": "#c8862f", "label": "#ece3d0", "mark": "#2a1d10", "char": "響" },
+      "components": [
+        { "distillery": "yamazaki", "country": "日本", "kind": "モルト原酒" },
+        { "distillery": "hakushu", "country": "日本", "kind": "モルト原酒" },
+        { "distillery": "chita", "country": "日本", "kind": "グレーン原酒" }
+      ],
+      "originNote": "3つの蒸溜所の原酒の組み合わせ。配合比率は非公表です。",
+      "componentsNote": "山崎・白州のモルト原酒と知多のグレーン原酒を使う、という内容は、2015年の発表会でのサントリーの説明によります（WHISKY Magazine Japan の報道）。配合比率は公表されていません。",
+      "casks": "樽の構成は公表されていません。",
+      "taste": { "line": "花のように華やかで、やわらかく甘い", "x": -0.6, "y": -0.3 },
+      "serve": { "straight": 2, "rock": 3, "highball": 3, "mizuwari": 2 },
+      "next": [
+        { "id": null, "name": "サントリー シングルモルト 山崎", "why": "響のモルト原酒のひとつを、単独で味わう" },
+        { "id": null, "name": "サントリー シングルモルト 白州", "why": "もうひとつのモルト原酒。爽やかで軽快" },
+        { "id": "ao", "name": "碧Ao", "why": "同じサントリーのブレンド。5カ国の原酒で厚みがある" }
+      ],
+      "official": [
+        { "k": "特長", "v": "華やかな香りと、奥行きがありながらやわらかい味わい" }
+      ],
+      "story": [
+        "日本の四季と日本人の繊細な感性、匠の技を結集する、というコンセプトで2015年3月に発売されました。",
+        "熟成年数にこだわらず、サントリーが長年つくってきた多彩な原酒と職人の技で仕上げられています。",
+        "響ブランドおなじみの、二十四節気を表す24面カットのボトル。ラベルには生成りの越前和紙を使い、「響」の文字を墨で書いています。"
+      ],
+      "specs": [
+        { "k": "種類", "v": "ブレンデッドウイスキー" },
+        { "k": "アルコール度数", "v": "43%" },
+        { "k": "容量", "v": "700ml" },
+        { "k": "熟成年数の表記", "v": "なし" },
+        { "k": "原材料", "v": "モルト、グレーン" },
+        { "k": "希望小売価格", "v": "8,000円（税別）" },
+        { "k": "発売", "v": "2015年3月10日" }
+      ],
+      "sources": [
+        { "title": "サントリー 商品情報「サントリーウイスキー響 JAPANESE HARMONY 700ml瓶」", "url": "https://products.suntory.co.jp/d/4901777270688/", "used": "容量、度数、希望小売価格、原材料、表示基準、コンセプト、味わいの特長" },
+        { "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーウイスキー響」", "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000114.html", "used": "ボトルとラベル" },
+        { "title": "WHISKY Magazine Japan「響 JAPANESE HARMONY」発表（2015年3月17日）", "url": "https://whiskymag.jp/hjh_2/", "used": "原酒の構成（発表会でのサントリーの説明の報道）" },
+        { "title": "WHISKY Magazine Japan「響 JAPANESE HARMONY」発売（2015年1月29日）", "url": "https://whiskymag.jp/hjh_new/", "used": "発売日" },
+        { "title": "サントリー 山崎蒸溜所「ものづくりのこだわり」（工場一覧）", "url": "https://www.suntory.co.jp/factory/yamazaki/about/", "used": "山崎蒸溜所と白州蒸溜所の所在県" },
+        { "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーウイスキー知多」", "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000005530.html", "used": "知多蒸溜所の所在県" }
+      ]
+    },
+    {
+      "id": "yoichi",
+      "name": "シングルモルト余市",
+      "nameEn": "Single Malt Yoichi",
+      "short": "余市",
+      "kana": "しんぐるもると よいち",
+      "aliases": ["yoichi", "よいち", "ヨイチ", "余市", "single malt yoichi"],
+      "maker": "ニッカウヰスキー",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "メーカー（アサヒビール）の商品ページで、表示基準に合う商品として案内されています",
+      "look": { "liquid": "#a9621f", "label": "#2a2521", "mark": "#e9dfcc", "char": "余" },
+      "components": [
+        { "distillery": "yoichi", "country": "日本", "kind": "モルト原酒" }
+      ],
+      "originNote": "",
+      "componentsNote": "余市蒸溜所のモルト原酒だけでつくるシングルモルトです。",
+      "casks": "樽の種類や構成は、公式ページでは公表されていません。",
+      "taste": { "line": "スモーキーで香ばしい、どっしり力強い", "x": 0.65, "y": 0.6 },
+      "serve": { "straight": 3, "rock": 3, "highball": 2, "mizuwari": 1 },
+      "next": [
+        { "id": null, "name": "シングルモルト宮城峡", "why": "同じニッカのもう一つの蒸溜所。甘く華やかで、余市と対照的" },
+        { "id": "hibiki-jh", "name": "響 JAPANESE HARMONY", "why": "煙の少ない、やわらかなブレンドと飲み比べる" }
+      ],
+      "official": [
+        { "k": "香り", "v": "樽熟成のやわらかな香りと、豊かな果実の香り" },
+        { "k": "味", "v": "しっかりしたピートと香ばしさがつくる、力強い味わい" },
+        { "k": "余韻", "v": "オークの甘さとスモーキーさが、穏やかに長く続く" }
+      ],
+      "story": [
+        "余市蒸溜所は1934年、ニッカウヰスキーのはじまりの地として北海道・余市に生まれました。スコットランドに似た冷涼な気候が、この地が選ばれた理由です。",
+        "ポットスチルに石炭をくべて直火で熱する「石炭直火蒸溜」を今も続けています。世界でも珍しくなった方法で、原酒に独特の香ばしさが生まれます。",
+        "いまの年数表記なしの余市は、2015年9月1日の発売です。このとき10年・12年・15年・20年などの年数表記品は販売を終え、ラインアップがまとめられました。"
+      ],
+      "specs": [
+        { "k": "種類", "v": "シングルモルトウイスキー" },
+        { "k": "アルコール度数", "v": "45%" },
+        { "k": "容量", "v": "700ml" },
+        { "k": "熟成年数の表記", "v": "なし" },
+        { "k": "希望小売価格", "v": "7,000円（税別、2024年4月改定後）" },
+        { "k": "発売", "v": "2015年9月1日（いまの中味）" }
+      ],
+      "sources": [
+        { "title": "ニッカウヰスキー「商品特徴｜シングルモルト 余市・宮城峡」", "url": "https://www.nikka.com/brands/yoichi_miyagikyo/products/", "used": "商品説明、香り・味・余韻、度数、容量、宮城峡の特徴" },
+        { "title": "ニッカウヰスキー「蒸溜所紹介｜シングルモルト 余市・宮城峡」", "url": "https://www.nikka.com/products/malt/yoichi_miyagikyo/sp/distilleries/index.html", "used": "余市蒸溜所の創業年、石炭直火蒸溜、気候" },
+        { "title": "アサヒビール ニュースリリース（2015年6月15日）", "url": "https://www.asahibeer.co.jp/news/2015/0615_3.html", "used": "いまの中味の発売日、年数表記品の販売終了" },
+        { "title": "アサヒビール ニュースリリース「国産洋酒・輸入洋酒の一部商品の価格改定について」（2023年12月19日）", "url": "https://www.asahibeer.co.jp/news/2023/1219.html", "used": "2024年4月1日出荷分からの価格改定（対象に余市を含む）" },
+        { "title": "アサヒビール 商品情報「シングルモルト余市」", "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/yoichi/yoichi.html", "used": "希望小売価格、表示基準" }
+      ]
+    },
+    {
+      "id": "ao",
+      "name": "碧Ao",
+      "nameEn": "Suntory Whisky Ao",
+      "short": "碧Ao",
+      "kana": "あお",
+      "aliases": ["ao", "あお", "アオ", "碧", "suntory whisky ao", "world whisky"],
+      "maker": "サントリー",
+      "type": "ブレンデッド",
+      "standard": "foreign",
+      "standardNote": "アイルランド・スコットランド・アメリカ・カナダ・日本の原酒をブレンドしている、とメーカーが公表しています",
+      "look": { "liquid": "#c07a2c", "label": "#1d4a5c", "mark": "#e9f0f2", "char": "碧" },
+      "components": [
+        { "distillery": "yamazaki", "country": "日本", "kind": "モルト原酒", "note": "スパニッシュオーク樽で30年以上熟成したものを含む" },
+        { "distillery": null, "country": "アメリカ", "kind": "バーボン原酒", "note": "8年以上熟成したものを含む" },
+        { "distillery": null, "country": "スコットランド", "kind": "原酒" },
+        { "distillery": null, "country": "アイルランド", "kind": "原酒" },
+        { "distillery": null, "country": "カナダ", "kind": "原酒" }
+      ],
+      "originNote": "日本以外の蒸溜所名は公表されていません。",
+      "componentsNote": "5カ国とも、サントリーグループが製造し品質を管理する自社蒸溜所の原酒です（メーカー公表）。名前が公表されている蒸溜所は山崎だけで、配合比率も非公表です。",
+      "casks": "日本の原酒には、スパニッシュオーク樽で30年以上熟成させた山崎モルト原酒が使われています（2025年12月の刷新時に公表）。アメリカの原酒は8年以上熟成のバーボン原酒。そのほかの樽の構成は公表されていません。",
+      "taste": { "line": "厚みがあって複雑、しっかり濃いめ", "x": -0.2, "y": 0.35 },
+      "serve": { "straight": 2, "rock": 3, "highball": 3, "mizuwari": 2 },
+      "next": [
+        { "id": "hibiki-jh", "name": "響 JAPANESE HARMONY", "why": "日本の原酒だけでつくるサントリーのブレンドと飲み比べる" },
+        { "id": null, "name": "サントリー シングルモルト 山崎", "why": "碧Aoに使われている日本の原酒の蒸溜所" }
+      ],
+      "official": [
+        { "k": "特長", "v": "5カ国の原酒の個性が重なった、厚みと複雑さのある豊かな味わい" }
+      ],
+      "story": [
+        "2019年4月に数量限定で発売。サントリーグループが世界5大ウイスキー産地（アイルランド、スコットランド、アメリカ、カナダ、日本）にもつ自社蒸溜所の原酒だけをブレンドしたウイスキーで、メーカーは「世界初」としています。",
+        "2025年12月に初めてのリニューアル。商品名を「SUNTORY WORLD WHISKY 碧Ao」から「SUNTORY WHISKY 碧Ao」に変え、中味とパッケージを一新しました。",
+        "刷新後のラベルには越前和紙を使い、多様な原酒が重なり合う味わいを、いくつもの色が織りなすデザインで表しています。"
+      ],
+      "specs": [
+        { "k": "種類", "v": "ブレンデッドウイスキー" },
+        { "k": "アルコール度数", "v": "43%" },
+        { "k": "容量", "v": "700ml（350mlもあり）" },
+        { "k": "熟成年数の表記", "v": "なし" },
+        { "k": "原材料", "v": "モルト、グレーン" },
+        { "k": "希望小売価格", "v": "6,000円（税別）" },
+        { "k": "発売", "v": "2019年4月（2025年12月に刷新）" }
+      ],
+      "sources": [
+        { "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 SUNTORY WHISKY 碧Ao」", "url": "https://www.suntory.co.jp/whisky/products/0000000075/0000007878.html", "used": "商品説明、容量、度数、希望小売価格、原材料" },
+        { "title": "サントリー ニュースリリース No.14955「SUNTORY WHISKY『碧Ao』リニューアル新発売」（2025年12月16日）", "url": "https://www.suntory.co.jp/news/article/14955.html", "used": "5カ国の自社蒸溜所の原酒、山崎モルト原酒とバーボン原酒、商品名の変更、刷新の時期とラベル" },
+        { "title": "WHISKY Magazine Japan「SUNTORY WORLD WHISKY『碧Ao』が10月に第2期の発売を開始」（2019年9月9日）", "url": "https://whiskymag.jp/ao_release_2nd/", "used": "初回の発売（2019年4月、数量限定）" },
+        { "title": "サントリー 山崎蒸溜所「アクセス」", "url": "https://www.suntory.co.jp/factory/yamazaki/access/", "used": "山崎蒸溜所の所在県" }
+      ]
+    }
+  ]
+}
+</script>
+<script>
+(() => {
+  'use strict';
+  const DATA = JSON.parse(document.getElementById('wdata').textContent);
+  const fmtDate = (iso) => {
+    const [y, m, d] = iso.split('-').map(Number);
+    return `${y}年${m}月${d}日`;
+  };
+  document.getElementById('checked-at').textContent = fmtDate(DATA.checkedAt);
+})();
+</script>
+</body>
+</html>
