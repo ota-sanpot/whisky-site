@@ -1,0 +1,13 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>スクショ用の枠</title>
+<!-- ヘッドレス Chrome は幅500px未満のウィンドウを作れないため、指定幅の iframe に入れて撮る -->
+<style>html,body{margin:0;background:#000}iframe{display:block;border:0}</style>
+<iframe id="f"></iframe>
+<script>
+  const p = new URLSearchParams(location.search);
+  const f = document.getElementById('f');
+  f.width = p.get('w');
+  f.height = p.get('h');
+  f.src = `../index.html${p.get('hash') || ''}`;
+</script>
