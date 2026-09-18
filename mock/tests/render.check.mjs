@@ -87,3 +87,91 @@ test('知らない URL は見つからない表示', () => {
   assert.equal(text(env.document.querySelector('h1')), 'ページが見つかりません');
   assert.match(env.document.title, /^ページが見つかりません｜/);
 });
+
+import { readData, go } from './helpers.mjs';
+
+const DATA = readData();
+
+test('銘柄ページ：響の最初の一画面', () => {
+  const env = load('#/whisky/hibiki-jh');
+  const d = env.document;
+  assert.equal(d.querySelector('h1').textContent, '響 JAPANESE HARMONY');
+  assert.equal(d.querySelector('.w-head .badge').textContent, 'ジャパニーズウイスキー');
+  assert.equal(d.querySelector('.w-head .badge').getAttribute('href'), '#/standard');
+  const chips = [...d.querySelectorAll('.w-origin .chip')].map(text);
+  assert.deepEqual(chips, ['大阪府山崎モルト', '山梨県白州モルト', '愛知県知多グレーン']);
+  assert.ok(d.querySelector('.w-origin a.chip[href="#/distillery/yamazaki"]'));
+  assert.equal(d.querySelectorAll('.w-origin a.chip').length, 1);
+  assert.match(d.querySelector('.w-line').textContent, /華やか/);
+  assert.ok(d.querySelector('.w-taste svg circle.dot--focus'));
+  assert.equal(d.querySelectorAll('.w-serve .serve-item').length, 4);
+  assert.ok(d.querySelector('.w-next a.next[href="#/whisky/ao"]'));
+  assert.equal(d.querySelectorAll('.w-next .next--off').length, 2);
+  assert.equal(d.title, '響 JAPANESE HARMONY｜ジャパニーズウイスキー図鑑（仮）');
+  assert.deepEqual(env.errors, []);
+});
+
+test('銘柄ページ：最初の一画面は 産地→味→飲み方→次の1本 の順', () => {
+  const env = load('#/whisky/hibiki-jh');
+  const order = [...env.document.querySelectorAll('.w-first > section')].map((s) => s.className);
+  assert.deepEqual(order, ['w-origin', 'w-taste', 'w-serve', 'w-next']);
+});
+
+test('銘柄ページ：見立ての項目には見立ての表示がある', () => {
+  const env = load('#/whisky/yoichi');
+  for (const sel of ['.w-taste', '.w-serve', '.w-next']) {
+    assert.equal(env.document.querySelector(`${sel} .opinion`).textContent, '編集部の見立て', sel);
+  }
+});
+
+test('銘柄ページ：飲み方は◎○△と読み上げ用の言葉で出る', () => {
+  const env = load('#/whisky/yoichi');
+  const items = [...env.document.querySelectorAll('.w-serve .serve-item')].map(text);
+  assert.deepEqual(items, ['◎ストレートとても合う', '◎ロックとても合う', '○ハイボール合う', '△水割り好みが分かれる']);
+});
+
+test('銘柄ページ：碧Aoは海外原酒の区分と国別の原酒', () => {
+  const env = load('#/whisky/ao');
+  const d = env.document;
+  const b = d.querySelector('.w-head .badge');
+  assert.equal(b.textContent, '海外原酒を含む');
+  assert.ok(b.classList.contains('badge--foreign'));
+  const chips = [...d.querySelectorAll('.w-origin .chip')].map(text);
+  assert.deepEqual(chips, ['大阪府山崎モルト', 'アメリカバーボン', 'スコットランド原酒', 'アイルランド原酒', 'カナダ原酒']);
+  assert.match(d.querySelector('.w-origin .origin-note').textContent, /非公表|公表されていません/);
+});
+
+test('銘柄ページ：余市は1蒸溜所のシングルモルト', () => {
+  const env = load('#/whisky/yoichi');
+  const d = env.document;
+  assert.equal(d.querySelector('.w-origin h2').firstChild.textContent, '産地・蒸溜所');
+  assert.deepEqual([...d.querySelectorAll('.w-origin .chip')].map(text), ['北海道余市モルト']);
+  assert.equal(d.querySelectorAll('.w-origin a.chip').length, 0);
+  assert.equal(d.querySelector('.w-origin .origin-note'), null);
+});
+
+test('銘柄ページ：丁寧に知る部分が全銘柄にある', () => {
+  for (const w of DATA.whiskies) {
+    const env = load(`#/whisky/${w.id}`);
+    const d = env.document;
+    for (const id of ['official', 'casks', 'story', 'specs', 'sources']) {
+      assert.ok(d.getElementById(id), `${w.id}: #${id}`);
+    }
+    assert.equal(d.querySelectorAll('#official dt').length, w.official.length, `${w.id}: official`);
+    assert.equal(d.querySelectorAll('#casks .flow-item').length, w.components.length, `${w.id}: flow`);
+    assert.equal(d.querySelectorAll('#story p').length, w.story.length, `${w.id}: story`);
+    assert.equal(d.querySelectorAll('#specs dt').length, w.specs.length + 1, `${w.id}: specs＋表示基準`);
+    const links = d.querySelectorAll('#sources a');
+    assert.equal(links.length, w.sources.length, `${w.id}: sources`);
+    for (const a of links) {
+      assert.equal(a.getAttribute('target'), '_blank');
+      assert.match(a.getAttribute('rel'), /noopener/);
+    }
+    assert.match(d.querySelector('#sources .note').textContent, /2026年9月18日/);
+  }
+});
+
+test('銘柄ページ：存在しない id は見つからない表示', () => {
+  const env = load('#/whisky/nope');
+  assert.equal(text(env.document.querySelector('h1')), 'ページが見つかりません');
+});

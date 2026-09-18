@@ -457,8 +457,99 @@ body{margin:0}
   }
 
   // ===== 画面：銘柄 =====
+  const shortKind = (k) => k.replace(/原酒$/, '') || '原酒';
+
+  // 最初の一画面の「産地・原酒」チップ。ページのある蒸溜所だけリンクにする
+  function componentChip(c) {
+    const d = c.distillery ? D.get(c.distillery) : null;
+    const where = d ? d.pref : c.country;
+    const inner = `<span class="chip-where">${esc(where)}</span>${d ? `<span class="chip-name">${esc(distName(d))}</span>` : ''}<span class="chip-kind">${esc(shortKind(c.kind))}</span>`;
+    return d && d.hasPage
+      ? `<a class="chip" href="#/distillery/${esc(d.id)}">${inner}</a>`
+      : `<span class="chip">${inner}</span>`;
+  }
+
+  // 「原酒と樽」の構成図の1行
+  function flowItem(c) {
+    const d = c.distillery ? D.get(c.distillery) : null;
+    const name = d
+      ? (d.hasPage ? `<a href="#/distillery/${esc(d.id)}">${esc(d.name)}</a>` : esc(d.name))
+      : '蒸溜所名 非公表';
+    const where = d ? `${c.country}・${d.pref}` : c.country;
+    return `<div class="flow-item"><span class="flow-where">${esc(where)}</span><span class="flow-name">${name}</span><span class="flow-kind">${esc(c.kind)}</span>${c.note ? `<span class="flow-note">${esc(c.note)}</span>` : ''}</div>`;
+  }
+
+  // 「次の1本」カード。モックにない銘柄はリンクにしない
+  function nextCard(n) {
+    const w = n.id ? W.get(n.id) : null;
+    const inner = `<span class="next-name">${esc(n.name)}</span><span class="next-why">${esc(n.why)}</span>${w ? '' : '<span class="next-soon">ページ準備中</span>'}`;
+    return w
+      ? `<a class="next" href="#/whisky/${esc(w.id)}">${inner}</a>`
+      : `<div class="next next--off">${inner}</div>`;
+  }
+
   function viewWhisky(id) {
-    return viewNotFound();
+    const w = W.get(id);
+    if (!w) return viewNotFound();
+    const multi = w.components.length > 1;
+    const std = DATA.standards[w.standard];
+    const opinion = '<span class="opinion">編集部の見立て</span>';
+    return {
+      title: `${w.name}｜${SITE}`,
+      html: `
+<nav class="crumb" aria-label="現在地"><a href="#/">トップ</a> / 銘柄</nav>
+<header class="w-head">
+  ${bottle(w, 'lg')}
+  <div class="w-title">
+    <p class="w-maker">${esc(w.maker)}・${esc(w.type)}</p>
+    <h1 class="w-name">${esc(w.name)}</h1>
+    <p class="w-en">${esc(w.nameEn)}</p>
+    ${badge(w.standard, true)}
+  </div>
+</header>
+<div class="w-first">
+  <section class="w-origin" aria-labelledby="origin-h">
+    <h2 class="label" id="origin-h">${multi ? '中身の原酒と産地' : '産地・蒸溜所'}</h2>
+    <ul class="chips">${w.components.map((c) => `<li>${componentChip(c)}</li>`).join('')}</ul>
+    ${w.originNote ? `<p class="origin-note">${esc(w.originNote)}</p>` : ''}
+  </section>
+  <section class="w-taste" aria-labelledby="taste-h">
+    <h2 class="label" id="taste-h">味のイメージ${opinion}</h2>
+    <div class="w-taste-body"><p class="w-line">${esc(w.taste.line)}</p>${tasteMap({ focus: w.id })}</div>
+  </section>
+  <section class="w-serve" aria-labelledby="serve-h">
+    <h2 class="label" id="serve-h">おすすめの飲み方${opinion}</h2>
+    <ul class="serve">${SERVES.map(([k, label]) => `<li class="serve-item serve-${w.serve[k]}"><span class="serve-mark" aria-hidden="true">${MARK[w.serve[k]]}</span><span class="serve-name">${label}</span><span class="sr-only">${MARK_TEXT[w.serve[k]]}</span></li>`).join('')}</ul>
+  </section>
+  <section class="w-next" aria-labelledby="next-h">
+    <h2 class="label" id="next-h">似ている銘柄・次の1本${opinion}</h2>
+    <ul class="next-row">${w.next.map((n) => `<li>${nextCard(n)}</li>`).join('')}</ul>
+  </section>
+</div>
+<div class="deep">
+  <p class="deep-intro">もっと知る</p>
+  <section id="official" aria-labelledby="official-h">
+    <h2 id="official-h">香り・味・余韻</h2>
+    <dl class="dl">${w.official.map((o) => `<dt>${esc(o.k)}</dt><dd>${esc(o.v)}</dd>`).join('')}</dl>
+    <p class="note">メーカー公式の説明を要約しています。${w.official.length === 1 ? '香り・味・余韻を分けた説明は、公式ページにありません。' : ''}</p>
+  </section>
+  <section id="casks" aria-labelledby="casks-h">
+    <h2 id="casks-h">原酒と樽</h2>
+    <div class="flow">${w.components.map(flowItem).join('')}<div class="flow-arrow" aria-hidden="true">▼</div><div class="flow-result">${esc(w.name)}</div></div>
+    <p class="note">${esc(w.componentsNote)}</p>
+    <p class="note">${esc(w.casks)}</p>
+  </section>
+  <section id="story" class="story" aria-labelledby="story-h">
+    <h2 id="story-h">造り手と歴史</h2>
+    ${w.story.map((p) => `<p>${esc(p)}</p>`).join('')}
+  </section>
+  <section id="specs" aria-labelledby="specs-h">
+    <h2 id="specs-h">スペック</h2>
+    <dl class="dl">${w.specs.map((x) => `<dt>${esc(x.k)}</dt><dd>${esc(x.v)}</dd>`).join('')}<dt>表示基準</dt><dd>${esc(std.label)}。${esc(w.standardNote)}</dd></dl>
+  </section>
+  ${sourcesHtml(w.sources)}
+</div>`,
+    };
   }
 
   // ===== 画面：蒸溜所・表示基準 =====
