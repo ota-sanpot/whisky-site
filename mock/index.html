@@ -554,11 +554,60 @@ body{margin:0}
 
   // ===== 画面：蒸溜所・表示基準 =====
   function viewDistillery(id) {
-    return viewNotFound();
+    const d = D.get(id);
+    if (!d || !d.hasPage) return viewNotFound();
+    // このサイトにある銘柄のうち、この蒸溜所の原酒を使っているもの
+    const used = DATA.whiskies.flatMap((w) => w.components.filter((c) => c.distillery === d.id).map((c) => ({ w, c })));
+    return {
+      title: `${d.name}｜${SITE}`,
+      html: `
+<nav class="crumb" aria-label="現在地"><a href="#/">トップ</a> / 蒸溜所</nav>
+<header class="d-head">
+  <p class="w-maker">${esc(d.pref)}・${esc(d.maker)}</p>
+  <h1 class="d-name">${esc(d.name)}</h1>
+  <p class="w-en">${esc(d.nameEn)}</p>
+  <p class="d-lead">${esc(d.lead)}</p>
+</header>
+<dl class="dl d-meta"><dt>所在地</dt><dd>${esc(d.address)}</dd><dt>創業</dt><dd>${esc(d.founded)}</dd><dt>運営</dt><dd>${esc(d.maker)}</dd></dl>
+<div class="deep">
+  <section id="features" aria-labelledby="features-h">
+    <h2 id="features-h">この蒸溜所の特徴</h2>
+    <dl class="dl">${d.features.map((f) => `<dt>${esc(f.k)}</dt><dd>${esc(f.v)}</dd>`).join('')}</dl>
+  </section>
+  <section id="used" aria-labelledby="used-h">
+    <h2 id="used-h">この蒸溜所の原酒が使われている銘柄</h2>
+    <h3 class="sub">このサイトで見られる銘柄</h3>
+    <ul class="cards">${used.map(({ w, c }) => `<li><a class="card" href="#/whisky/${esc(w.id)}">${bottle(w, 'sm')}<span class="card-body"><span class="used-role">${esc(c.kind)}として使用</span><span class="card-name">${esc(w.name)}</span><span class="card-meta">${esc(w.maker)}・${esc(w.type)}</span>${badge(w.standard, false)}</span></a></li>`).join('')}</ul>
+    <h3 class="sub">シングルモルト（定番品）</h3>
+    <ul class="plain-list">${d.singleMalts.map((m) => `<li><span>${esc(m)}</span><small>ページ準備中</small></li>`).join('')}</ul>
+    <p class="note">原酒の使用を公表で確認できた銘柄だけを載せています。</p>
+  </section>
+  ${sourcesHtml(d.sources)}
+</div>`,
+    };
   }
 
   function viewStandard() {
-    return viewNotFound();
+    const rule = DATA.standardRule;
+    return {
+      title: `表示基準について｜${SITE}`,
+      html: `
+<nav class="crumb" aria-label="現在地"><a href="#/">トップ</a> / 表示基準</nav>
+<header class="d-head">
+  <p class="w-maker">ジャパニーズウイスキーの表示基準</p>
+  <h1 class="d-name std-title">${esc(rule.title)}</h1>
+  <p class="d-lead">${esc(rule.summary)}</p>
+</header>
+<dl class="dl std-items">${rule.items.map((x) => `<dt>${esc(x.k)}</dt><dd>${esc(x.v)}</dd>`).join('')}</dl>
+<div class="deep">
+  <section id="kinds" aria-labelledby="kinds-h">
+    <h2 id="kinds-h">このサイトの3つの区分</h2>
+    <ul class="kinds">${['jw', 'foreign', 'unknown'].map((k) => `<li>${badge(k, false)}<p>${esc(DATA.standards[k].desc)}</p></li>`).join('')}</ul>
+    <p class="note">区分はメーカーの公表内容で決めています。この基準は業界団体の自主基準で、法律による決まりではありません。</p>
+  </section>
+  ${sourcesHtml(rule.sources)}
+</div>`,
+    };
   }
 
   // ===== ルーター =====

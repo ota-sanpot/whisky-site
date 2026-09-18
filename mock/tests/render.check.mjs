@@ -175,3 +175,50 @@ test('銘柄ページ：存在しない id は見つからない表示', () => {
   const env = load('#/whisky/nope');
   assert.equal(text(env.document.querySelector('h1')), 'ページが見つかりません');
 });
+
+test('蒸溜所ページ：山崎', () => {
+  const env = load('#/distillery/yamazaki');
+  const d = env.document;
+  assert.equal(d.querySelector('h1').textContent, '山崎蒸溜所');
+  assert.match(d.querySelector('.d-meta').textContent, /大阪府三島郡島本町山崎5-2-1/);
+  assert.match(d.querySelector('.d-meta').textContent, /1923年/);
+  assert.equal(d.querySelectorAll('#features dt').length, 4);
+  const used = [...d.querySelectorAll('#used a.card')].map((a) => a.getAttribute('href'));
+  assert.deepEqual(used, ['#/whisky/hibiki-jh', '#/whisky/ao']);
+  assert.deepEqual([...d.querySelectorAll('#used .used-role')].map((s) => s.textContent), ['モルト原酒として使用', 'モルト原酒として使用']);
+  assert.equal(d.querySelectorAll('#used .plain-list li').length, 4);
+  assert.equal(d.querySelectorAll('#sources a').length, DATA.distilleries.find((x) => x.id === 'yamazaki').sources.length);
+  assert.equal(d.title, '山崎蒸溜所｜ジャパニーズウイスキー図鑑（仮）');
+  assert.deepEqual(env.errors, []);
+});
+
+test('蒸溜所ページ：ページのない蒸溜所は見つからない表示', () => {
+  const env = load('#/distillery/hakushu');
+  assert.equal(text(env.document.querySelector('h1')), 'ページが見つかりません');
+});
+
+test('銘柄と蒸溜所を行き来できる', () => {
+  const env = load('#/whisky/hibiki-jh');
+  const chip = env.document.querySelector('.w-origin a.chip');
+  go(env, chip.getAttribute('href'));
+  assert.equal(env.document.querySelector('h1').textContent, '山崎蒸溜所');
+  const back = env.document.querySelector('#used a.card[href="#/whisky/hibiki-jh"]');
+  go(env, back.getAttribute('href'));
+  assert.equal(env.document.querySelector('h1').textContent, '響 JAPANESE HARMONY');
+  assert.deepEqual(env.errors, []);
+});
+
+test('表示基準ページ：要件5つと3区分と出典', () => {
+  const env = load('#/standard');
+  const d = env.document;
+  assert.match(d.querySelector('h1').textContent, /ジャパニーズウイスキー/);
+  assert.deepEqual([...d.querySelectorAll('.std-items dt')].map((x) => x.textContent), ['原材料', '造り', '熟成', '瓶詰め', 'その他']);
+  assert.deepEqual([...d.querySelectorAll('#kinds .badge')].map((x) => x.textContent), ['ジャパニーズウイスキー', '海外原酒を含む', '区分 未確認']);
+  assert.equal(d.querySelectorAll('#sources a').length, 2);
+});
+
+test('銘柄ページのバッジから表示基準ページへ行ける', () => {
+  const env = load('#/whisky/ao');
+  go(env, env.document.querySelector('.w-head .badge').getAttribute('href'));
+  assert.match(env.document.querySelector('h1').textContent, /名乗れる条件/);
+});
