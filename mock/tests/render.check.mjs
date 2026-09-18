@@ -222,3 +222,9 @@ test('銘柄ページのバッジから表示基準ページへ行ける', () =>
   go(env, env.document.querySelector('.w-head .badge').getAttribute('href'));
   assert.match(env.document.querySelector('h1').textContent, /名乗れる条件/);
 });
+
+test('銘柄ページ：味の一言は読点ごとの句に分けて、句の途中で改行しない', () => {
+  const env = load('#/whisky/yoichi');
+  const phrases = [...env.document.querySelectorAll('.w-line .ph')].map((s) => s.textContent);
+  assert.deepEqual(phrases, ['スモーキーで香ばしい、', 'どっしり力強い']);
+});

@@ -1660,3 +1660,13 @@ Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
 - `hibiki_375x812.png`、`ao_375x812.png`、`top_375x2800.png` を CEO に見せる
 - 差し替え（イチローズ → 碧Ao）の理由と、`SOURCES.md` の未解決事項を報告する
 - 全テストの結果（件数）を報告する
+
+---
+
+## 実装時の変更（2026-09-18）
+
+- **スクショ**: ヘッドレス Chrome は幅500px未満のウィンドウを描けず、`--window-size=375,…` でも実際は500px幅で描いて左375pxを切り取っていた。`mock/tests/frame.html`（指定幅の iframe）を足し、`shots.sh` はその枠越しに撮るように変更
+- **ヘッダー**: 幅400px未満では「仮称・モック」の札を隠す（「探す」ボタンと重なったため）
+- **改行**: 味の一言は読点ごとの句（`.ph`、inline-block）に分けて句の途中で改行しない。カード名・チップ・象限名・都道府県の蒸溜所名は `word-break:keep-all`、見出しは `word-break:auto-phrase`。味の一言の文字は16px（768px以上は18px）。テストを1件追加（計31件）
+- **テスト**: jsdom 側で作られた配列は `deepStrictEqual` で型が合わないため、比較前にテスト側の配列へ作り直す
+- **余市の区分と価格（Task 1 Step 7）**: 年齢確認に入れる生年が未指定のため保留。データは `jw`／7,000円のまま、`SOURCES.md` の未解決1に残す
