@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ジャパニーズウイスキー図鑑（仮）</title>
-<meta name="description" content="ジャパニーズウイスキーを1本ずつ。産地、中身の原酒、味、飲み方まで。リニューアルのモックです。">
+<title>Japanese Whisky Guide</title>
+<meta name="description" content="ジャパニーズウイスキーを1本ずつ。どこの県の、どの原酒で、どんな味で、どう飲むとうまいか。出典つきで丁寧に解説します。">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#15100c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,7 +39,6 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .brand{display:flex;align-items:center;gap:8px;min-width:0;text-decoration:none}
 .brand-dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 12px var(--amber)}
 .brand-name{font-weight:700;font-size:15px;letter-spacing:.04em;white-space:nowrap}
-.brand-tag{font-size:10px;line-height:1.6;color:var(--text-3);border:1px solid var(--line-2);border-radius:999px;padding:0 7px;white-space:nowrap}
 .header-search{flex:none;font-size:13px;color:var(--amber-2);text-decoration:none;border:1px solid var(--line-2);border-radius:999px;padding:4px 12px}
 #app{padding-bottom:48px}
 .site-footer{border-top:1px solid var(--line);padding:22px 0 36px;color:var(--text-3);font-size:12px;line-height:1.7}
@@ -202,10 +203,7 @@ a.next{border-color:rgba(220,157,66,.5)}
 .kinds li{padding:12px 14px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
 .kinds p{margin:8px 0 0;font-size:13.5px;color:var(--text-2)}
 
-/* ===== 狭い画面・広い画面 ===== */
-@media (max-width:399px){
-  .brand-tag{display:none}
-}
+/* ===== 広い画面 ===== */
 @media (min-width:600px){
   .prefs{grid-template-columns:repeat(3,minmax(0,1fr))}
   .quads{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -225,14 +223,14 @@ a.next{border-color:rgba(220,157,66,.5)}
 <body>
 <header class="site-header">
   <div class="wrap site-header-in">
-    <a class="brand" href="#/"><span class="brand-dot" aria-hidden="true"></span><span class="brand-name">ジャパニーズウイスキー図鑑</span><span class="brand-tag">仮称・モック</span></a>
+    <a class="brand" href="#/"><span class="brand-dot" aria-hidden="true"></span><span class="brand-name">Japanese Whisky Guide</span></a>
     <a class="header-search" href="#/">探す</a>
   </div>
 </header>
 <main id="app" class="wrap"></main>
 <footer class="site-footer">
   <div class="wrap">
-    <p>ジャパニーズウイスキー図鑑（仮称）のモックです。掲載している事実は、各ページの出典で<span id="checked-at"></span>に確認しました。</p>
+    <p>Japanese Whisky Guide は、ジャパニーズウイスキーを1本ずつ丁寧に知るためのガイドです。掲載している事実は、各ページの出典で<span id="checked-at"></span>に確認しています。</p>
     <p>運営：大田区サンポット</p>
     <p class="footer-note">20歳未満の飲酒は法律で禁止されています。飲酒運転は絶対にやめましょう。</p>
   </div>
@@ -461,7 +459,7 @@ a.next{border-color:rgba(220,157,66,.5)}
   const DATA = JSON.parse(document.getElementById('wdata').textContent);
   const W = new Map(DATA.whiskies.map((w) => [w.id, w]));
   const D = new Map(DATA.distilleries.map((d) => [d.id, d]));
-  const SITE = 'ジャパニーズウイスキー図鑑（仮）';
+  const SITE = 'Japanese Whisky Guide';
   const PREF_ORDER = ['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県'];
   const SERVES = [['straight', 'ストレート'], ['rock', 'ロック'], ['highball', 'ハイボール'], ['mizuwari', '水割り']];
   const MARK = { 3: '◎', 2: '○', 1: '△' };
@@ -551,7 +549,7 @@ a.next{border-color:rgba(220,157,66,.5)}
   function viewNotFound() {
     return {
       title: `ページが見つかりません｜${SITE}`,
-      html: `<section class="hero"><h1>ページが見つかりません</h1><p class="hero-lead">モックに入っているのは3銘柄と山崎蒸溜所です。</p><p><a class="btn" href="#/">トップへ戻る</a></p></section>`,
+      html: `<section class="hero"><h1>ページが見つかりません</h1><p class="hero-lead">いま掲載しているのは3銘柄と山崎蒸溜所です。順次増やしていきます。</p><p><a class="btn" href="#/">トップへ戻る</a></p></section>`,
     };
   }
 
@@ -587,13 +585,13 @@ a.next{border-color:rgba(220,157,66,.5)}
     if (r.q) {
       head = `「${esc(r.q)}」の検索結果`;
       items = search(r.q);
-      emptyText = '見つかりませんでした。ひらがな・カタカナ・英字の読みでも探せます（例：よいち、yoichi）。モックに入っているのは3銘柄です。';
+      emptyText = '見つかりませんでした。ひらがな・カタカナ・英字の読みでも探せます（例：よいち、yoichi）。いま掲載しているのは3銘柄で、順次増やしていきます。';
     } else if (QUADS.some((q) => q.key === r.taste)) {
       const q = QUADS.find((x) => x.key === r.taste);
       head = `味：${esc(q.label)}`;
       items = DATA.whiskies.filter((w) => q.test(w.taste)).map((item) => ({ kind: 'whisky', item }));
       clear = '<a class="clear" href="#/">すべて表示</a>';
-      emptyText = 'この味の銘柄は、モックにはまだありません。';
+      emptyText = 'この味の銘柄は、まだ掲載していません。';
     } else {
       head = '掲載中の銘柄';
       items = DATA.whiskies.map((item) => ({ kind: 'whisky', item }));
@@ -616,7 +614,7 @@ a.next{border-color:rgba(220,157,66,.5)}
       title: SITE,
       html: `
 <section class="hero">
-  <p class="eyebrow">JAPANESE WHISKY ATLAS</p>
+  <p class="eyebrow">JAPANESE WHISKY GUIDE</p>
   <h1>その一本を、<br>ちゃんと知る。</h1>
   <p class="hero-lead">ジャパニーズウイスキーを1本ずつ。どこの県の、どの原酒で、どんな味で、どう飲むとうまいか。</p>
   <form class="search" role="search" id="search-form">
@@ -630,7 +628,7 @@ a.next{border-color:rgba(220,157,66,.5)}
   <div id="results">${resultsHtml(r)}</div>
 </section>
 <section class="sec" id="by-pref" aria-labelledby="pref-h">
-  <div class="sec-head"><h2 id="pref-h">都道府県から探す</h2><span class="count">モックは5蒸溜所</span></div>
+  <div class="sec-head"><h2 id="pref-h">都道府県から探す</h2><span class="count">ページは順次公開</span></div>
   <ul class="prefs">${prefs.map((p) => `<li class="pref"><p class="pref-name">${esc(p)}</p><ul>${byPref.get(p).map((d) => (d.hasPage ? `<li><a href="#/distillery/${esc(d.id)}">${esc(d.name)}</a></li>` : `<li class="soon">${esc(d.name)}<small>準備中</small></li>`)).join('')}</ul></li>`).join('')}</ul>
 </section>
 <section class="sec" id="by-taste" aria-labelledby="taste-top-h">
@@ -692,7 +690,7 @@ a.next{border-color:rgba(220,157,66,.5)}
     return `<div class="flow-item"><span class="flow-where">${esc(where)}</span><span class="flow-name">${name}</span><span class="flow-kind">${esc(c.kind)}</span>${c.note ? `<span class="flow-note">${esc(c.note)}</span>` : ''}</div>`;
   }
 
-  // 「次の1本」カード。モックにない銘柄はリンクにしない
+  // 「次の1本」カード。まだページのない銘柄はリンクにしない
   function nextCard(n) {
     const w = n.id ? W.get(n.id) : null;
     const inner = `<span class="next-name">${esc(n.name)}</span><span class="next-why">${esc(n.why)}</span>${w ? '' : '<span class="next-soon">ページ準備中</span>'}`;
