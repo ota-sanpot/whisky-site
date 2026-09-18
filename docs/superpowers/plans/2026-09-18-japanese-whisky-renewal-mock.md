@@ -577,7 +577,8 @@ test('検索：山崎で蒸溜所が先頭、山崎の原酒を使う銘柄も�
   const found = env.window.__mock.search('山崎');
   assert.equal(found[0].kind, 'distillery');
   assert.equal(found[0].item.id, 'yamazaki');
-  const ids = found.filter((r) => r.kind === 'whisky').map((r) => r.item.id).sort();
+  // jsdom 側で作られた配列は厳密比較で型が合わないため、テスト側の配列に作り直す
+  const ids = [...found.filter((r) => r.kind === 'whisky').map((r) => r.item.id)].sort();
   assert.deepEqual(ids, ['ao', 'hibiki-jh']);
 });
 

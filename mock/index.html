@@ -246,12 +246,267 @@ body{margin:0}
 <script>
 (() => {
   'use strict';
+
+  // ===== 共通 =====
   const DATA = JSON.parse(document.getElementById('wdata').textContent);
+  const W = new Map(DATA.whiskies.map((w) => [w.id, w]));
+  const D = new Map(DATA.distilleries.map((d) => [d.id, d]));
+  const SITE = 'ジャパニーズウイスキー図鑑（仮）';
+  const PREF_ORDER = ['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県'];
+  const SERVES = [['straight', 'ストレート'], ['rock', 'ロック'], ['highball', 'ハイボール'], ['mizuwari', '水割り']];
+  const MARK = { 3: '◎', 2: '○', 1: '△' };
+  const MARK_TEXT = { 3: 'とても合う', 2: '合う', 1: '好みが分かれる' };
+  // 味の地図の4象限（横：華やか←→スモーキー、縦：やわらか←→濃厚）。並びは地図の見た目どおり
+  const QUADS = [
+    { key: 'floral-rich', label: '華やか × 濃厚', test: (t) => t.x < 0 && t.y >= 0 },
+    { key: 'smoky-rich', label: 'スモーキー × 濃厚', test: (t) => t.x >= 0 && t.y >= 0 },
+    { key: 'floral-light', label: '華やか × やわらか', test: (t) => t.x < 0 && t.y < 0 },
+    { key: 'smoky-light', label: 'スモーキー × やわらか', test: (t) => t.x >= 0 && t.y < 0 },
+  ];
+  const app = document.getElementById('app');
+
+  // HTML に差し込む文字列を無害化する
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  // 検索用の正規化（全角半角・大文字小文字・カタカナを揃え、空白と記号を除く）
+  const norm = (s) => String(s ?? '')
+    .normalize('NFKC')
+    .toLowerCase()
+    .replace(/[ァ-ヶ]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60))
+    .replace(/[\s・\-‐ー_.,、。'"()（）「」&]/g, '');
+
   const fmtDate = (iso) => {
     const [y, m, d] = iso.split('-').map(Number);
     return `${y}年${m}月${d}日`;
   };
+  const distName = (d) => d.name.replace(/蒸溜所$/, '');
+  const quadOf = (t) => QUADS.find((q) => q.test(t));
+
+  // 産地の短い表記（県名、海外は国名）
+  function originText(w) {
+    const places = w.components.map((c) => (c.distillery ? D.get(c.distillery).pref : c.country));
+    return [...new Set(places)].join('・');
+  }
+
+  // 表示基準の区分バッジ。銘柄ページでは説明ページへのリンクにする
+  function badge(std, asLink) {
+    const s = DATA.standards[std];
+    const cls = `badge badge--${esc(std)}`;
+    return asLink
+      ? `<a class="${cls}" href="#/standard" title="${esc(s.desc)}">${esc(s.label)}</a>`
+      : `<span class="${cls}">${esc(s.label)}</span>`;
+  }
+
+  // 写真の代わりの簡易なボトル図
+  function bottle(w, size) {
+    const l = w.look;
+    return `<span class="bottle bottle--${size}" style="--liquid:${esc(l.liquid)};--label:${esc(l.label)};--mark:${esc(l.mark)}" aria-hidden="true"><span class="bottle-neck"></span><span class="bottle-body"></span><span class="bottle-label">${esc(l.char)}</span></span>`;
+  }
+
+  // 味の地図。focus を渡すとその銘柄だけを強調する小さい版、渡さないと全銘柄のラベル付きの大きい版
+  function tasteMap(opts) {
+    const S = 200;
+    const P = 14;
+    const I = S - P * 2;
+    const at = (t) => [P + ((t.x + 1) / 2) * I, P + (1 - (t.y + 1) / 2) * I];
+    const dots = DATA.whiskies.map((w) => {
+      const [cx, cy] = at(w.taste);
+      if (opts.focus) {
+        const on = w.id === opts.focus;
+        return { on, svg: `<circle class="dot${on ? ' dot--focus' : ''}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${on ? 7 : 4}"><title>${esc(w.name)}</title></circle>` };
+      }
+      const right = w.taste.x > 0.45;
+      return { on: false, svg: `<a href="#/whisky/${esc(w.id)}"><circle class="dot dot--all" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6"><title>${esc(w.name)}</title></circle><text class="dot-label" x="${(right ? cx - 10 : cx + 10).toFixed(1)}" y="${(cy + 4).toFixed(1)}" text-anchor="${right ? 'end' : 'start'}">${esc(w.short)}</text></a>` };
+    });
+    // 強調する点を最後に描いて前面に出す
+    dots.sort((a, b) => Number(a.on) - Number(b.on));
+    const f = opts.focus ? W.get(opts.focus) : null;
+    const aria = f ? `味の地図。${f.name}は${quadOf(f.taste).label}の位置` : '味の地図。掲載銘柄の位置';
+    return `<div class="tmap tmap--${f ? 'sm' : 'lg'}"><span class="tmap-top">濃厚</span><span class="tmap-left">華やか</span><svg viewBox="0 0 ${S} ${S}" role="img" aria-label="${esc(aria)}"><rect class="tmap-frame" x="${P}" y="${P}" width="${I}" height="${I}" rx="10"/><line class="tmap-axis" x1="${S / 2}" y1="${P}" x2="${S / 2}" y2="${S - P}"/><line class="tmap-axis" x1="${P}" y1="${S / 2}" x2="${S - P}" y2="${S / 2}"/>${dots.map((d) => d.svg).join('')}</svg><span class="tmap-right">スモーキー</span><span class="tmap-bottom">やわらか</span></div>`;
+  }
+
+  // 出典の一覧（各ページの最後に置く）
+  function sourcesHtml(list) {
+    return `<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">出典</h2><ol class="sources">${list.map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a><span class="source-used">${esc(s.used)}</span></li>`).join('')}</ol><p class="note">確認日：${esc(fmtDate(DATA.checkedAt))}</p></section>`;
+  }
+
+  function whiskyCard(w) {
+    return `<li><a class="card" href="#/whisky/${esc(w.id)}">${bottle(w, 'sm')}<span class="card-body"><span class="card-name">${esc(w.name)}</span><span class="card-meta">${esc(w.maker)}・${esc(w.type)}</span><span class="card-meta">${esc(originText(w))}</span>${badge(w.standard, false)}</span></a></li>`;
+  }
+
+  function distilleryCard(d) {
+    return `<li><a class="card card--dist" href="#/distillery/${esc(d.id)}"><span class="card-body"><span class="card-kind">蒸溜所</span><span class="card-name">${esc(d.name)}</span><span class="card-meta">${esc(d.pref)}・${esc(d.maker)}</span></span></a></li>`;
+  }
+
+  function viewNotFound() {
+    return {
+      title: `ページが見つかりません｜${SITE}`,
+      html: `<section class="hero"><h1>ページが見つかりません</h1><p class="hero-lead">モックに入っているのは3銘柄と山崎蒸溜所です。</p><p><a class="btn" href="#/">トップへ戻る</a></p></section>`,
+    };
+  }
+
+  // ===== 検索 =====
+  const whiskyHay = new Map(DATA.whiskies.map((w) => [w.id, norm([
+    w.name, w.nameEn, w.kana, ...w.aliases, w.maker, w.type,
+    ...w.components.flatMap((c) => {
+      const d = c.distillery ? D.get(c.distillery) : null;
+      return d ? [d.name, d.nameEn, d.kana, d.pref] : [c.country];
+    }),
+  ].join('|'))]));
+  const distilleryHay = new Map(DATA.distilleries.map((d) => [d.id, norm([d.name, d.nameEn, d.kana, d.maker, d.pref].join('|'))]));
+
+  // ページのある蒸溜所を先に、続けて銘柄を返す
+  function search(q) {
+    const nq = norm(q);
+    if (!nq) return [];
+    const ds = DATA.distilleries
+      .filter((d) => d.hasPage && distilleryHay.get(d.id).includes(nq))
+      .map((item) => ({ kind: 'distillery', item }));
+    const ws = DATA.whiskies
+      .filter((w) => whiskyHay.get(w.id).includes(nq))
+      .map((item) => ({ kind: 'whisky', item }));
+    return [...ds, ...ws];
+  }
+
+  // ===== 画面：トップ =====
+  function resultsHtml(r) {
+    let head;
+    let items;
+    let clear = '';
+    let emptyText = '';
+    if (r.q) {
+      head = `「${esc(r.q)}」の検索結果`;
+      items = search(r.q);
+      emptyText = '見つかりませんでした。ひらがな・カタカナ・英字の読みでも探せます（例：よいち、yoichi）。モックに入っているのは3銘柄です。';
+    } else if (QUADS.some((q) => q.key === r.taste)) {
+      const q = QUADS.find((x) => x.key === r.taste);
+      head = `味：${esc(q.label)}`;
+      items = DATA.whiskies.filter((w) => q.test(w.taste)).map((item) => ({ kind: 'whisky', item }));
+      clear = '<a class="clear" href="#/">すべて表示</a>';
+      emptyText = 'この味の銘柄は、モックにはまだありません。';
+    } else {
+      head = '掲載中の銘柄';
+      items = DATA.whiskies.map((item) => ({ kind: 'whisky', item }));
+    }
+    const list = items.length
+      ? `<ul class="cards">${items.map((x) => (x.kind === 'whisky' ? whiskyCard(x.item) : distilleryCard(x.item))).join('')}</ul>`
+      : `<p class="empty">${emptyText}</p>`;
+    return `<div class="sec-head"><h2 id="results-h">${head}</h2><span class="count">${items.length}件</span>${clear}</div>${list}`;
+  }
+
+  function viewTop(r) {
+    const byPref = new Map();
+    for (const d of DATA.distilleries) {
+      if (!byPref.has(d.pref)) byPref.set(d.pref, []);
+      byPref.get(d.pref).push(d);
+    }
+    const prefs = [...byPref.keys()].sort((a, b) => PREF_ORDER.indexOf(a) - PREF_ORDER.indexOf(b));
+    const rule = DATA.standardRule;
+    return {
+      title: SITE,
+      html: `
+<section class="hero">
+  <p class="eyebrow">JAPANESE WHISKY ATLAS</p>
+  <h1>その一本を、<br>ちゃんと知る。</h1>
+  <p class="hero-lead">ジャパニーズウイスキーを1本ずつ。どこの県の、どの原酒で、どんな味で、どう飲むとうまいか。</p>
+  <form class="search" role="search" id="search-form">
+    <label class="sr-only" for="q">銘柄名・蒸溜所名で探す</label>
+    <input id="q" name="q" type="search" enterkeyhint="search" autocomplete="off" placeholder="例：ひびき / hibiki / 山崎" value="${esc(r.q)}">
+    <button type="submit">探す</button>
+  </form>
+  <p class="search-hint">ひらがな・カタカナ・英字でも引けます。棚のラベルの読みでどうぞ。</p>
+</section>
+<section class="sec" aria-labelledby="results-h">
+  <div id="results">${resultsHtml(r)}</div>
+</section>
+<section class="sec" id="by-pref" aria-labelledby="pref-h">
+  <div class="sec-head"><h2 id="pref-h">都道府県から探す</h2><span class="count">モックは5蒸溜所</span></div>
+  <ul class="prefs">${prefs.map((p) => `<li class="pref"><p class="pref-name">${esc(p)}</p><ul>${byPref.get(p).map((d) => (d.hasPage ? `<li><a href="#/distillery/${esc(d.id)}">${esc(d.name)}</a></li>` : `<li class="soon">${esc(d.name)}<small>準備中</small></li>`)).join('')}</ul></li>`).join('')}</ul>
+</section>
+<section class="sec" id="by-taste" aria-labelledby="taste-top-h">
+  <div class="sec-head"><h2 id="taste-top-h">味から探す</h2><span class="opinion">編集部の見立て</span></div>
+  ${tasteMap({})}
+  <div class="quads">${QUADS.map((q) => {
+    const n = DATA.whiskies.filter((w) => q.test(w.taste)).length;
+    return `<a class="quad" href="#/?taste=${q.key}"${r.taste === q.key ? ' aria-current="true"' : ''}><span class="quad-name">${esc(q.label)}</span><span class="quad-count">${n}本</span></a>`;
+  }).join('')}</div>
+</section>
+<section class="sec">
+  <a class="std-card" href="#/standard">
+    <h2>${esc(rule.title)}</h2>
+    <p>${esc(rule.summary)} このサイトでは全銘柄に、3つの区分のどれかを付けています。</p>
+    <span class="badges">${['jw', 'foreign', 'unknown'].map((k) => badge(k, false)).join('')}</span>
+  </a>
+</section>`,
+    };
+  }
+
+  function bindTop() {
+    const form = document.getElementById('search-form');
+    const input = document.getElementById('q');
+    const results = document.getElementById('results');
+    input.addEventListener('input', () => {
+      const q = input.value;
+      results.innerHTML = resultsHtml({ q, taste: '' });
+      history.replaceState(null, '', q ? `#/?q=${encodeURIComponent(q)}` : '#/');
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      input.blur();
+    });
+  }
+
+  // ===== 画面：銘柄 =====
+  function viewWhisky(id) {
+    return viewNotFound();
+  }
+
+  // ===== 画面：蒸溜所・表示基準 =====
+  function viewDistillery(id) {
+    return viewNotFound();
+  }
+
+  function viewStandard() {
+    return viewNotFound();
+  }
+
+  // ===== ルーター =====
+  function parseHash(h) {
+    const raw = (h || '').replace(/^#/, '') || '/';
+    const [path, qs] = raw.split('?');
+    const params = new URLSearchParams(qs || '');
+    const parts = path.split('/').filter(Boolean);
+    if (parts.length === 0) return { view: 'top', q: params.get('q') || '', taste: params.get('taste') || '' };
+    if (parts.length === 2 && parts[0] === 'whisky') return { view: 'whisky', id: decodeURIComponent(parts[1]) };
+    if (parts.length === 2 && parts[0] === 'distillery') return { view: 'distillery', id: decodeURIComponent(parts[1]) };
+    if (parts.length === 1 && parts[0] === 'standard') return { view: 'standard' };
+    return { view: 'notfound' };
+  }
+
+  function render() {
+    const r = parseHash(location.hash);
+    const v = r.view === 'top' ? viewTop(r)
+      : r.view === 'whisky' ? viewWhisky(r.id)
+        : r.view === 'distillery' ? viewDistillery(r.id)
+          : r.view === 'standard' ? viewStandard()
+            : viewNotFound();
+    app.innerHTML = v.html;
+    document.title = v.title;
+    if (r.view === 'top') bindTop();
+    return r;
+  }
+
+  window.addEventListener('hashchange', () => {
+    const r = render();
+    // 味の絞り込みは結果の位置へ、それ以外はページの先頭へ
+    const results = document.getElementById('results');
+    if (r.view === 'top' && r.taste && results && results.scrollIntoView) results.scrollIntoView({ block: 'start' });
+    else window.scrollTo(0, 0);
+  });
+
   document.getElementById('checked-at').textContent = fmtDate(DATA.checkedAt);
+  render();
+  window.__mock = { search, norm, parseHash, render };
 })();
 </script>
 </body>
