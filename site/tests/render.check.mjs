@@ -107,7 +107,7 @@ test('銘柄ページ：響の最初の一画面', () => {
   assert.equal(d.querySelectorAll('.w-serve .serve-item').length, 4);
   assert.ok(d.querySelector('.w-next a.next[href="#/whisky/ao"]'));
   assert.equal(d.querySelectorAll('.w-next .next--off').length, 2);
-  assert.equal(d.title, '響 JAPANESE HARMONY｜ジャパニーズウイスキー図鑑（仮）');
+  assert.equal(d.title, '響 JAPANESE HARMONY｜Japanese Whisky Guide');
   assert.deepEqual(env.errors, []);
 });
 
@@ -188,7 +188,7 @@ test('蒸溜所ページ：山崎', () => {
   assert.deepEqual([...d.querySelectorAll('#used .used-role')].map((s) => s.textContent), ['モルト原酒として使用', 'モルト原酒として使用']);
   assert.equal(d.querySelectorAll('#used .plain-list li').length, 4);
   assert.equal(d.querySelectorAll('#sources a').length, DATA.distilleries.find((x) => x.id === 'yamazaki').sources.length);
-  assert.equal(d.title, '山崎蒸溜所｜ジャパニーズウイスキー図鑑（仮）');
+  assert.equal(d.title, '山崎蒸溜所｜Japanese Whisky Guide');
   assert.deepEqual(env.errors, []);
 });
 
@@ -237,4 +237,11 @@ test('銘柄ページ：メーカーのおすすめがある銘柄だけ、見�
   for (const id of ['hibiki-jh', 'ao']) {
     assert.equal(load(`#/whisky/${id}`).document.querySelector('.w-serve .maker-serve'), null, id);
   }
+});
+
+test('サイト名は Japanese Whisky Guide', () => {
+  const env = load('');
+  assert.equal(env.document.querySelector('.brand-name').textContent, 'Japanese Whisky Guide');
+  assert.equal(env.document.title, 'Japanese Whisky Guide');
+  assert.equal(env.document.querySelector('.brand-tag'), null);
 });

@@ -1,7 +1,9 @@
 // データの整合性テスト
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { html, readData } from './helpers.mjs';
+import { existsSync, readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { html, readData, HTML_PATH } from './helpers.mjs';
 
 const data = readData();
 const distilleryIds = new Set(data.distilleries.map((d) => d.id));
@@ -70,4 +72,23 @@ test('余市は公式ページで確認した区分と参考小売価格', () =>
   assert.equal(y.standard, 'jw');
   assert.deepEqual(y.specs.find((s) => /小売価格/.test(s.k)), { k: '参考小売価格', v: '7,000円（税別）' });
   assert.ok(y.makerServe && y.makerServe.text, 'makerServe');
+});
+
+test('公開用の文言：モック・仮称の表記が残っていない', () => {
+  assert.ok(!/モック|仮称|（仮）/.test(html()), 'モック・仮称の表記が残っている');
+});
+
+test('旧サイトの URL は新しいトップへ転送する（404.html）', () => {
+  const p = join(dirname(HTML_PATH), '404.html');
+  assert.ok(existsSync(p), '404.html がない');
+  const s = readFileSync(p, 'utf8');
+  assert.match(s, /http-equiv="refresh" content="0; url=\/whisky-site\/"/);
+  assert.match(s, /location\.replace\('\/whisky-site\/'\)/);
+});
+
+test('アイコンがある', () => {
+  const dir = dirname(HTML_PATH);
+  for (const f of ['favicon.svg', 'apple-touch-icon.png']) assert.ok(existsSync(join(dir, f)), f);
+  assert.match(html(), /<link rel="icon" href="favicon\.svg" type="image\/svg\+xml">/);
+  assert.match(html(), /<link rel="apple-touch-icon" href="apple-touch-icon\.png">/);
 });

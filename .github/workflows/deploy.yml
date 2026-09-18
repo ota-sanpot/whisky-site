@@ -1,5 +1,6 @@
 name: Deploy to GitHub Pages
 
+# 公開するのは site/ の Japanese Whisky Guide。旧 Next.js 版はタグ legacy-nextjs-2026-09-18 に残してある
 on:
   push:
     branches: [main]
@@ -27,17 +28,20 @@ jobs:
 
       - run: npm ci
 
-      - name: Build
-        run: npm run build
-        env:
-          NEXT_PUBLIC_BASE_PATH: /whisky-site
+      # テストが通らなければ公開しない
+      - name: Test
+        run: node --test site/tests/*.check.mjs
 
-      - name: Add .nojekyll
-        run: touch out/.nojekyll
+      # 公開に必要なファイルだけを集める（テストや裏取りの記録は公開しない）
+      - name: Assemble
+        run: |
+          mkdir -p _site
+          cp site/index.html site/404.html site/favicon.svg site/apple-touch-icon.png _site/
+          touch _site/.nojekyll
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: out
+          path: _site
 
   deploy:
     needs: build
