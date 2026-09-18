@@ -147,7 +147,7 @@ a.chip .chip-name{text-decoration:underline;text-decoration-color:rgba(220,157,6
 .w-line{margin:0;font-size:16px;font-weight:700;line-height:1.6}
 .w-line .ph{display:inline-block}
 /* 名前・短いラベルは空白と句読点のところでだけ改行する（収まらない時は body の overflow-wrap で折る） */
-.card-name,.next-name,.quad-name,.chip,.pref li{word-break:keep-all}
+.card-name,.next-name,.quad-name,.chip,.pref li,.maker-serve{word-break:keep-all}
 .serve{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
 .serve-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:12px;color:var(--text-2)}
 .serve-mark{font-size:19px;font-weight:700;line-height:1.2}
@@ -155,6 +155,8 @@ a.chip .chip-name{text-decoration:underline;text-decoration-color:rgba(220,157,6
 .serve-3 .serve-mark{color:var(--amber-2)}
 .serve-2 .serve-mark{color:var(--text)}
 .serve-1{opacity:.6}
+.maker-serve{display:flex;align-items:baseline;gap:8px;margin:8px 0 0;font-size:12px;line-height:1.6;color:var(--text-2)}
+.maker-tag{flex:none;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--amber-ink);background:var(--amber-2);border-radius:999px;padding:1px 8px}
 .next-row{list-style:none;margin:0 calc(var(--gutter) * -1);padding:0 var(--gutter) 4px;display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .next-row::-webkit-scrollbar{display:none}
 .next-row > li{flex:0 0 72%;max-width:260px;scroll-snap-align:start}
@@ -355,7 +357,7 @@ a.next{border-color:rgba(220,157,66,.5)}
       "maker": "ニッカウヰスキー",
       "type": "シングルモルト",
       "standard": "jw",
-      "standardNote": "メーカー（アサヒビール）の商品ページで、表示基準に合う商品として案内されています",
+      "standardNote": "メーカー（アサヒビール）の商品ページに「表示基準に合致した商品」と明記されています",
       "look": { "liquid": "#a9621f", "label": "#2a2521", "mark": "#e9dfcc", "char": "余" },
       "components": [
         { "distillery": "yoichi", "country": "日本", "kind": "モルト原酒" }
@@ -365,6 +367,7 @@ a.next{border-color:rgba(220,157,66,.5)}
       "casks": "樽の種類や構成は、公式ページでは公表されていません。",
       "taste": { "line": "スモーキーで香ばしい、どっしり力強い", "x": 0.65, "y": 0.6 },
       "serve": { "straight": 3, "rock": 3, "highball": 2, "mizuwari": 1 },
+      "makerServe": { "text": "ハイボール（KOBハイボール、余市 フロート・ハイボール）、オールドファッションド" },
       "next": [
         { "id": null, "name": "シングルモルト宮城峡", "why": "同じニッカのもう一つの蒸溜所。甘く華やかで、余市と対照的" },
         { "id": "hibiki-jh", "name": "響 JAPANESE HARMONY", "why": "煙の少ない、やわらかなブレンドと飲み比べる" }
@@ -384,7 +387,7 @@ a.next{border-color:rgba(220,157,66,.5)}
         { "k": "アルコール度数", "v": "45%" },
         { "k": "容量", "v": "700ml" },
         { "k": "熟成年数の表記", "v": "なし" },
-        { "k": "希望小売価格", "v": "7,000円（税別、2024年4月改定後）" },
+        { "k": "参考小売価格", "v": "7,000円（税別）" },
         { "k": "発売", "v": "2015年9月1日（いまの中味）" }
       ],
       "sources": [
@@ -392,7 +395,7 @@ a.next{border-color:rgba(220,157,66,.5)}
         { "title": "ニッカウヰスキー「蒸溜所紹介｜シングルモルト 余市・宮城峡」", "url": "https://www.nikka.com/products/malt/yoichi_miyagikyo/sp/distilleries/index.html", "used": "余市蒸溜所の創業年、石炭直火蒸溜、気候" },
         { "title": "アサヒビール ニュースリリース（2015年6月15日）", "url": "https://www.asahibeer.co.jp/news/2015/0615_3.html", "used": "いまの中味の発売日、年数表記品の販売終了" },
         { "title": "アサヒビール ニュースリリース「国産洋酒・輸入洋酒の一部商品の価格改定について」（2023年12月19日）", "url": "https://www.asahibeer.co.jp/news/2023/1219.html", "used": "2024年4月1日出荷分からの価格改定（対象に余市を含む）" },
-        { "title": "アサヒビール 商品情報「シングルモルト余市」", "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/yoichi/yoichi.html", "used": "希望小売価格、表示基準" }
+        { "title": "アサヒビール 商品情報「シングルモルト余市」", "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/yoichi/yoichi.html", "used": "参考小売価格、表示基準、この商品を使うカクテル（メーカーのおすすめ）" }
       ]
     },
     {
@@ -730,6 +733,7 @@ a.next{border-color:rgba(220,157,66,.5)}
   <section class="w-serve" aria-labelledby="serve-h">
     <h2 class="label" id="serve-h">おすすめの飲み方${opinion}</h2>
     <ul class="serve">${SERVES.map(([k, label]) => `<li class="serve-item serve-${w.serve[k]}"><span class="serve-mark" aria-hidden="true">${MARK[w.serve[k]]}</span><span class="serve-name">${label}</span><span class="sr-only">${MARK_TEXT[w.serve[k]]}</span></li>`).join('')}</ul>
+    ${w.makerServe ? `<p class="maker-serve"><span class="maker-tag">メーカーのおすすめ</span>${esc(w.makerServe.text)}</p>` : ''}
   </section>
   <section class="w-next" aria-labelledby="next-h">
     <h2 class="label" id="next-h">似ている銘柄・次の1本${opinion}</h2>

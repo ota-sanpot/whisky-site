@@ -64,3 +64,10 @@ test('区分の違う見本が1本ずつある', () => {
 test('長いダッシュを使っていない', () => {
   assert.ok(!/[—―]/.test(html()), '長いダッシュが入っている');
 });
+
+test('余市は公式ページで確認した区分と参考小売価格', () => {
+  const y = data.whiskies.find((w) => w.id === 'yoichi');
+  assert.equal(y.standard, 'jw');
+  assert.deepEqual(y.specs.find((s) => /小売価格/.test(s.k)), { k: '参考小売価格', v: '7,000円（税別）' });
+  assert.ok(y.makerServe && y.makerServe.text, 'makerServe');
+});

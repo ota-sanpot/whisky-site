@@ -228,3 +228,13 @@ test('銘柄ページ：味の一言は読点ごとの句に分けて、句の�
   const phrases = [...env.document.querySelectorAll('.w-line .ph')].map((s) => s.textContent);
   assert.deepEqual(phrases, ['スモーキーで香ばしい、', 'どっしり力強い']);
 });
+
+test('銘柄ページ：メーカーのおすすめがある銘柄だけ、見立てとは別に出す', () => {
+  const yoichi = load('#/whisky/yoichi').document.querySelector('.w-serve .maker-serve');
+  assert.ok(yoichi);
+  assert.match(yoichi.textContent, /^メーカーのおすすめ/);
+  assert.match(yoichi.textContent, /ハイボール/);
+  for (const id of ['hibiki-jh', 'ao']) {
+    assert.equal(load(`#/whisky/${id}`).document.querySelector('.w-serve .maker-serve'), null, id);
+  }
+});
