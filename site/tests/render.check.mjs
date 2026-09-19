@@ -90,11 +90,11 @@ test('味から探す：4つの入口があり、象限で絞り込める', () =
   }
 });
 
-test('トップ：表示基準の説明への入口に4区分が並ぶ', () => {
+test('トップ：表示基準の説明への入口に5区分が並ぶ', () => {
   const env = load('');
   const card = env.document.querySelector('a.std-card[href="#/standard"]');
   assert.ok(card);
-  assert.equal(card.querySelectorAll('.badge').length, 4);
+  assert.equal(card.querySelectorAll('.badge').length, 5);
 });
 
 test('知らない URL は見つからない表示', () => {
@@ -168,10 +168,23 @@ test('銘柄ページ：余市は1蒸溜所のシングルモルト、蒸溜所�
   assert.equal(d.querySelector('.w-origin .origin-note'), null);
 });
 
-test('銘柄ページ：グレーンスピリッツを含む区分', () => {
+test('銘柄ページ：スピリッツを含む区分', () => {
   const b = load('#/whisky/white').document.querySelector('.w-head .badge');
-  assert.equal(b.textContent, 'グレーンスピリッツを含む');
+  assert.equal(b.textContent, 'スピリッツを含む');
   assert.ok(b.classList.contains('badge--spirits'));
+});
+
+test('銘柄ページ：チップの蒸溜所名と原酒の種類は短く出る', () => {
+  const t1 = [...load('#/whisky/sunshine').document.querySelectorAll('.w-origin .chip')].map(text);
+  assert.equal(t1[0], '富山県三郎丸モルト');
+  const t2 = [...load('#/whisky/kujira-5').document.querySelectorAll('.w-origin .chip')].map(text);
+  assert.deepEqual(t2, ['沖縄県まさひろ酒造米']);
+});
+
+test('銘柄ページ：米だけでつくる銘柄は表示基準の対象外', () => {
+  const b = load('#/whisky/kujira-5').document.querySelector('.w-head .badge');
+  assert.equal(b.textContent, '表示基準の対象外');
+  assert.ok(b.classList.contains('badge--other'));
 });
 
 test('銘柄ページ：限定品には限定の表示が出る', () => {
@@ -269,11 +282,11 @@ test('銘柄と蒸溜所を行き来できる', () => {
   assert.deepEqual(env.errors, []);
 });
 
-test('表示基準ページ：要件5つと4区分と出典', () => {
+test('表示基準ページ：要件5つと5区分と出典', () => {
   const d = load('#/standard').document;
   assert.match(d.querySelector('h1').textContent, /ジャパニーズウイスキー/);
   assert.deepEqual([...d.querySelectorAll('.std-items dt')].map((x) => x.textContent), ['原材料', '造り', '熟成', '瓶詰め', 'その他']);
-  assert.deepEqual([...d.querySelectorAll('#kinds .badge')].map((x) => x.textContent), ['ジャパニーズウイスキー', '海外原酒を含む', 'グレーンスピリッツを含む', '区分 未確認']);
+  assert.deepEqual([...d.querySelectorAll('#kinds .badge')].map((x) => x.textContent), ['ジャパニーズウイスキー', '海外原酒を含む', 'スピリッツを含む', '表示基準の対象外', '区分 未確認']);
   assert.equal(d.querySelectorAll('#sources a').length, 2);
 });
 

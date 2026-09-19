@@ -8,7 +8,7 @@ import { html, readData, HTML_PATH } from './helpers.mjs';
 const data = readData();
 const distilleryIds = new Set(data.distilleries.map((d) => d.id));
 const whiskyIds = new Set(data.whiskies.map((w) => w.id));
-const STANDARDS = ['jw', 'foreign', 'spirits', 'unknown'];
+const STANDARDS = ['jw', 'foreign', 'spirits', 'other', 'unknown'];
 
 test('id が重複していない', () => {
   assert.equal(whiskyIds.size, data.whiskies.length, '銘柄 id の重複');
@@ -20,7 +20,7 @@ test('最初の見本3本と山崎蒸溜所が残っている', () => {
   assert.ok(distilleryIds.has('yamazaki'));
 });
 
-test('表示基準の区分は4つ', () => {
+test('表示基準の区分は5つ', () => {
   assert.deepEqual(Object.keys(data.standards), STANDARDS);
   for (const k of STANDARDS) assert.ok(data.standards[k].label && data.standards[k].desc, k);
 });
@@ -77,6 +77,14 @@ test('区分の違う見本がある', () => {
   assert.equal(byId.yoichi.components.length, 1);
   assert.equal(byId.white.standard, 'spirits');
   assert.equal(byId.date.limited, '宮城県限定');
+  assert.equal(byId['kujira-5'].standard, 'other');
+});
+
+test('クラフト蒸溜所の銘柄も入っている', () => {
+  for (const id of ['amahagan-basic', 'sakurao', 'togouchi', 'kanosuke-single-malt', 'kanosuke-double', 'shizuoka-pot-still-w', 'saburomaru-8', 'yamazakura-black', 'yuza-2026', 'kuju-green-dram', 'kujira-5']) {
+    assert.ok(whiskyIds.has(id), id);
+  }
+  assert.ok(data.whiskies.length >= 90, `銘柄数 ${data.whiskies.length}`);
 });
 
 test('価格は載せない', () => {
