@@ -56,8 +56,12 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 a.badge::after{content:"›";margin-left:2px;opacity:.7}
 .badge--jw{color:var(--amber-2);background:var(--amber-dim);border:1px solid rgba(220,157,66,.45)}
 .badge--foreign{color:var(--foreign);background:var(--foreign-dim);border:1px solid rgba(143,182,198,.45)}
+.badge--spirits{color:#cdb6dc;background:rgba(205,182,220,.13);border:1px solid rgba(205,182,220,.45)}
 .badge--unknown{color:var(--unknown);background:var(--unknown-dim);border:1px dashed rgba(170,155,139,.55)}
 .badges{display:flex;flex-wrap:wrap;gap:6px}
+.limited{display:inline-flex;align-items:center;font-size:11px;font-weight:700;line-height:1;padding:5px 9px;border-radius:999px;color:var(--amber-ink);background:var(--amber-2);white-space:nowrap}
+.w-tags,.card-tags{display:flex;flex-wrap:wrap;gap:6px;margin:0}
+.card-tags{margin-top:6px}
 
 /* ボトル図（写真の代わり） */
 .bottle{position:relative;flex:none;width:52px;height:118px}
@@ -110,7 +114,14 @@ a.badge::after{content:"›";margin-left:2px;opacity:.7}
 .card-kind{font-size:11px;color:var(--amber-2);letter-spacing:.1em}
 .card-name{font-size:15px;font-weight:700;line-height:1.45}
 .card-meta{font-size:12px;line-height:1.6;color:var(--text-3)}
-.card .badge{margin-top:6px;font-size:10.5px;padding:4px 8px}
+.card .badge,.card .limited{font-size:10.5px;padding:4px 8px}
+.maker-group{margin-bottom:8px;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-2)}
+.maker-group > summary{display:flex;align-items:baseline;gap:10px;padding:12px 14px;cursor:pointer;list-style:none;font-weight:700}
+.maker-group > summary::-webkit-details-marker{display:none}
+.maker-group > summary::after{content:"＋";margin-left:auto;color:var(--amber-2);font-weight:500}
+.maker-group[open] > summary::after{content:"－"}
+.maker-count{font-size:12px;font-weight:500;color:var(--text-3)}
+.maker-group .cards{padding:0 8px 8px}
 .prefs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .pref{padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
 .pref-name{margin:0 0 2px;font-size:12px;letter-spacing:.08em;color:var(--text-3)}
@@ -239,23 +250,59 @@ a.next{border-color:rgba(220,157,66,.5)}
 {
   "checkedAt": "2026-09-18",
   "standards": {
-    "jw": { "label": "ジャパニーズウイスキー", "desc": "日本洋酒酒造組合の表示基準に合う、とメーカーが示している銘柄。" },
-    "foreign": { "label": "海外原酒を含む", "desc": "海外で造られた原酒を使っている、とメーカーが公表している銘柄。" },
-    "unknown": { "label": "区分 未確認", "desc": "公表されている情報からは、どちらか判断できない銘柄。" }
+    "jw": {
+      "label": "ジャパニーズウイスキー",
+      "desc": "日本洋酒酒造組合の表示基準に合う、とメーカーが示している銘柄。"
+    },
+    "foreign": {
+      "label": "海外原酒を含む",
+      "desc": "海外で造られた原酒を使っている、とメーカーが公表している銘柄。"
+    },
+    "spirits": {
+      "label": "グレーンスピリッツを含む",
+      "desc": "ウイスキーに加えて、グレーンスピリッツ（穀物からつくる蒸留酒）を使っている、とメーカーが公表している銘柄。表示基準の対象外です。"
+    },
+    "unknown": {
+      "label": "区分 未確認",
+      "desc": "公表されている情報からは、どちらか判断できない銘柄。"
+    }
   },
   "standardRule": {
     "title": "「ジャパニーズウイスキー」と名乗れる条件",
     "summary": "2021年2月に日本洋酒酒造組合が定めた自主基準です。移行期間を経て、2024年4月1日から本格的に施行されています。",
     "items": [
-      { "k": "原材料", "v": "麦芽・穀類・日本国内で採水した水だけ。麦芽は必ず使う" },
-      { "k": "造り", "v": "糖化・発酵・蒸留を、日本国内の蒸留所で行う" },
-      { "k": "熟成", "v": "700リットル以下の木樽に詰め、日本国内で3年以上" },
-      { "k": "瓶詰め", "v": "日本国内で詰め、アルコール分は40度以上" },
-      { "k": "その他", "v": "色の微調整のためのカラメルは使ってよい" }
+      {
+        "k": "原材料",
+        "v": "麦芽・穀類・日本国内で採水した水だけ。麦芽は必ず使う"
+      },
+      {
+        "k": "造り",
+        "v": "糖化・発酵・蒸留を、日本国内の蒸留所で行う"
+      },
+      {
+        "k": "熟成",
+        "v": "700リットル以下の木樽に詰め、日本国内で3年以上"
+      },
+      {
+        "k": "瓶詰め",
+        "v": "日本国内で詰め、アルコール分は40度以上"
+      },
+      {
+        "k": "その他",
+        "v": "色の微調整のためのカラメルは使ってよい"
+      }
     ],
     "sources": [
-      { "title": "日本洋酒酒造組合「ウイスキーにおけるジャパニーズウイスキーの表示に関する基準」", "url": "https://www.yoshu.or.jp/pages/151/", "used": "基準の名称と制定者" },
-      { "title": "アサヒビール「『ウイスキーにおけるジャパニーズウイスキーの表示に関する基準』について」", "url": "https://www.asahibeer.co.jp/whisky_brandy/info/", "used": "要件（原材料・造り・熟成・瓶詰め・カラメル）、制定時期、本格施行日" }
+      {
+        "title": "日本洋酒酒造組合「ウイスキーにおけるジャパニーズウイスキーの表示に関する基準」",
+        "url": "https://www.yoshu.or.jp/pages/151/",
+        "used": "基準の名称と制定者"
+      },
+      {
+        "title": "アサヒビール「『ウイスキーにおけるジャパニーズウイスキーの表示に関する基準』について」",
+        "url": "https://www.asahibeer.co.jp/whisky_brandy/info/",
+        "used": "要件（原材料・造り・熟成・瓶詰め・カラメル）、制定時期、本格施行日"
+      }
     ]
   },
   "distilleries": [
@@ -266,30 +313,293 @@ a.next{border-color:rgba(220,157,66,.5)}
       "kana": "やまざき",
       "maker": "サントリー",
       "pref": "大阪府",
-      "hasPage": true,
       "address": "大阪府三島郡島本町山崎5-2-1",
       "founded": "1923年に建設を始め、1924年に完成",
       "lead": "日本で最初のモルトウイスキー蒸溜所。サントリーの創業者・鳥井信治郎が、全国の候補地から選んだ土地です。",
       "features": [
-        { "k": "水", "v": "古くから名水の地。近くに日本名水百選のひとつ「離宮の水」があります" },
-        { "k": "立地", "v": "北に天王山、南に桂川・宇治川・木津川の合流点。霧が出やすく、熟成に向いた湿潤な環境です" },
-        { "k": "造り", "v": "工程ごとに複数の要素を組み合わせて、多彩な原酒をつくり分けています" },
-        { "k": "樽", "v": "ミズナラ樽、ワイン樽、スパニッシュオーク樽、アメリカンオーク樽などで熟成した原酒を、製品ごとに組み合わせます" }
+        {
+          "k": "水",
+          "v": "古くから名水の地。近くに日本名水百選のひとつ「離宮の水」があります"
+        },
+        {
+          "k": "立地",
+          "v": "北に天王山、南に桂川・宇治川・木津川の合流点。霧が出やすく、熟成に向いた湿潤な環境です"
+        },
+        {
+          "k": "造り",
+          "v": "工程ごとに複数の要素を組み合わせて、多彩な原酒をつくり分けています"
+        },
+        {
+          "k": "樽",
+          "v": "ミズナラ樽、ワイン樽、スパニッシュオーク樽、アメリカンオーク樽などで熟成した原酒を、製品ごとに組み合わせます"
+        }
       ],
-      "singleMalts": ["山崎（年数表記なし）", "山崎12年", "山崎18年", "山崎25年"],
       "sources": [
-        { "title": "サントリー 山崎蒸溜所「アクセス」", "url": "https://www.suntory.co.jp/factory/yamazaki/access/", "used": "所在地" },
-        { "title": "サントリー公式ブログ「【100周年企画】ジャパニーズウイスキーの始まりの場所～山崎蒸溜所～」", "url": "https://www.suntory.co.jp/factory/blog-d/000196.html", "used": "着工・竣工の年、創業者が選んだ経緯、離宮の水、天王山と三川、霧と湿度" },
-        { "title": "サントリー 山崎蒸溜所「ものづくりのこだわり」", "url": "https://www.suntory.co.jp/factory/yamazaki/about/", "used": "多彩な原酒のつくり分け" },
-        { "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーシングルモルトウイスキー 山崎」", "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000099.html", "used": "樽の種類、定番のシングルモルト" },
-        { "title": "WHISKY Magazine Japan「響 JAPANESE HARMONY」発表（2015年3月17日）", "url": "https://whiskymag.jp/hjh_2/", "used": "響 JAPANESE HARMONY への山崎モルト原酒の使用" },
-        { "title": "サントリー ニュースリリース No.14955（2025年12月16日）", "url": "https://www.suntory.co.jp/news/article/14955.html", "used": "碧Ao への山崎モルト原酒の使用" }
+        {
+          "title": "サントリー 山崎蒸溜所「アクセス」",
+          "url": "https://www.suntory.co.jp/factory/yamazaki/access/",
+          "used": "所在地"
+        },
+        {
+          "title": "サントリー公式ブログ「【100周年企画】ジャパニーズウイスキーの始まりの場所～山崎蒸溜所～」",
+          "url": "https://www.suntory.co.jp/factory/blog-d/000196.html",
+          "used": "着工・竣工の年、創業者が選んだ経緯、離宮の水、天王山と三川、霧と湿度"
+        },
+        {
+          "title": "サントリー 山崎蒸溜所「ものづくりのこだわり」",
+          "url": "https://www.suntory.co.jp/factory/yamazaki/about/",
+          "used": "多彩な原酒のつくり分け"
+        },
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーシングルモルトウイスキー 山崎」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000099.html",
+          "used": "樽の種類、定番のシングルモルト"
+        },
+        {
+          "title": "WHISKY Magazine Japan「響 JAPANESE HARMONY」発表（2015年3月17日）",
+          "url": "https://whiskymag.jp/hjh_2/",
+          "used": "響 JAPANESE HARMONY への山崎モルト原酒の使用"
+        },
+        {
+          "title": "サントリー ニュースリリース No.14955（2025年12月16日）",
+          "url": "https://www.suntory.co.jp/news/article/14955.html",
+          "used": "碧Ao への山崎モルト原酒の使用"
+        }
       ]
     },
-    { "id": "hakushu", "name": "白州蒸溜所", "nameEn": "Hakushu Distillery", "kana": "はくしゅう", "maker": "サントリー", "pref": "山梨県", "hasPage": false },
-    { "id": "chita", "name": "知多蒸溜所", "nameEn": "Chita Distillery", "kana": "ちた", "maker": "サントリー", "pref": "愛知県", "hasPage": false },
-    { "id": "yoichi", "name": "余市蒸溜所", "nameEn": "Yoichi Distillery", "kana": "よいち", "maker": "ニッカウヰスキー", "pref": "北海道", "hasPage": false },
-    { "id": "miyagikyo", "name": "宮城峡蒸溜所", "nameEn": "Miyagikyo Distillery", "kana": "みやぎきょう", "maker": "ニッカウヰスキー", "pref": "宮城県", "hasPage": false }
+    {
+      "id": "hakushu",
+      "name": "白州蒸溜所",
+      "nameEn": "Hakushu Distillery",
+      "kana": "はくしゅう",
+      "maker": "サントリー",
+      "pref": "山梨県",
+      "address": "山梨県北杜市白州町鳥原2913-1",
+      "founded": "1973年竣工",
+      "lead": "南アルプスの麓にある「森の蒸溜所」。サントリーの国内3蒸溜所のひとつです。",
+      "features": [
+        {
+          "k": "水",
+          "v": "南アルプスの天然水で仕込む。花崗岩に約20年磨かれ、ほどよくミネラルを含んだ水です"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー白州蒸溜所「アクセス」",
+          "url": "https://www.suntory.co.jp/factory/hakushu/access/",
+          "used": "所在地"
+        },
+        {
+          "title": "サントリー白州蒸溜所 工場見学",
+          "url": "https://www.suntory.co.jp/factory/hakushu/",
+          "used": "竣工年、森の蒸溜所"
+        },
+        {
+          "title": "サントリー白州蒸溜所「ものづくりのこだわり」",
+          "url": "https://www.suntory.co.jp/factory/hakushu/about/",
+          "used": "仕込み水"
+        }
+      ]
+    },
+    {
+      "id": "chita",
+      "name": "知多蒸溜所",
+      "nameEn": "Chita Distillery",
+      "kana": "ちた",
+      "maker": "サントリー",
+      "pref": "愛知県",
+      "address": "愛知県知多市北浜町16番地",
+      "founded": "1972年設立（1973年ウイスキー蒸溜開始）",
+      "lead": "サントリーグループと全農グループが共同で設立したグレーンウイスキー蒸溜所。伊勢湾に臨む知多半島にあり、とうもろこしを主原料にグレーンウイスキーをつくります。一般の見学は受け付けていません。",
+      "features": [
+        {
+          "k": "造り",
+          "v": "連続式蒸溜機で、クリーン・ミディアム・ヘビーの3タイプのグレーン原酒をつくり分ける"
+        },
+        {
+          "k": "樽",
+          "v": "ホワイトオーク樽を中心に、スパニッシュオーク樽やワイン樽なども使う"
+        },
+        {
+          "k": "役割",
+          "v": "響・角瓶・オールドなどに欠かせないグレーン原酒をつくってきた"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー知多蒸溜所株式会社「会社情報」",
+          "url": "https://www.suntory.co.jp/chitadistillery/company/index.html",
+          "used": "所在地、設立年、蒸溜開始年、知多の発売年"
+        },
+        {
+          "title": "サントリー「サントリーウイスキー『知多』とは？」",
+          "url": "https://www.suntory.co.jp/whisky/chita/about/",
+          "used": "知多蒸溜所のグレーン原酒が響・角瓶・オールドに使われていること、3タイプのグレーン原酒"
+        }
+      ]
+    },
+    {
+      "id": "yoichi",
+      "name": "余市蒸溜所",
+      "nameEn": "Yoichi Distillery",
+      "kana": "よいち",
+      "maker": "ニッカウヰスキー",
+      "pref": "北海道",
+      "address": "北海道余市郡余市町黒川町7丁目6",
+      "founded": "1934年",
+      "lead": "竹鶴政孝がスコットランドのような環境を求めて選んだ、ニッカウヰスキー最初の蒸溜所です。",
+      "features": [
+        {
+          "k": "立地",
+          "v": "積丹半島の付け根。北に日本海を望み、三方を山に囲まれた冷涼な地"
+        },
+        {
+          "k": "蒸溜",
+          "v": "ポットスチルを石炭の直火で熱する石炭直火蒸溜。原酒に独特の香ばしさが生まれる"
+        }
+      ],
+      "sources": [
+        {
+          "title": "ニッカウヰスキー「北海道 余市蒸溜所」",
+          "url": "https://www.nikka.com/distilleries/yoichi/",
+          "used": "設立年、立地"
+        },
+        {
+          "title": "ニッカウヰスキー「北海道 余市蒸溜所 アクセス」",
+          "url": "https://www.nikka.com/distilleries/yoichi/access/",
+          "used": "所在地"
+        },
+        {
+          "title": "ニッカウヰスキー「蒸溜所紹介｜シングルモルト 余市・宮城峡」",
+          "url": "https://www.nikka.com/products/malt/yoichi_miyagikyo/sp/distilleries/index.html",
+          "used": "石炭直火蒸溜"
+        }
+      ]
+    },
+    {
+      "id": "miyagikyo",
+      "name": "宮城峡蒸溜所",
+      "nameEn": "Miyagikyo Distillery",
+      "kana": "みやぎきょう",
+      "maker": "ニッカウヰスキー",
+      "pref": "宮城県",
+      "address": "宮城県仙台市青葉区ニッカ1番地",
+      "founded": "1969年",
+      "lead": "「余市と異なる蒸溜所の原酒をブレンドしたい」という竹鶴政孝の夢から生まれた、ニッカウヰスキー第二の蒸溜所。仙台の西、ふたつの清流に恵まれた峡谷にあります。",
+      "features": [
+        {
+          "k": "蒸溜",
+          "v": "ポットスチルを蒸気で熱するスチーム間接蒸溜"
+        },
+        {
+          "k": "カフェスチル",
+          "v": "連続式のカフェスチルで、カフェモルトとカフェグレーンもつくる"
+        }
+      ],
+      "sources": [
+        {
+          "title": "ニッカウヰスキー「仙台 宮城峡蒸溜所」",
+          "url": "https://www.nikka.com/distilleries/miyagikyo/",
+          "used": "設立年、立地"
+        },
+        {
+          "title": "ニッカウヰスキー「仙台 宮城峡蒸溜所 アクセス」",
+          "url": "https://www.nikka.com/distilleries/miyagikyo/access/",
+          "used": "所在地"
+        },
+        {
+          "title": "ニッカウヰスキー「商品特徴｜シングルモルト 余市・宮城峡」",
+          "url": "https://www.nikka.com/brands/yoichi_miyagikyo/products/",
+          "used": "商品説明、香り・味・余韻、度数、容量"
+        },
+        {
+          "title": "アサヒビール 商品情報「ニッカ伊達」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/date/48889.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "fuji-gotemba",
+      "name": "富士御殿場蒸溜所",
+      "nameEn": "Fuji Gotemba Distillery",
+      "kana": "ふじごてんば",
+      "maker": "キリン",
+      "pref": "静岡県",
+      "lead": "キリンのウイスキー蒸溜所。モルト原酒とグレーン原酒の両方をつくり、ひとつの蒸溜所の原酒だけでブレンドした「シングルブレンデッド」を造っています。",
+      "features": [
+        {
+          "k": "グレーン",
+          "v": "バーボンタイプ・カナディアンタイプ・スコッチタイプの3タイプのグレーン原酒をつくる（公式通販の商品説明より）"
+        }
+      ],
+      "sources": [
+        {
+          "title": "キリン公式通販 DRINX「キリン シングルブレンデッドジャパニーズウイスキー 富士（700ml）」",
+          "url": "https://onlineshop.kirin.co.jp/view/item/000000000007",
+          "used": "シングルブレンデッドの説明"
+        },
+        {
+          "title": "キリン公式通販 DRINX「キリン シングルグレーンジャパニーズウイスキー 富士（700ml）」",
+          "url": "https://onlineshop.kirin.co.jp/view/item/000000000006",
+          "used": "3タイプのグレーン原酒"
+        }
+      ]
+    },
+    {
+      "id": "mars-komagatake",
+      "name": "マルス駒ヶ岳蒸溜所",
+      "nameEn": "Mars Komagatake Distillery",
+      "kana": "まるす こまがたけ",
+      "maker": "本坊酒造",
+      "pref": "長野県",
+      "address": "長野県上伊那郡宮田村4752-31",
+      "lead": "中央アルプス木曽駒ヶ岳の麓、標高798mにある本坊酒造のウイスキー蒸溜所です。",
+      "features": [
+        {
+          "k": "水",
+          "v": "花崗岩層で濾過された雪解け水"
+        },
+        {
+          "k": "歴史",
+          "v": "マルスウイスキーの歩みは1949年に始まる（蒸溜所の展示より）"
+        }
+      ],
+      "sources": [
+        {
+          "title": "本坊酒造「マルス駒ヶ岳蒸溜所｜見学体験」",
+          "url": "https://www.hombo.co.jp/visiting/komagatake/",
+          "used": "所在地、標高、マルスウイスキーの歩み"
+        },
+        {
+          "title": "本坊酒造 公式サイト「シングルモルト駒ヶ岳」",
+          "url": "https://www.hombo.co.jp/product/mars-singlemalt-komagatake/",
+          "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
+        }
+      ]
+    },
+    {
+      "id": "mars-tsunuki",
+      "name": "マルス津貫蒸溜所",
+      "nameEn": "Mars Tsunuki Distillery",
+      "kana": "まるす つぬき",
+      "maker": "本坊酒造",
+      "pref": "鹿児島県",
+      "address": "鹿児島県南さつま市加世田津貫6594",
+      "lead": "薩摩半島南西の山あいにある本坊酒造の蒸溜所。盆地特有の寒暖差と、蔵多山山系の湧水に恵まれています。",
+      "sources": [
+        {
+          "title": "本坊酒造「マルス津貫蒸溜所｜見学体験」",
+          "url": "https://www.hombo.co.jp/visiting/tsunuki/",
+          "used": "所在地"
+        },
+        {
+          "title": "本坊酒造 公式サイト「シングルモルト津貫 2026 エディション」",
+          "url": "https://www.hombo.co.jp/product/mars-singlemalt-tsunuki-2026-edition/",
+          "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
+        }
+      ]
+    }
   ],
   "whiskies": [
     {
@@ -298,29 +608,77 @@ a.next{border-color:rgba(220,157,66,.5)}
       "nameEn": "Hibiki Japanese Harmony",
       "short": "響 JH",
       "kana": "ひびき じゃぱにーずはーもにー",
-      "aliases": ["hibiki", "ひびき", "ヒビキ", "響", "japanese harmony", "ジャパニーズハーモニー"],
+      "aliases": [
+        "hibiki",
+        "ひびき",
+        "ヒビキ",
+        "響",
+        "japanese harmony",
+        "ジャパニーズハーモニー"
+      ],
       "maker": "サントリー",
       "type": "ブレンデッド",
       "standard": "jw",
       "standardNote": "メーカーの商品情報に「表示基準に合致した製品」と明記されています",
-      "look": { "liquid": "#c8862f", "label": "#ece3d0", "mark": "#2a1d10", "char": "響" },
+      "look": {
+        "liquid": "#c8862f",
+        "label": "#ece3d0",
+        "mark": "#2a1d10",
+        "char": "響"
+      },
       "components": [
-        { "distillery": "yamazaki", "country": "日本", "kind": "モルト原酒" },
-        { "distillery": "hakushu", "country": "日本", "kind": "モルト原酒" },
-        { "distillery": "chita", "country": "日本", "kind": "グレーン原酒" }
+        {
+          "distillery": "yamazaki",
+          "country": "日本",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": "hakushu",
+          "country": "日本",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": "chita",
+          "country": "日本",
+          "kind": "グレーン原酒"
+        }
       ],
       "originNote": "3つの蒸溜所の原酒の組み合わせ。配合比率は非公表です。",
       "componentsNote": "山崎・白州のモルト原酒と知多のグレーン原酒を使う、という内容は、2015年の発表会でのサントリーの説明によります（WHISKY Magazine Japan の報道）。配合比率は公表されていません。",
       "casks": "樽の構成は公表されていません。",
-      "taste": { "line": "花のように華やかで、やわらかく甘い", "x": -0.6, "y": -0.3 },
-      "serve": { "straight": 2, "rock": 3, "highball": 3, "mizuwari": 2 },
+      "taste": {
+        "line": "花のように華やかで、やわらかく甘い",
+        "x": -0.6,
+        "y": -0.3
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
       "next": [
-        { "id": null, "name": "サントリー シングルモルト 山崎", "why": "響のモルト原酒のひとつを、単独で味わう" },
-        { "id": null, "name": "サントリー シングルモルト 白州", "why": "もうひとつのモルト原酒。爽やかで軽快" },
-        { "id": "ao", "name": "碧Ao", "why": "同じサントリーのブレンド。5カ国の原酒で厚みがある" }
+        {
+          "id": "yamazaki",
+          "name": "山崎",
+          "why": "響のモルト原酒のひとつを、単独で味わう"
+        },
+        {
+          "id": "hakushu",
+          "name": "白州",
+          "why": "もうひとつのモルト原酒。爽やかで軽快"
+        },
+        {
+          "id": "ao",
+          "name": "碧Ao",
+          "why": "同じサントリーのブレンド。5カ国の原酒で厚みがある"
+        }
       ],
       "official": [
-        { "k": "特長", "v": "華やかな香りと、奥行きがありながらやわらかい味わい" }
+        {
+          "k": "特長",
+          "v": "華やかな香りと、奥行きがありながらやわらかい味わい"
+        }
       ],
       "story": [
         "日本の四季と日本人の繊細な感性、匠の技を結集する、というコンセプトで2015年3月に発売されました。",
@@ -328,21 +686,67 @@ a.next{border-color:rgba(220,157,66,.5)}
         "響ブランドおなじみの、二十四節気を表す24面カットのボトル。ラベルには生成りの越前和紙を使い、「響」の文字を墨で書いています。"
       ],
       "specs": [
-        { "k": "種類", "v": "ブレンデッドウイスキー" },
-        { "k": "アルコール度数", "v": "43%" },
-        { "k": "容量", "v": "700ml" },
-        { "k": "熟成年数の表記", "v": "なし" },
-        { "k": "原材料", "v": "モルト、グレーン" },
-        { "k": "希望小売価格", "v": "8,000円（税別）" },
-        { "k": "発売", "v": "2015年3月10日" }
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        },
+        {
+          "k": "発売",
+          "v": "2015年3月10日"
+        }
       ],
       "sources": [
-        { "title": "サントリー 商品情報「サントリーウイスキー響 JAPANESE HARMONY 700ml瓶」", "url": "https://products.suntory.co.jp/d/4901777270688/", "used": "容量、度数、希望小売価格、原材料、表示基準、コンセプト、味わいの特長" },
-        { "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーウイスキー響」", "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000114.html", "used": "ボトルとラベル" },
-        { "title": "WHISKY Magazine Japan「響 JAPANESE HARMONY」発表（2015年3月17日）", "url": "https://whiskymag.jp/hjh_2/", "used": "原酒の構成（発表会でのサントリーの説明の報道）" },
-        { "title": "WHISKY Magazine Japan「響 JAPANESE HARMONY」発売（2015年1月29日）", "url": "https://whiskymag.jp/hjh_new/", "used": "発売日" },
-        { "title": "サントリー 山崎蒸溜所「ものづくりのこだわり」（工場一覧）", "url": "https://www.suntory.co.jp/factory/yamazaki/about/", "used": "山崎蒸溜所と白州蒸溜所の所在県" },
-        { "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーウイスキー知多」", "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000005530.html", "used": "知多蒸溜所の所在県" }
+        {
+          "title": "サントリー 商品情報「サントリーウイスキー響 JAPANESE HARMONY 700ml瓶」",
+          "url": "https://products.suntory.co.jp/d/4901777270688/",
+          "used": "容量、度数、原材料、表示基準、コンセプト、味わいの特長"
+        },
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーウイスキー響」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000114.html",
+          "used": "ボトルとラベル"
+        },
+        {
+          "title": "WHISKY Magazine Japan「響 JAPANESE HARMONY」発表（2015年3月17日）",
+          "url": "https://whiskymag.jp/hjh_2/",
+          "used": "原酒の構成（発表会でのサントリーの説明の報道）"
+        },
+        {
+          "title": "WHISKY Magazine Japan「響 JAPANESE HARMONY」発売（2015年1月29日）",
+          "url": "https://whiskymag.jp/hjh_new/",
+          "used": "発売日"
+        },
+        {
+          "title": "サントリー 山崎蒸溜所「ものづくりのこだわり」（工場一覧）",
+          "url": "https://www.suntory.co.jp/factory/yamazaki/about/",
+          "used": "山崎蒸溜所と白州蒸溜所の所在県"
+        },
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーウイスキー知多」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000005530.html",
+          "used": "知多蒸溜所の所在県"
+        },
+        {
+          "title": "サントリー「サントリーウイスキー『知多』とは？」",
+          "url": "https://www.suntory.co.jp/whisky/chita/about/",
+          "used": "知多蒸溜所のグレーン原酒が響・角瓶・オールドに使われていること、3タイプのグレーン原酒"
+        }
       ]
     },
     {
@@ -351,29 +755,72 @@ a.next{border-color:rgba(220,157,66,.5)}
       "nameEn": "Single Malt Yoichi",
       "short": "余市",
       "kana": "しんぐるもると よいち",
-      "aliases": ["yoichi", "よいち", "ヨイチ", "余市", "single malt yoichi"],
+      "aliases": [
+        "yoichi",
+        "よいち",
+        "ヨイチ",
+        "余市",
+        "single malt yoichi"
+      ],
       "maker": "ニッカウヰスキー",
       "type": "シングルモルト",
       "standard": "jw",
       "standardNote": "メーカー（アサヒビール）の商品ページに「表示基準に合致した商品」と明記されています",
-      "look": { "liquid": "#a9621f", "label": "#2a2521", "mark": "#e9dfcc", "char": "余" },
+      "look": {
+        "liquid": "#a9621f",
+        "label": "#2a2521",
+        "mark": "#e9dfcc",
+        "char": "余"
+      },
       "components": [
-        { "distillery": "yoichi", "country": "日本", "kind": "モルト原酒" }
+        {
+          "distillery": "yoichi",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
       ],
       "originNote": "",
       "componentsNote": "余市蒸溜所のモルト原酒だけでつくるシングルモルトです。",
       "casks": "樽の種類や構成は、公式ページでは公表されていません。",
-      "taste": { "line": "スモーキーで香ばしい、どっしり力強い", "x": 0.65, "y": 0.6 },
-      "serve": { "straight": 3, "rock": 3, "highball": 2, "mizuwari": 1 },
-      "makerServe": { "text": "ハイボール（KOBハイボール、余市 フロート・ハイボール）、オールドファッションド" },
+      "taste": {
+        "line": "スモーキーで香ばしい、どっしり力強い",
+        "x": 0.65,
+        "y": 0.6
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 1
+      },
+      "makerServe": {
+        "text": "ハイボール（KOBハイボール、余市 フロート・ハイボール）、オールドファッションド"
+      },
       "next": [
-        { "id": null, "name": "シングルモルト宮城峡", "why": "同じニッカのもう一つの蒸溜所。甘く華やかで、余市と対照的" },
-        { "id": "hibiki-jh", "name": "響 JAPANESE HARMONY", "why": "煙の少ない、やわらかなブレンドと飲み比べる" }
+        {
+          "id": "miyagikyo",
+          "name": "シングルモルト宮城峡",
+          "why": "同じニッカのもう一つの蒸溜所。甘く華やかで、余市と対照的"
+        },
+        {
+          "id": "hibiki-jh",
+          "name": "響 JAPANESE HARMONY",
+          "why": "煙の少ない、やわらかなブレンドと飲み比べる"
+        }
       ],
       "official": [
-        { "k": "香り", "v": "樽熟成のやわらかな香りと、豊かな果実の香り" },
-        { "k": "味", "v": "しっかりしたピートと香ばしさがつくる、力強い味わい" },
-        { "k": "余韻", "v": "オークの甘さとスモーキーさが、穏やかに長く続く" }
+        {
+          "k": "香り",
+          "v": "樽熟成のやわらかな香りと、豊かな果実の香り"
+        },
+        {
+          "k": "味",
+          "v": "しっかりしたピートと香ばしさがつくる、力強い味わい"
+        },
+        {
+          "k": "余韻",
+          "v": "オークの甘さとスモーキーさが、穏やかに長く続く"
+        }
       ],
       "story": [
         "余市蒸溜所は1934年、ニッカウヰスキーのはじまりの地として北海道・余市に生まれました。スコットランドに似た冷涼な気候が、この地が選ばれた理由です。",
@@ -381,19 +828,53 @@ a.next{border-color:rgba(220,157,66,.5)}
         "いまの年数表記なしの余市は、2015年9月1日の発売です。このとき10年・12年・15年・20年などの年数表記品は販売を終え、ラインアップがまとめられました。"
       ],
       "specs": [
-        { "k": "種類", "v": "シングルモルトウイスキー" },
-        { "k": "アルコール度数", "v": "45%" },
-        { "k": "容量", "v": "700ml" },
-        { "k": "熟成年数の表記", "v": "なし" },
-        { "k": "参考小売価格", "v": "7,000円（税別）" },
-        { "k": "発売", "v": "2015年9月1日（いまの中味）" }
+        {
+          "k": "種類",
+          "v": "シングルモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "45%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "発売",
+          "v": "2015年9月1日（いまの中味）"
+        }
       ],
       "sources": [
-        { "title": "ニッカウヰスキー「商品特徴｜シングルモルト 余市・宮城峡」", "url": "https://www.nikka.com/brands/yoichi_miyagikyo/products/", "used": "商品説明、香り・味・余韻、度数、容量、宮城峡の特徴" },
-        { "title": "ニッカウヰスキー「蒸溜所紹介｜シングルモルト 余市・宮城峡」", "url": "https://www.nikka.com/products/malt/yoichi_miyagikyo/sp/distilleries/index.html", "used": "余市蒸溜所の創業年、石炭直火蒸溜、気候" },
-        { "title": "アサヒビール ニュースリリース（2015年6月15日）", "url": "https://www.asahibeer.co.jp/news/2015/0615_3.html", "used": "いまの中味の発売日、年数表記品の販売終了" },
-        { "title": "アサヒビール ニュースリリース「国産洋酒・輸入洋酒の一部商品の価格改定について」（2023年12月19日）", "url": "https://www.asahibeer.co.jp/news/2023/1219.html", "used": "2024年4月1日出荷分からの価格改定（対象に余市を含む）" },
-        { "title": "アサヒビール 商品情報「シングルモルト余市」", "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/yoichi/yoichi.html", "used": "参考小売価格、表示基準、この商品を使うカクテル（メーカーのおすすめ）" }
+        {
+          "title": "ニッカウヰスキー「商品特徴｜シングルモルト 余市・宮城峡」",
+          "url": "https://www.nikka.com/brands/yoichi_miyagikyo/products/",
+          "used": "商品説明、香り・味・余韻、度数、容量、宮城峡の特徴"
+        },
+        {
+          "title": "ニッカウヰスキー「蒸溜所紹介｜シングルモルト 余市・宮城峡」",
+          "url": "https://www.nikka.com/products/malt/yoichi_miyagikyo/sp/distilleries/index.html",
+          "used": "余市蒸溜所の創業年、石炭直火蒸溜、気候"
+        },
+        {
+          "title": "アサヒビール ニュースリリース（2015年6月15日）",
+          "url": "https://www.asahibeer.co.jp/news/2015/0615_3.html",
+          "used": "いまの中味の発売日、年数表記品の販売終了"
+        },
+        {
+          "title": "アサヒビール ニュースリリース「国産洋酒・輸入洋酒の一部商品の価格改定について」（2023年12月19日）",
+          "url": "https://www.asahibeer.co.jp/news/2023/1219.html",
+          "used": "2024年4月1日出荷分からの価格改定（対象に余市を含む）"
+        },
+        {
+          "title": "アサヒビール 商品情報「シングルモルト余市」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/yoichi/yoichi.html",
+          "used": "表示基準、この商品を使うカクテル（メーカーのおすすめ）"
+        }
       ]
     },
     {
@@ -402,30 +883,84 @@ a.next{border-color:rgba(220,157,66,.5)}
       "nameEn": "Suntory Whisky Ao",
       "short": "碧Ao",
       "kana": "あお",
-      "aliases": ["ao", "あお", "アオ", "碧", "suntory whisky ao", "world whisky"],
+      "aliases": [
+        "ao",
+        "あお",
+        "アオ",
+        "碧",
+        "suntory whisky ao",
+        "world whisky"
+      ],
       "maker": "サントリー",
       "type": "ブレンデッド",
       "standard": "foreign",
       "standardNote": "アイルランド・スコットランド・アメリカ・カナダ・日本の原酒をブレンドしている、とメーカーが公表しています",
-      "look": { "liquid": "#c07a2c", "label": "#1d4a5c", "mark": "#e9f0f2", "char": "碧" },
+      "look": {
+        "liquid": "#c07a2c",
+        "label": "#1d4a5c",
+        "mark": "#e9f0f2",
+        "char": "碧"
+      },
       "components": [
-        { "distillery": "yamazaki", "country": "日本", "kind": "モルト原酒", "note": "スパニッシュオーク樽で30年以上熟成したものを含む" },
-        { "distillery": null, "country": "アメリカ", "kind": "バーボン原酒", "note": "8年以上熟成したものを含む" },
-        { "distillery": null, "country": "スコットランド", "kind": "原酒" },
-        { "distillery": null, "country": "アイルランド", "kind": "原酒" },
-        { "distillery": null, "country": "カナダ", "kind": "原酒" }
+        {
+          "distillery": "yamazaki",
+          "country": "日本",
+          "kind": "モルト原酒",
+          "note": "スパニッシュオーク樽で30年以上熟成したものを含む"
+        },
+        {
+          "distillery": null,
+          "country": "アメリカ",
+          "kind": "バーボン原酒",
+          "note": "8年以上熟成したものを含む"
+        },
+        {
+          "distillery": null,
+          "country": "スコットランド",
+          "kind": "原酒"
+        },
+        {
+          "distillery": null,
+          "country": "アイルランド",
+          "kind": "原酒"
+        },
+        {
+          "distillery": null,
+          "country": "カナダ",
+          "kind": "原酒"
+        }
       ],
       "originNote": "日本以外の蒸溜所名は公表されていません。",
       "componentsNote": "5カ国とも、サントリーグループが製造し品質を管理する自社蒸溜所の原酒です（メーカー公表）。名前が公表されている蒸溜所は山崎だけで、配合比率も非公表です。",
       "casks": "日本の原酒には、スパニッシュオーク樽で30年以上熟成させた山崎モルト原酒が使われています（2025年12月の刷新時に公表）。アメリカの原酒は8年以上熟成のバーボン原酒。そのほかの樽の構成は公表されていません。",
-      "taste": { "line": "厚みがあって複雑、しっかり濃いめ", "x": -0.2, "y": 0.35 },
-      "serve": { "straight": 2, "rock": 3, "highball": 3, "mizuwari": 2 },
+      "taste": {
+        "line": "厚みがあって複雑、しっかり濃いめ",
+        "x": -0.2,
+        "y": 0.35
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
       "next": [
-        { "id": "hibiki-jh", "name": "響 JAPANESE HARMONY", "why": "日本の原酒だけでつくるサントリーのブレンドと飲み比べる" },
-        { "id": null, "name": "サントリー シングルモルト 山崎", "why": "碧Aoに使われている日本の原酒の蒸溜所" }
+        {
+          "id": "hibiki-jh",
+          "name": "響 JAPANESE HARMONY",
+          "why": "日本の原酒だけでつくるサントリーのブレンドと飲み比べる"
+        },
+        {
+          "id": "yamazaki",
+          "name": "山崎",
+          "why": "碧Aoに使われている日本の原酒の蒸溜所のシングルモルト"
+        }
       ],
       "official": [
-        { "k": "特長", "v": "5カ国の原酒の個性が重なった、厚みと複雑さのある豊かな味わい" }
+        {
+          "k": "特長",
+          "v": "5カ国の原酒の個性が重なった、厚みと複雑さのある豊かな味わい"
+        }
       ],
       "story": [
         "2019年4月に数量限定で発売。サントリーグループが世界5大ウイスキー産地（アイルランド、スコットランド、アメリカ、カナダ、日本）にもつ自社蒸溜所の原酒だけをブレンドしたウイスキーで、メーカーは「世界初」としています。",
@@ -433,19 +968,3893 @@ a.next{border-color:rgba(220,157,66,.5)}
         "刷新後のラベルには越前和紙を使い、多様な原酒が重なり合う味わいを、いくつもの色が織りなすデザインで表しています。"
       ],
       "specs": [
-        { "k": "種類", "v": "ブレンデッドウイスキー" },
-        { "k": "アルコール度数", "v": "43%" },
-        { "k": "容量", "v": "700ml（350mlもあり）" },
-        { "k": "熟成年数の表記", "v": "なし" },
-        { "k": "原材料", "v": "モルト、グレーン" },
-        { "k": "希望小売価格", "v": "6,000円（税別）" },
-        { "k": "発売", "v": "2019年4月（2025年12月に刷新）" }
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml（350mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        },
+        {
+          "k": "発売",
+          "v": "2019年4月（2025年12月に刷新）"
+        }
       ],
       "sources": [
-        { "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 SUNTORY WHISKY 碧Ao」", "url": "https://www.suntory.co.jp/whisky/products/0000000075/0000007878.html", "used": "商品説明、容量、度数、希望小売価格、原材料" },
-        { "title": "サントリー ニュースリリース No.14955「SUNTORY WHISKY『碧Ao』リニューアル新発売」（2025年12月16日）", "url": "https://www.suntory.co.jp/news/article/14955.html", "used": "5カ国の自社蒸溜所の原酒、山崎モルト原酒とバーボン原酒、商品名の変更、刷新の時期とラベル" },
-        { "title": "WHISKY Magazine Japan「SUNTORY WORLD WHISKY『碧Ao』が10月に第2期の発売を開始」（2019年9月9日）", "url": "https://whiskymag.jp/ao_release_2nd/", "used": "初回の発売（2019年4月、数量限定）" },
-        { "title": "サントリー 山崎蒸溜所「アクセス」", "url": "https://www.suntory.co.jp/factory/yamazaki/access/", "used": "山崎蒸溜所の所在県" }
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 SUNTORY WHISKY 碧Ao」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000075/0000007878.html",
+          "used": "商品説明、容量、度数、原材料"
+        },
+        {
+          "title": "サントリー ニュースリリース No.14955「SUNTORY WHISKY『碧Ao』リニューアル新発売」（2025年12月16日）",
+          "url": "https://www.suntory.co.jp/news/article/14955.html",
+          "used": "5カ国の自社蒸溜所の原酒、山崎モルト原酒とバーボン原酒、商品名の変更、刷新の時期とラベル"
+        },
+        {
+          "title": "WHISKY Magazine Japan「SUNTORY WORLD WHISKY『碧Ao』が10月に第2期の発売を開始」（2019年9月9日）",
+          "url": "https://whiskymag.jp/ao_release_2nd/",
+          "used": "初回の発売（2019年4月、数量限定）"
+        },
+        {
+          "title": "サントリー 山崎蒸溜所「アクセス」",
+          "url": "https://www.suntory.co.jp/factory/yamazaki/access/",
+          "used": "山崎蒸溜所の所在県"
+        }
+      ]
+    },
+    {
+      "id": "yamazaki",
+      "name": "山崎",
+      "nameEn": "The Yamazaki Single Malt",
+      "short": "山崎",
+      "kana": "やまざき",
+      "aliases": [
+        "yamazaki",
+        "サントリー 山崎",
+        "山崎 ノンエイジ",
+        "山崎 nv"
+      ],
+      "maker": "サントリー",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "components": [
+        {
+          "distillery": "yamazaki",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "casks": "ワイン樽で貯蔵したモルトや、ミズナラ樽で貯蔵したモルトなど、複数の原酒を合わせています（製品紹介より）。",
+      "taste": {
+        "line": "やわらかく華やか、甘くなめらか",
+        "x": -0.5,
+        "y": -0.05
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "ワイン樽やミズナラ樽の原酒などが重なる、やわらかく華やかな香りと、甘くなめらかな味わい"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml（180mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーシングルモルトウイスキー 山崎」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000099.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        }
+      ]
+    },
+    {
+      "id": "yamazaki-12",
+      "name": "山崎12年",
+      "nameEn": "The Yamazaki 12 Years Old",
+      "short": "山崎12",
+      "kana": "やまざき じゅうにねん",
+      "aliases": [
+        "yamazaki 12",
+        "山崎12"
+      ],
+      "maker": "サントリー",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "components": [
+        {
+          "distillery": "yamazaki",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "taste": {
+        "line": "繊細で複雑、深みがある",
+        "x": -0.35,
+        "y": 0.25
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "繊細で上品な、日本を代表するシングルモルト。飲み飽きず、幾重にも重なる複雑な香味"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml（50mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "12年"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーシングルモルトウイスキー 山崎」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000099.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        }
+      ]
+    },
+    {
+      "id": "yamazaki-18",
+      "name": "山崎18年",
+      "nameEn": "The Yamazaki 18 Years Old",
+      "short": "山崎18",
+      "kana": "やまざき じゅうはちねん",
+      "aliases": [
+        "yamazaki 18",
+        "山崎18"
+      ],
+      "maker": "サントリー",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "components": [
+        {
+          "distillery": "yamazaki",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "casks": "酒齢18年以上のスパニッシュオーク樽熟成原酒が中心です（製品紹介より）。",
+      "taste": {
+        "line": "熟成感たっぷり、濃く深い",
+        "x": -0.2,
+        "y": 0.75
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 1,
+        "mizuwari": 1
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "じっくり後熟したフルボディ。奥行きのある、圧倒的な熟成感"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "18年"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーシングルモルトウイスキー 山崎」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000099.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        }
+      ]
+    },
+    {
+      "id": "yamazaki-25",
+      "name": "山崎25年",
+      "nameEn": "The Yamazaki 25 Years Old",
+      "short": "山崎25",
+      "kana": "やまざき にじゅうごねん",
+      "aliases": [
+        "yamazaki 25",
+        "山崎25"
+      ],
+      "maker": "サントリー",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "limited": "数量限定",
+      "components": [
+        {
+          "distillery": "yamazaki",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "casks": "ミズナラ樽をはじめ、スパニッシュオーク樽やアメリカンオーク樽で超長期熟成した、酒齢25年以上のモルト原酒を使っています（製品紹介より）。",
+      "taste": {
+        "line": "高貴な木香、複雑で深い甘さ",
+        "x": -0.1,
+        "y": 0.9
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 2,
+        "highball": 1,
+        "mizuwari": 1
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "高貴な木香と複雑な甘さ、伸びのある深い余韻。年間生産本数が千数百本の限定品"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "25年"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーシングルモルトウイスキー 山崎」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000099.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        }
+      ]
+    },
+    {
+      "id": "hakushu",
+      "name": "白州",
+      "nameEn": "The Hakushu Single Malt",
+      "short": "白州",
+      "kana": "はくしゅう",
+      "aliases": [
+        "hakushu",
+        "サントリー 白州",
+        "白州 ノンエイジ"
+      ],
+      "maker": "サントリー",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "components": [
+        {
+          "distillery": "hakushu",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "casks": "森の若葉のようなみずみずしく、ほのかにスモーキーな「ライトリーピーテッドモルト」などを合わせています（製品紹介より）。",
+      "taste": {
+        "line": "爽やかで軽快、ほのかにスモーキー",
+        "x": 0.15,
+        "y": -0.5
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "フレッシュな香り、爽やかで軽快なキレのよい味わい"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml（180mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーシングルモルトウイスキー 白州」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000100.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        }
+      ]
+    },
+    {
+      "id": "hakushu-12",
+      "name": "白州12年",
+      "nameEn": "The Hakushu 12 Years Old",
+      "short": "白州12",
+      "kana": "はくしゅう じゅうにねん",
+      "aliases": [
+        "hakushu 12",
+        "白州12"
+      ],
+      "maker": "サントリー",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "components": [
+        {
+          "distillery": "hakushu",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "taste": {
+        "line": "新緑と果実、やわらかくスモーキー",
+        "x": 0.2,
+        "y": -0.1
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "甘くやわらかいスモーキーに、新緑の香りと爽快な果実香"
+        },
+        {
+          "k": "味",
+          "v": "フルーティでコクがあり、後味はキレがよい"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "12年"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト"
+        },
+        {
+          "k": "発売",
+          "v": "1994年"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーシングルモルトウイスキー 白州」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000100.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        }
+      ]
+    },
+    {
+      "id": "hakushu-18",
+      "name": "白州18年",
+      "nameEn": "The Hakushu 18 Years Old",
+      "short": "白州18",
+      "kana": "はくしゅう じゅうはちねん",
+      "aliases": [
+        "hakushu 18",
+        "白州18"
+      ],
+      "maker": "サントリー",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "components": [
+        {
+          "distillery": "hakushu",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "taste": {
+        "line": "熟した果実とスモーキー、深いコク",
+        "x": 0.25,
+        "y": 0.6
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 1,
+        "mizuwari": 1
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "熟した果実と、ほのかなスモーキー"
+        },
+        {
+          "k": "味",
+          "v": "複雑なコクと甘み、豊かな樽香の調和"
+        },
+        {
+          "k": "余韻",
+          "v": "心地よいスモーキー"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "18年"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーシングルモルトウイスキー 白州」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000100.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        }
+      ]
+    },
+    {
+      "id": "hakushu-25",
+      "name": "白州25年",
+      "nameEn": "The Hakushu 25 Years Old",
+      "short": "白州25",
+      "kana": "はくしゅう にじゅうごねん",
+      "aliases": [
+        "hakushu 25",
+        "白州25"
+      ],
+      "maker": "サントリー",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "components": [
+        {
+          "distillery": "hakushu",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "casks": "酒齢25年を超える原酒から、クリーミーでウッディな原酒、ピートを効かせたスモーキーな原酒、果実味の濃いスパニッシュオーク樽原酒を選び、じっくり後熟しています（製品紹介より）。",
+      "taste": {
+        "line": "芳醇でスモーキー、果実味が濃い",
+        "x": 0.35,
+        "y": 0.9
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 2,
+        "highball": 1,
+        "mizuwari": 1
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "芳醇で壮麗な、熟成の極み"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "25年"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーシングルモルトウイスキー 白州」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000100.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        }
+      ]
+    },
+    {
+      "id": "chita",
+      "name": "知多",
+      "nameEn": "The Chita Single Grain",
+      "short": "知多",
+      "kana": "ちた",
+      "aliases": [
+        "chita",
+        "サントリー 知多"
+      ],
+      "maker": "サントリー",
+      "type": "シングルグレーン",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "components": [
+        {
+          "distillery": "chita",
+          "country": "日本",
+          "kind": "グレーン原酒"
+        }
+      ],
+      "taste": {
+        "line": "軽やかで、ほのかに甘い",
+        "x": -0.35,
+        "y": -0.8
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 2,
+        "highball": 3,
+        "mizuwari": 3
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "軽やかな味わいと、ほのかな甘い香り"
+        }
+      ],
+      "story": [
+        "知多蒸溜所で長年つくり分けてきた多彩なグレーン原酒でつくるシングルグレーンウイスキーです。2015年に発売されました。"
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルグレーンウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml（350mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "グレーン、モルト"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーウイスキー知多」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000005530.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        },
+        {
+          "title": "サントリー知多蒸溜所株式会社「会社情報」",
+          "url": "https://www.suntory.co.jp/chitadistillery/company/index.html",
+          "used": "所在地、設立年、蒸溜開始年、知多の発売年"
+        }
+      ]
+    },
+    {
+      "id": "hibiki-21",
+      "name": "響 21年",
+      "nameEn": "Hibiki 21 Years Old",
+      "short": "響21",
+      "kana": "ひびき にじゅういちねん",
+      "aliases": [
+        "hibiki 21",
+        "響21"
+      ],
+      "maker": "サントリー",
+      "type": "ブレンデッド",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "日本",
+          "kind": "モルト原酒",
+          "note": "酒齢21年以上"
+        },
+        {
+          "distillery": "chita",
+          "country": "日本",
+          "kind": "グレーン原酒",
+          "note": "酒齢21年以上"
+        }
+      ],
+      "componentsNote": "モルト原酒・グレーン原酒とも酒齢21年以上（製品紹介より）。知多蒸溜所のグレーン原酒が「響」に使われていることは、知多蒸溜所の公式説明によります。モルト原酒の蒸溜所名は製品紹介に書かれていません。",
+      "taste": {
+        "line": "花と熟した果実、深く甘い",
+        "x": -0.45,
+        "y": 0.7
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 1,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "超長期熟成の原酒を吟味した、贅沢な原酒のハーモニー"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "21年"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーウイスキー響」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000114.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        },
+        {
+          "title": "サントリー「サントリーウイスキー『知多』とは？」",
+          "url": "https://www.suntory.co.jp/whisky/chita/about/",
+          "used": "知多蒸溜所のグレーン原酒が響・角瓶・オールドに使われていること、3タイプのグレーン原酒"
+        }
+      ]
+    },
+    {
+      "id": "hibiki-30",
+      "name": "響 30年",
+      "nameEn": "Hibiki 30 Years Old",
+      "short": "響30",
+      "kana": "ひびき さんじゅうねん",
+      "aliases": [
+        "hibiki 30",
+        "響30"
+      ],
+      "maker": "サントリー",
+      "type": "ブレンデッド",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "limited": "数量限定",
+      "components": [
+        {
+          "distillery": null,
+          "country": "日本",
+          "kind": "モルト原酒",
+          "note": "酒齢30年以上"
+        },
+        {
+          "distillery": "chita",
+          "country": "日本",
+          "kind": "グレーン原酒",
+          "note": "酒齢30年以上"
+        }
+      ],
+      "componentsNote": "モルト原酒・グレーン原酒とも酒齢30年以上で、ブレンドはすべて手作業（製品紹介より）。知多蒸溜所のグレーン原酒が「響」に使われていることは、知多蒸溜所の公式説明によります。",
+      "taste": {
+        "line": "宝石のように濃密で、長い余韻",
+        "x": -0.3,
+        "y": 0.95
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 2,
+        "highball": 1,
+        "mizuwari": 1
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "年間数千本しかつくれない、贅を極めた美酒。30面カットのクリスタルボトル"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "30年"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーウイスキー響」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000114.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        },
+        {
+          "title": "サントリー「サントリーウイスキー『知多』とは？」",
+          "url": "https://www.suntory.co.jp/whisky/chita/about/",
+          "used": "知多蒸溜所のグレーン原酒が響・角瓶・オールドに使われていること、3タイプのグレーン原酒"
+        }
+      ]
+    },
+    {
+      "id": "kakubin",
+      "name": "角瓶",
+      "nameEn": "Suntory Kakubin",
+      "short": "角瓶",
+      "kana": "かくびん",
+      "aliases": [
+        "角",
+        "かく",
+        "サントリー 角",
+        "kaku",
+        "kakubin",
+        "角ハイボール"
+      ],
+      "maker": "サントリー",
+      "type": "ブレンデッド",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "components": [
+        {
+          "distillery": "yamazaki",
+          "country": "日本",
+          "kind": "モルト原酒",
+          "note": "バーボン樽原酒"
+        },
+        {
+          "distillery": "hakushu",
+          "country": "日本",
+          "kind": "モルト原酒",
+          "note": "バーボン樽原酒"
+        },
+        {
+          "distillery": "chita",
+          "country": "日本",
+          "kind": "グレーン原酒"
+        }
+      ],
+      "componentsNote": "山崎・白州のバーボン樽原酒は製品紹介、知多のグレーン原酒は知多蒸溜所の公式説明によります。配合比率は非公表です。",
+      "taste": {
+        "line": "甘い香り、ドライでキレがある",
+        "x": -0.1,
+        "y": -0.35
+      },
+      "serve": {
+        "straight": 1,
+        "rock": 2,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "甘やかな香りと厚みのあるコク、ドライなあとくち"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "40%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml（180ml・1920ml・2700ml・4000mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーウイスキー角瓶」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000118.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        },
+        {
+          "title": "サントリー「サントリーウイスキー『知多』とは？」",
+          "url": "https://www.suntory.co.jp/whisky/chita/about/",
+          "used": "知多蒸溜所のグレーン原酒が響・角瓶・オールドに使われていること、3タイプのグレーン原酒"
+        }
+      ]
+    },
+    {
+      "id": "old",
+      "name": "オールド",
+      "nameEn": "Suntory Old",
+      "short": "オールド",
+      "kana": "おーるど",
+      "aliases": [
+        "サントリーオールド",
+        "old"
+      ],
+      "maker": "サントリー",
+      "type": "ブレンデッド",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "日本",
+          "kind": "モルト原酒",
+          "note": "キーモルトはスパニッシュオーク樽の原酒"
+        },
+        {
+          "distillery": "chita",
+          "country": "日本",
+          "kind": "グレーン原酒"
+        }
+      ],
+      "componentsNote": "キーモルトの蒸溜所名は製品紹介に書かれていません。知多のグレーン原酒は知多蒸溜所の公式説明によります。",
+      "taste": {
+        "line": "まろやかで、ほんのり甘い",
+        "x": -0.35,
+        "y": 0.1
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 3
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "かつてのキーモルトだったスパニッシュオーク樽の原酒を強化し、さらにまろやかにした味わい"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーオールド」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000002351.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        },
+        {
+          "title": "サントリー「サントリーウイスキー『知多』とは？」",
+          "url": "https://www.suntory.co.jp/whisky/chita/about/",
+          "used": "知多蒸溜所のグレーン原酒が響・角瓶・オールドに使われていること、3タイプのグレーン原酒"
+        }
+      ]
+    },
+    {
+      "id": "royal",
+      "name": "ローヤル",
+      "nameEn": "Suntory Royal",
+      "short": "ローヤル",
+      "kana": "ろーやる",
+      "aliases": [
+        "サントリーローヤル",
+        "royal"
+      ],
+      "maker": "サントリー",
+      "type": "ブレンデッド",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "日本",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": null,
+          "country": "日本",
+          "kind": "グレーン原酒"
+        }
+      ],
+      "componentsNote": "原酒の蒸溜所名は製品紹介に書かれていません。",
+      "taste": {
+        "line": "上品で華やか、なめらか",
+        "x": -0.4,
+        "y": 0.2
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 3
+      },
+      "story": [
+        "1960年の登場。サントリーの創業者で初代マスターブレンダーの鳥井信治郎の名作とされ、瓶の形は漢字の「酉」（酒の器）、栓は鳥居をかたどっています。"
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml（660mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーウイスキーローヤル」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000115.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        }
+      ]
+    },
+    {
+      "id": "special-reserve",
+      "name": "スペシャルリザーブ",
+      "nameEn": "Suntory Special Reserve",
+      "short": "スペシャルリザーブ",
+      "kana": "すぺしゃるりざーぶ",
+      "aliases": [
+        "サントリー スペシャルリザーブ",
+        "リザーブ",
+        "special reserve"
+      ],
+      "maker": "サントリー",
+      "type": "ブレンデッド",
+      "standard": "jw",
+      "standardNote": "メーカーの製品紹介に「表示基準に合致した製品」と明記されています",
+      "components": [
+        {
+          "distillery": "hakushu",
+          "country": "日本",
+          "kind": "モルト原酒",
+          "note": "キーモルト"
+        },
+        {
+          "distillery": null,
+          "country": "日本",
+          "kind": "グレーン原酒"
+        }
+      ],
+      "componentsNote": "キーモルトに白州モルトを使っています（製品紹介より）。グレーン原酒の蒸溜所名は書かれていません。",
+      "taste": {
+        "line": "爽やかで、まろやか",
+        "x": -0.1,
+        "y": -0.3
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 3
+      },
+      "story": [
+        "1969年に発売。洗練された高品質ウイスキーとして親しまれてきました。"
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "40%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーウイスキースペシャルリザーブ」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000971.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        }
+      ]
+    },
+    {
+      "id": "white",
+      "name": "ホワイト",
+      "nameEn": "Suntory White",
+      "short": "ホワイト",
+      "kana": "ほわいと",
+      "aliases": [
+        "サントリーホワイト",
+        "白札",
+        "シロ",
+        "white"
+      ],
+      "maker": "サントリー",
+      "type": "ブレンデッド",
+      "standard": "spirits",
+      "standardNote": "製品紹介に「モルトウイスキー及びグレーンウイスキーに加え、グレーンスピリッツを使用」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーン原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーンスピリッツ"
+        }
+      ],
+      "taste": {
+        "line": "軽やかで、すっきり",
+        "x": -0.1,
+        "y": -0.6
+      },
+      "serve": {
+        "straight": 1,
+        "rock": 2,
+        "highball": 3,
+        "mizuwari": 3
+      },
+      "story": [
+        "1929年、国産ウイスキー第1号として発売。当初は「サントリーウイスキー」の名でしたが、白いラベルから「白札」と呼ばれ、1964年に「ホワイト」に改称しました。"
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "40%"
+        },
+        {
+          "k": "容量",
+          "v": "640ml（1920ml・2700ml・4000mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーウイスキーホワイト」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000120.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        }
+      ]
+    },
+    {
+      "id": "torys",
+      "name": "トリスウイスキー",
+      "nameEn": "Torys Whisky",
+      "short": "トリス",
+      "kana": "とりす",
+      "aliases": [
+        "トリス",
+        "torys",
+        "トリス クラシック",
+        "トリスハイボール"
+      ],
+      "maker": "サントリー",
+      "type": "ブレンデッド",
+      "standard": "spirits",
+      "standardNote": "製品紹介に「モルトウイスキー及びグレーンウイスキーに加え、グレーンスピリッツを使用」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーン原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーンスピリッツ"
+        }
+      ],
+      "taste": {
+        "line": "やさしく甘く、丸い",
+        "x": -0.3,
+        "y": -0.6
+      },
+      "serve": {
+        "straight": 1,
+        "rock": 2,
+        "highball": 3,
+        "mizuwari": 3
+      },
+      "makerServe": {
+        "text": "ハイボール（ロックや水割りでも）"
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "やさしく甘い香りと、丸みのあるなめらかな味わい"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "37%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml（180ml・1800ml・2700ml・4000mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 トリスウイスキー」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000122.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        }
+      ]
+    },
+    {
+      "id": "red",
+      "name": "レッド",
+      "nameEn": "Suntory Red",
+      "short": "レッド",
+      "kana": "れっど",
+      "aliases": [
+        "サントリーレッド",
+        "赤札",
+        "red"
+      ],
+      "maker": "サントリー",
+      "type": "ブレンデッド",
+      "standard": "spirits",
+      "standardNote": "製品紹介に「モルトウイスキー及びグレーンウイスキーに加え、グレーンスピリッツを使用」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーン原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーンスピリッツ"
+        }
+      ],
+      "taste": {
+        "line": "すっきり軽い",
+        "x": 0.0,
+        "y": -0.75
+      },
+      "serve": {
+        "straight": 1,
+        "rock": 1,
+        "highball": 3,
+        "mizuwari": 3
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "すっきりとした飲み口の晩酌ウイスキー"
+        }
+      ],
+      "story": [
+        "前身は1930年に発売された「赤札」。食中酒をめざして改良を続けてきました。"
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "39%"
+        },
+        {
+          "k": "容量",
+          "v": "640ml（180ml・1920ml・2700ml・4000mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "サントリー ウイスキー・オン・ザ・ウェブ「製品紹介 サントリーウイスキーレッド」",
+          "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000121.html",
+          "used": "商品説明、容量、度数、原材料、表示基準"
+        }
+      ]
+    },
+    {
+      "id": "yoichi-10",
+      "name": "シングルモルト余市10年",
+      "nameEn": "Single Malt Yoichi 10 Years Old",
+      "short": "余市10",
+      "kana": "しんぐるもると よいち じゅうねん",
+      "aliases": [
+        "余市10年",
+        "yoichi 10"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "メーカー（アサヒビール）の商品情報に「表示基準に合致した商品」と明記されています",
+      "components": [
+        {
+          "distillery": "yoichi",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "taste": {
+        "line": "燻香と熟した果実、重厚",
+        "x": 0.55,
+        "y": 0.75
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 1,
+        "mizuwari": 1
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "甘いオーク樽の香りと、熟したバナナのような果実香"
+        },
+        {
+          "k": "味",
+          "v": "洋梨のようなフルーティーさと、燻製を思わせるピーティな味わい"
+        },
+        {
+          "k": "余韻",
+          "v": "重厚なコクとピートの香ばしさが長く続く"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "45%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "10年"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「シングルモルト余市10年」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/yoichi/4B885.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "miyagikyo",
+      "name": "シングルモルト宮城峡",
+      "nameEn": "Single Malt Miyagikyo",
+      "short": "宮城峡",
+      "kana": "しんぐるもると みやぎきょう",
+      "aliases": [
+        "宮城峡",
+        "miyagikyo"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "メーカー（アサヒビール）の商品情報に「表示基準に合致した商品」と明記されています",
+      "components": [
+        {
+          "distillery": "miyagikyo",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "taste": {
+        "line": "りんごと洋梨、甘く華やか",
+        "x": -0.6,
+        "y": -0.1
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "りんごや洋梨を思わせる甘く華やかな香りと、樽由来のやわらかなバニラ香"
+        },
+        {
+          "k": "味",
+          "v": "ドライフルーツのような甘さと、なめらかな口当たり"
+        },
+        {
+          "k": "余韻",
+          "v": "モルトの甘みと樽香がやさしく広がる"
+        }
+      ],
+      "story": [
+        "宮城峡蒸溜所で、ポットスチルを蒸気で熱する丹念なスチーム間接蒸溜によってつくられています。"
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "45%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「シングルモルト宮城峡」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/miyagikyo/miyagikyo.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        },
+        {
+          "title": "ニッカウヰスキー「商品特徴｜シングルモルト 余市・宮城峡」",
+          "url": "https://www.nikka.com/brands/yoichi_miyagikyo/products/",
+          "used": "商品説明、香り・味・余韻、度数、容量"
+        }
+      ]
+    },
+    {
+      "id": "miyagikyo-10",
+      "name": "シングルモルト宮城峡10年",
+      "nameEn": "Single Malt Miyagikyo 10 Years Old",
+      "short": "宮城峡10",
+      "kana": "しんぐるもると みやぎきょう じゅうねん",
+      "aliases": [
+        "宮城峡10年",
+        "miyagikyo 10"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "メーカー（アサヒビール）の商品情報に「表示基準に合致した商品」と明記されています",
+      "components": [
+        {
+          "distillery": "miyagikyo",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "taste": {
+        "line": "熟した果実とバニラ、豊か",
+        "x": -0.5,
+        "y": 0.35
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 1,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "りんごやシトラスを思わせるフルーティな香りと、ほのかに甘いバニラ"
+        },
+        {
+          "k": "味",
+          "v": "熟した果実感とモルトの甘さが重なる豊かな味わい"
+        },
+        {
+          "k": "余韻",
+          "v": "樽熟成由来の甘く、ほろ苦い余韻"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "45%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "10年"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「シングルモルト宮城峡10年」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/miyagikyo/4B886.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "taketsuru",
+      "name": "竹鶴ピュアモルト",
+      "nameEn": "Taketsuru Pure Malt",
+      "short": "竹鶴",
+      "kana": "たけつる ぴゅあもると",
+      "aliases": [
+        "竹鶴",
+        "taketsuru"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "ピュアモルト",
+      "standard": "jw",
+      "standardNote": "メーカー（アサヒビール）の商品情報に「表示基準に合致した商品」と明記されています",
+      "limited": "数量限定",
+      "components": [
+        {
+          "distillery": "yoichi",
+          "country": "日本",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": "miyagikyo",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "componentsNote": "余市蒸溜所と宮城峡蒸溜所の、個性の異なるモルトをブレンドしています（商品情報より）。",
+      "taste": {
+        "line": "果実香とモルトのコク、ほのかにピート",
+        "x": 0.05,
+        "y": 0.2
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "甘くやわらかな樽熟成香と果実香"
+        },
+        {
+          "k": "味",
+          "v": "ふくらみのあるモルトのコク"
+        },
+        {
+          "k": "余韻",
+          "v": "おだやかなピート香を伴う、甘くほろ苦い余韻"
+        }
+      ],
+      "story": [
+        "ニッカウヰスキー創業者・竹鶴政孝の名を冠したピュアモルト。華やかでありながら、ブレンデッドウイスキーをしのぐほどの繊細な飲みやすさを目指しています。"
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ピュアモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「竹鶴ピュアモルト」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/taketsuru/4B746.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "session",
+      "name": "ニッカ セッション",
+      "nameEn": "Nikka Session",
+      "short": "セッション",
+      "kana": "にっか せっしょん",
+      "aliases": [
+        "セッション",
+        "session"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "ブレンデッドモルト",
+      "standard": "foreign",
+      "standardNote": "商品情報に「厳選した輸入原酒を一部使用」と明記されています。スコットランドのモルトを使っています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "スコットランド",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": "miyagikyo",
+          "country": "日本",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": "yoichi",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "originNote": "スコットランドの蒸溜所名は公表されていません。",
+      "componentsNote": "華やかな香りのスコットランドモルト、ふくよかな甘さの宮城峡モルト、ビターな余韻の余市モルトを合わせています（商品情報より）。",
+      "taste": {
+        "line": "華やかで香ばしく、ほろ苦い",
+        "x": -0.05,
+        "y": -0.2
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "華やかな香りとモルトの香ばしさ"
+        },
+        {
+          "k": "味",
+          "v": "なめらかな口当たりとオークの甘さ"
+        },
+        {
+          "k": "余韻",
+          "v": "ビターを伴うピートの余韻"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml（180mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「ニッカ セッション」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/session/49482.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "coffey-malt",
+      "name": "ニッカ カフェモルト",
+      "nameEn": "Nikka Coffey Malt",
+      "short": "カフェモルト",
+      "kana": "にっか かふぇもると",
+      "aliases": [
+        "カフェモルト",
+        "coffey malt"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "カフェモルト（グレーンウイスキー）",
+      "standard": "foreign",
+      "standardNote": "商品情報に「厳選した輸入原酒を一部使用」と明記されています",
+      "components": [
+        {
+          "distillery": "miyagikyo",
+          "country": "日本",
+          "kind": "カフェモルト原酒",
+          "note": "宮城峡蒸溜所のカフェスチルでつくる原酒"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        }
+      ],
+      "componentsNote": "宮城峡蒸溜所のカフェスチルでカフェモルトがつくられていることは、「ニッカ伊達」の商品情報によります。輸入原酒の産地は公表されていません。",
+      "taste": {
+        "line": "バニラと麦の甘さ、軽やか",
+        "x": -0.45,
+        "y": -0.35
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "麦芽の甘さと芳ばしさ、ほのかなバニラの香り"
+        },
+        {
+          "k": "味",
+          "v": "軽やかでスムースな口当たりと、ふわりと広がるクリーミーな甘さ"
+        },
+        {
+          "k": "余韻",
+          "v": "すっきりと爽やかな後味"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "グレーンウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "45%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「ニッカ カフェモルト」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkagrain/coffeymalt/46357.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        },
+        {
+          "title": "アサヒビール 商品情報「ニッカ伊達」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/date/48889.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "coffey-grain",
+      "name": "ニッカ カフェグレーン",
+      "nameEn": "Nikka Coffey Grain",
+      "short": "カフェグレーン",
+      "kana": "にっか かふぇぐれーん",
+      "aliases": [
+        "カフェグレーン",
+        "coffey grain"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "シングルグレーン",
+      "standard": "jw",
+      "standardNote": "メーカー（アサヒビール）の商品情報に「表示基準に合致した商品」と明記されています",
+      "components": [
+        {
+          "distillery": "miyagikyo",
+          "country": "日本",
+          "kind": "カフェグレーン原酒",
+          "note": "宮城峡蒸溜所のカフェスチルでつくる原酒"
+        }
+      ],
+      "componentsNote": "宮城峡蒸溜所のカフェスチルでカフェグレーンがつくられていることは、「ニッカ伊達」の商品情報によります。",
+      "taste": {
+        "line": "バニラとチョコ、なめらかで軽快",
+        "x": -0.4,
+        "y": -0.45
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 3
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "ウッディさと甘いバニラ、チョコレートを思わせるスイートな香り"
+        },
+        {
+          "k": "味",
+          "v": "蜂蜜のようななめらかな口当たり、軽快なボディ"
+        },
+        {
+          "k": "余韻",
+          "v": "すっきりとした後味"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "グレーンウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "45%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「ニッカ カフェグレーン」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkagrain/coffeygrain/46102.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        },
+        {
+          "title": "アサヒビール 商品情報「ニッカ伊達」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/date/48889.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "the-nikka",
+      "name": "ザ・ニッカ",
+      "nameEn": "The Nikka",
+      "short": "ザ・ニッカ",
+      "kana": "ざ にっか",
+      "aliases": [
+        "the nikka",
+        "ザニッカ"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "ブレンデッド",
+      "standard": "foreign",
+      "standardNote": "商品情報に「厳選した輸入原酒を一部使用」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "カフェグレーン原酒"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        }
+      ],
+      "componentsNote": "熟成を重ねたバラエティ豊かな原酒を選んでブレンドしたプレミアムブレンデッド（商品情報より）。原酒の蒸溜所名は書かれていません。",
+      "taste": {
+        "line": "華やかで甘い、伸びがある",
+        "x": -0.3,
+        "y": 0.3
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "豊かなモルト香と華やかな香り、甘い樽熟成香"
+        },
+        {
+          "k": "味",
+          "v": "モルトのコクとカフェグレーンのやわらかな甘さが調和した、スムースで伸びのある味わい"
+        },
+        {
+          "k": "余韻",
+          "v": "香ばしく豊かで、ほのかにビター"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「ザ・ニッカ」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/thenikka/48746.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "super-nikka",
+      "name": "スーパーニッカ",
+      "nameEn": "Super Nikka",
+      "short": "スーパーニッカ",
+      "kana": "すーぱーにっか",
+      "aliases": [
+        "super nikka"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "ブレンデッド",
+      "standard": "foreign",
+      "standardNote": "商品情報に「厳選した輸入原酒を一部使用」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "カフェグレーン原酒"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        }
+      ],
+      "taste": {
+        "line": "穏やかなピートと甘い樽香",
+        "x": 0.05,
+        "y": -0.1
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 3
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "華やかな香りと穏やかなピート、ウッディで甘い樽熟成香"
+        },
+        {
+          "k": "味",
+          "v": "カフェグレーンとのブレンドによるスムースな口当たりと、バランスのよいまろやかな味わい"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「スーパーニッカ」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/supernikka/47527.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "from-the-barrel",
+      "name": "フロム・ザ・バレル",
+      "nameEn": "Nikka From The Barrel",
+      "short": "フロム・ザ・バレル",
+      "kana": "ふろむ ざ ばれる",
+      "aliases": [
+        "from the barrel",
+        "フロムザバレル",
+        "ftb"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "ブレンデッド",
+      "standard": "foreign",
+      "standardNote": "商品情報に「厳選した輸入原酒を一部使用」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーン原酒"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        }
+      ],
+      "taste": {
+        "line": "骨太で濃厚",
+        "x": 0.2,
+        "y": 0.85
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 1
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "重厚な味わいとコク、豊かに広がる香り"
+        }
+      ],
+      "story": [
+        "モルトとグレーンをブレンドしたあと再貯蔵（マリッジ）し、割り水を最小限にしてアルコール分51%で瓶詰めしています。"
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "51%"
+        },
+        {
+          "k": "容量",
+          "v": "500ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「フロム ザ バレル」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/barrel/40787.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "frontier",
+      "name": "ニッカ フロンティア",
+      "nameEn": "Nikka Frontier",
+      "short": "フロンティア",
+      "kana": "にっか ふろんてぃあ",
+      "aliases": [
+        "フロンティア",
+        "frontier"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "ブレンデッド",
+      "standard": "foreign",
+      "standardNote": "商品情報に「一部輸入原酒を使用」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーン原酒"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        }
+      ],
+      "taste": {
+        "line": "スモーキーでコクがある",
+        "x": 0.45,
+        "y": 0.4
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "豊かな樽熟成の香りと、心地よいスモーキーさ"
+        },
+        {
+          "k": "味",
+          "v": "スムースでありながらコクがあり、熟した果実の甘さをピートのビターが引き締める"
+        },
+        {
+          "k": "余韻",
+          "v": "やわらかなオークを伴う甘い余韻"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "48%"
+        },
+        {
+          "k": "容量",
+          "v": "500ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「ニッカ フロンティア」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/frontier/4B667.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "black-nikka-clear",
+      "name": "ブラックニッカ クリア",
+      "nameEn": "Black Nikka Clear",
+      "short": "ブラックニッカ クリア",
+      "kana": "ぶらっくにっか くりあ",
+      "aliases": [
+        "ブラックニッカ",
+        "ブラックニッカクリア",
+        "black nikka clear",
+        "ヒゲのおじさん"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "ブレンデッド",
+      "standard": "spirits",
+      "standardNote": "商品情報に「輸入原酒を一部使用」「グレーンスピリッツを使用」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト原酒",
+          "note": "ノンピートモルト"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーン原酒"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーンスピリッツ"
+        }
+      ],
+      "taste": {
+        "line": "クセがなく、まろやか",
+        "x": -0.2,
+        "y": -0.8
+      },
+      "serve": {
+        "straight": 1,
+        "rock": 2,
+        "highball": 3,
+        "mizuwari": 3
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "ピートを使わずに乾燥させたノンピートモルトを使った、やわらかな香りとまろやかな味わい。クセのないクリアな飲み心地"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "37%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml（180ml・1800ml・2700ml・4000mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「ブラックニッカクリア」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/blacknikka/44055.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "black-nikka-deep",
+      "name": "ブラックニッカ ディープブレンド",
+      "nameEn": "Black Nikka Deep Blend",
+      "short": "ブラックニッカ ディープ",
+      "kana": "ぶらっくにっか でぃーぷぶれんど",
+      "aliases": [
+        "ディープブレンド",
+        "black nikka deep blend"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "ブレンデッド",
+      "standard": "spirits",
+      "standardNote": "商品情報に「輸入原酒を一部使用」「グレーンスピリッツを使用」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーン原酒"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーンスピリッツ"
+        }
+      ],
+      "taste": {
+        "line": "ウッディで濃い、ほろ苦い",
+        "x": 0.35,
+        "y": 0.55
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "新樽ならではのウッディな香りと、バニラを思わせる甘い香り"
+        },
+        {
+          "k": "味",
+          "v": "樽のコクと濃密なモルトの甘さがとけあう、豊かで伸びのある味わい"
+        },
+        {
+          "k": "余韻",
+          "v": "心地よいピート香と、樽のほろ苦くまろやかな余韻"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "45%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「ブラックニッカディープブレンド」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/blacknikka/48613.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "black-nikka-rich",
+      "name": "ブラックニッカ リッチブレンド",
+      "nameEn": "Black Nikka Rich Blend",
+      "short": "ブラックニッカ リッチ",
+      "kana": "ぶらっくにっか りっちぶれんど",
+      "aliases": [
+        "リッチブレンド",
+        "black nikka rich blend"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "ブレンデッド",
+      "standard": "spirits",
+      "standardNote": "商品情報に「輸入原酒を一部使用」「グレーンスピリッツを使用」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト原酒",
+          "note": "シェリー樽原酒がキーモルト"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "カフェグレーン原酒"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーンスピリッツ"
+        }
+      ],
+      "taste": {
+        "line": "甘く華やか、なめらか",
+        "x": -0.4,
+        "y": 0.05
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 2
+      },
+      "makerServe": {
+        "text": "ロック"
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "甘くやわらかい樽の香りと、フルーティーで華やかな香り"
+        },
+        {
+          "k": "味",
+          "v": "シェリー樽原酒をキーモルトにした、スムースな口当たりと、飲みやすさの中のコク"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "40%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml（4000mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「ブラックニッカリッチブレンド」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/blacknikka/49899.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "black-nikka-special",
+      "name": "ブラックニッカ スペシャル",
+      "nameEn": "Black Nikka Special",
+      "short": "ブラックニッカ スペシャル",
+      "kana": "ぶらっくにっか すぺしゃる",
+      "aliases": [
+        "ブラックニッカスペシャル",
+        "black nikka special"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "ブレンデッド",
+      "standard": "spirits",
+      "standardNote": "商品情報に「輸入原酒を一部使用」「グレーンスピリッツを使用」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "カフェグレーン原酒"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーンスピリッツ"
+        }
+      ],
+      "taste": {
+        "line": "甘さとビターのバランス",
+        "x": 0.1,
+        "y": 0.1
+      },
+      "serve": {
+        "straight": 1,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 3
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "しっかりとしたモルト香と、やわらかで軽快なカフェグレーンの香り"
+        },
+        {
+          "k": "味",
+          "v": "モルトのコクと樽のビター、カフェグレーンの甘く伸びのある味わい"
+        },
+        {
+          "k": "余韻",
+          "v": "穏やかなピートと樽の余韻"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "42%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml（1800mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「ブラックニッカスペシャル」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/blacknikka/4B952.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "hi-nikka",
+      "name": "ハイニッカ",
+      "nameEn": "Hi Nikka",
+      "short": "ハイニッカ",
+      "kana": "はいにっか",
+      "aliases": [
+        "hi nikka"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "ブレンデッド",
+      "standard": "spirits",
+      "standardNote": "商品情報に「輸入原酒を一部使用」「グレーンスピリッツを使用」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "カフェグレーン原酒"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "グレーンスピリッツ"
+        }
+      ],
+      "taste": {
+        "line": "香ばしく軽快、キレがよい",
+        "x": 0.05,
+        "y": -0.45
+      },
+      "serve": {
+        "straight": 1,
+        "rock": 2,
+        "highball": 3,
+        "mizuwari": 3
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "やわらかなモルト香と、カフェグレーンの香ばしく軽やかな香り"
+        },
+        {
+          "k": "味",
+          "v": "甘さとコク、ほのかなピート"
+        },
+        {
+          "k": "余韻",
+          "v": "ほのかなビター感と、キレのよい後味"
+        }
+      ],
+      "story": [
+        "2級ウイスキーの時代から、酒税法の限度いっぱいまでモルトを使い、カフェグレーンをブレンドしてきたロングセラーです。"
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "39%"
+        },
+        {
+          "k": "容量",
+          "v": "720ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「ハイニッカ」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/hinikka/47516.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "date",
+      "name": "ニッカ 伊達",
+      "nameEn": "Nikka Date",
+      "short": "伊達",
+      "kana": "にっか だて",
+      "aliases": [
+        "伊達",
+        "date"
+      ],
+      "maker": "ニッカウヰスキー",
+      "type": "ブレンデッド",
+      "standard": "foreign",
+      "standardNote": "商品情報に「厳選した輸入原酒を一部使用」と明記されています",
+      "limited": "宮城県限定",
+      "components": [
+        {
+          "distillery": "miyagikyo",
+          "country": "日本",
+          "kind": "カフェモルト原酒"
+        },
+        {
+          "distillery": "miyagikyo",
+          "country": "日本",
+          "kind": "カフェグレーン原酒"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        }
+      ],
+      "componentsNote": "宮城峡蒸溜所の「カフェスチル」でつくられたカフェモルト、カフェグレーンの特徴を生かしたブレンド（商品情報より）。輸入原酒の産地は公表されていません。",
+      "taste": {
+        "line": "バニラの甘さ、クリーミー",
+        "x": -0.3,
+        "y": -0.1
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "香り",
+          "v": "心地よい樽熟成香とモルティな香り"
+        },
+        {
+          "k": "味",
+          "v": "バニラのような甘さとクリーミーな味わい"
+        },
+        {
+          "k": "余韻",
+          "v": "ピートのほどよい苦味が全体を引き締める"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "アサヒビール 商品情報「ニッカ伊達」",
+          "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/date/48889.html",
+          "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "fuji-single-blended",
+      "name": "富士 シングルブレンデッド",
+      "nameEn": "Kirin Single Blended Japanese Whisky Fuji",
+      "short": "富士 ブレンデッド",
+      "kana": "ふじ しんぐるぶれんでっど",
+      "aliases": [
+        "富士",
+        "fuji",
+        "キリン 富士",
+        "シングルブレンデッドジャパニーズウイスキー 富士"
+      ],
+      "maker": "キリン",
+      "type": "シングルブレンデッド",
+      "standard": "jw",
+      "standardNote": "メーカーの商品情報に「表示基準に合致した商品」と明記されています",
+      "components": [
+        {
+          "distillery": "fuji-gotemba",
+          "country": "日本",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": "fuji-gotemba",
+          "country": "日本",
+          "kind": "グレーン原酒"
+        }
+      ],
+      "componentsNote": "富士御殿場蒸溜所のモルトウイスキーとグレーンウイスキーだけをブレンドしています（公式通販の商品説明より）。",
+      "taste": {
+        "line": "華やかで、シルキー",
+        "x": -0.45,
+        "y": 0.05
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "多彩なモルト原酒とグレーン原酒が織りなす、華やかで調和のとれたシルキーな味わい"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルブレンデッドジャパニーズウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "キリン 商品・品質情報「キリン シングルブレンデッドジャパニーズウイスキー 富士 700ml」",
+          "url": "https://products.kirin.co.jp/alcohol/whisky_brandy/detail.html?id=7471",
+          "used": "商品説明、容量、度数、表示基準や輸入原酒の記載"
+        },
+        {
+          "title": "キリン公式通販 DRINX「キリン シングルブレンデッドジャパニーズウイスキー 富士（700ml）」",
+          "url": "https://onlineshop.kirin.co.jp/view/item/000000000007",
+          "used": "原酒の構成"
+        }
+      ]
+    },
+    {
+      "id": "fuji-single-malt",
+      "name": "富士 シングルモルト",
+      "nameEn": "Kirin Single Malt Japanese Whisky Fuji",
+      "short": "富士 モルト",
+      "kana": "ふじ しんぐるもると",
+      "aliases": [
+        "富士 モルト",
+        "fuji single malt",
+        "シングルモルトジャパニーズウイスキー 富士"
+      ],
+      "maker": "キリン",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "メーカーの商品情報に「表示基準に合致した商品」と明記されています",
+      "components": [
+        {
+          "distillery": "fuji-gotemba",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "casks": "アメリカンホワイトオークのバーボンバレルを主体に、ビール熟成樽やフレンチオークのワイン熟成樽も使っています（公式通販の商品説明より）。",
+      "taste": {
+        "line": "果実味あふれる、芳醇",
+        "x": -0.4,
+        "y": 0.35
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 1
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "多彩なモルト原酒が織りなす、果実味あふれる芳醇な味わい"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルモルトジャパニーズウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "46%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト"
+        }
+      ],
+      "sources": [
+        {
+          "title": "キリン 商品・品質情報「キリン シングルモルトジャパニーズウイスキー 富士 700ml」",
+          "url": "https://products.kirin.co.jp/alcohol/whisky_brandy/detail.html?id=7279",
+          "used": "商品説明、容量、度数、表示基準や輸入原酒の記載"
+        },
+        {
+          "title": "キリン公式通販 DRINX「キリン シングルモルトジャパニーズウイスキー 富士（700ml）」",
+          "url": "https://onlineshop.kirin.co.jp/view/item/000000000008",
+          "used": "樽の構成"
+        }
+      ]
+    },
+    {
+      "id": "fuji-single-grain",
+      "name": "富士 シングルグレーン",
+      "nameEn": "Kirin Single Grain Japanese Whisky Fuji",
+      "short": "富士 グレーン",
+      "kana": "ふじ しんぐるぐれーん",
+      "aliases": [
+        "富士 グレーン",
+        "fuji single grain",
+        "シングルグレーンジャパニーズウイスキー 富士"
+      ],
+      "maker": "キリン",
+      "type": "シングルグレーン",
+      "standard": "jw",
+      "standardNote": "メーカーの商品情報に「表示基準に合致した商品」と明記されています",
+      "components": [
+        {
+          "distillery": "fuji-gotemba",
+          "country": "日本",
+          "kind": "グレーン原酒"
+        }
+      ],
+      "componentsNote": "富士御殿場蒸溜所でつくる3タイプのグレーン原酒（バーボンタイプ・カナディアンタイプ・スコッチタイプ）をブレンドしています（公式通販の商品説明より）。",
+      "taste": {
+        "line": "甘く華やか、複層的",
+        "x": -0.35,
+        "y": 0.1
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "多彩なグレーン原酒が織りなす、甘く華やかで複層的な味わい"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルグレーンジャパニーズウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "46%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "グレーン、モルト"
+        }
+      ],
+      "sources": [
+        {
+          "title": "キリン 商品・品質情報「キリン シングルグレーンジャパニーズウイスキー 富士 700ml」",
+          "url": "https://products.kirin.co.jp/alcohol/whisky_brandy/detail.html?id=7472",
+          "used": "商品説明、容量、度数、表示基準や輸入原酒の記載"
+        },
+        {
+          "title": "キリン公式通販 DRINX「キリン シングルグレーンジャパニーズウイスキー 富士（700ml）」",
+          "url": "https://onlineshop.kirin.co.jp/view/item/000000000006",
+          "used": "3タイプのグレーン原酒"
+        }
+      ]
+    },
+    {
+      "id": "riku",
+      "name": "キリンウイスキー 陸",
+      "nameEn": "Kirin Whisky RIKU",
+      "short": "陸",
+      "kana": "きりんういすきー りく",
+      "aliases": [
+        "陸",
+        "りく",
+        "riku"
+      ],
+      "maker": "キリン",
+      "type": "ブレンデッド",
+      "standard": "foreign",
+      "standardNote": "商品情報に「厳選した輸入原酒を一部ブレンド」と明記されています",
+      "components": [
+        {
+          "distillery": "fuji-gotemba",
+          "country": "日本",
+          "kind": "原酒",
+          "note": "主体"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        }
+      ],
+      "componentsNote": "富士御殿場蒸溜所の多彩な原酒を主体に、輸入原酒を一部ブレンドしています（商品情報より）。",
+      "taste": {
+        "line": "ほのかに甘く、澄んでいる",
+        "x": -0.2,
+        "y": -0.2
+      },
+      "serve": {
+        "straight": 1,
+        "rock": 2,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "ほのかな甘い香りと、澄んだ口あたり"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "50%"
+        },
+        {
+          "k": "容量",
+          "v": "500ml（2700ml・4000mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "キリン 商品・品質情報「キリンウイスキー 陸 500ml」",
+          "url": "https://products.kirin.co.jp/alcohol/whisky_brandy/detail.html?id=6930",
+          "used": "商品説明、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "fujisanroku-signature",
+      "name": "富士山麓 Signature Blend",
+      "nameEn": "Kirin Whisky Fujisanroku Signature Blend",
+      "short": "富士山麓",
+      "kana": "ふじさんろく しぐにちゃーぶれんど",
+      "aliases": [
+        "富士山麓",
+        "シグニチャーブレンド",
+        "fujisanroku"
+      ],
+      "maker": "キリン",
+      "type": "ブレンデッド",
+      "standard": "foreign",
+      "standardNote": "商品情報に「厳選した輸入原酒を一部ブレンド」と明記されています",
+      "components": [
+        {
+          "distillery": "fuji-gotemba",
+          "country": "日本",
+          "kind": "原酒",
+          "note": "熟成のピークに達した原酒が主体"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        }
+      ],
+      "taste": {
+        "line": "熟成感があり、力強い",
+        "x": -0.15,
+        "y": 0.55
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 1
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "熟成のピークに達した原酒を主にブレンドした、富士御殿場蒸溜所を象徴するウイスキー"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "50%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "キリン 商品・品質情報「キリンウイスキー 富士山麓 Signature Blend 700ml」",
+          "url": "https://products.kirin.co.jp/alcohol/whisky_brandy/detail.html?id=1564",
+          "used": "商品説明、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "robert-brown",
+      "name": "ロバートブラウン",
+      "nameEn": "Robert Brown",
+      "short": "ロバートブラウン",
+      "kana": "ろばーとぶらうん",
+      "aliases": [
+        "robert brown"
+      ],
+      "maker": "キリン",
+      "type": "ブレンデッド",
+      "standard": "foreign",
+      "standardNote": "商品情報に「厳選した輸入原酒を一部ブレンド」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "原酒"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        }
+      ],
+      "taste": {
+        "line": "まろやか",
+        "x": -0.2,
+        "y": 0.0
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "原酒ならではのまろやかさを持つウイスキー"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "750ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "キリン 商品・品質情報「ロバートブラウン 750ml」",
+          "url": "https://products.kirin.co.jp/alcohol/whisky_brandy/detail.html?id=1566",
+          "used": "商品説明、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "ocean-lucky-gold",
+      "name": "オーシャンラッキー ゴールド",
+      "nameEn": "Ocean Lucky Gold",
+      "short": "オーシャンラッキー",
+      "kana": "おーしゃんらっきー ごーるど",
+      "aliases": [
+        "オーシャンラッキー",
+        "ocean lucky"
+      ],
+      "maker": "キリン",
+      "type": "ブレンデッド",
+      "standard": "foreign",
+      "standardNote": "商品情報に「厳選した輸入原酒を一部ブレンド」と明記されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "樽熟原酒"
+        },
+        {
+          "distillery": null,
+          "country": "海外",
+          "kind": "輸入原酒"
+        }
+      ],
+      "taste": {
+        "line": "華やかで、飲みごたえがある",
+        "x": -0.1,
+        "y": 0.2
+      },
+      "serve": {
+        "straight": 1,
+        "rock": 2,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "makerServe": {
+        "text": "ハイボール（炭酸に負けず味わいが残る設計）"
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "樽熟原酒の華やかな香りと飲みごたえ"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "37%"
+        },
+        {
+          "k": "容量",
+          "v": "2700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "キリン 商品・品質情報「オーシャンラッキー ゴールド 2700ml」",
+          "url": "https://products.kirin.co.jp/alcohol/whisky_brandy/detail.html?id=8101",
+          "used": "商品説明、容量、度数、表示基準や輸入原酒の記載"
+        }
+      ]
+    },
+    {
+      "id": "komagatake",
+      "name": "シングルモルト駒ヶ岳",
+      "nameEn": "Mars Single Malt Komagatake",
+      "short": "駒ヶ岳",
+      "kana": "しんぐるもると こまがたけ",
+      "aliases": [
+        "駒ヶ岳",
+        "駒ケ岳",
+        "komagatake",
+        "マルス 駒ヶ岳"
+      ],
+      "maker": "本坊酒造",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "商品情報の品目が「ジャパニーズウイスキー」と表示されています",
+      "components": [
+        {
+          "distillery": "mars-komagatake",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "casks": "バーボンバレル、シェリー、ポート、ワインカスクなど（商品情報より）。",
+      "taste": {
+        "line": "華やかで、クリーンかつリッチ",
+        "x": -0.4,
+        "y": 0.15
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "アップルティーやあんず、熟した柿を思わせる華やかな香味、スムースな口当たりと心地よく続く余韻"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルモルトジャパニーズウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "45%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml（200mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト"
+        }
+      ],
+      "sources": [
+        {
+          "title": "本坊酒造 公式サイト「シングルモルト駒ヶ岳」",
+          "url": "https://www.hombo.co.jp/product/mars-singlemalt-komagatake/",
+          "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
+        }
+      ]
+    },
+    {
+      "id": "tsunuki-2026",
+      "name": "シングルモルト津貫 2026 エディション",
+      "nameEn": "Mars Single Malt Tsunuki 2026 Edition",
+      "short": "津貫",
+      "kana": "しんぐるもると つぬき",
+      "aliases": [
+        "津貫",
+        "つぬき",
+        "tsunuki"
+      ],
+      "maker": "本坊酒造",
+      "type": "シングルモルト",
+      "standard": "jw",
+      "standardNote": "商品情報の品目が「ジャパニーズウイスキー」と表示されています",
+      "components": [
+        {
+          "distillery": "mars-tsunuki",
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "casks": "バーボンバレルとシェリーカスクが主体です（商品情報より）。",
+      "taste": {
+        "line": "ふくよかで、濃い甘さ",
+        "x": -0.2,
+        "y": 0.5
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 1
+      },
+      "story": [
+        "2026年発売のエディション。盆地特有の寒暖差のある気候と、蔵多山山系の湧水に恵まれた、薩摩半島南西の山あいの蒸溜所で造られています。"
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "シングルモルトジャパニーズウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "49%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト"
+        }
+      ],
+      "sources": [
+        {
+          "title": "本坊酒造 公式サイト「シングルモルト津貫 2026 エディション」",
+          "url": "https://www.hombo.co.jp/product/mars-singlemalt-tsunuki-2026-edition/",
+          "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
+        }
+      ]
+    },
+    {
+      "id": "cosmo",
+      "name": "マルスモルテージ 越百 モルトセレクション",
+      "nameEn": "Mars Maltage Cosmo Malt Selection",
+      "short": "越百",
+      "kana": "まるすもるてーじ こすも",
+      "aliases": [
+        "越百",
+        "こすも",
+        "cosmo",
+        "マルスモルテージ"
+      ],
+      "maker": "本坊酒造",
+      "type": "ブレンデッドモルト",
+      "standard": "foreign",
+      "standardNote": "商品情報の原料原産地が「英国製造、国内製造（モルトウイスキー）」と表示されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "イギリス",
+          "kind": "モルト原酒"
+        },
+        {
+          "distillery": null,
+          "country": "日本",
+          "kind": "モルト原酒"
+        }
+      ],
+      "componentsNote": "原料原産地は「英国製造、国内製造（モルトウイスキー）」。製造所はマルス駒ヶ岳蒸溜所です（商品情報より）。",
+      "taste": {
+        "line": "複雑で奥行きがある",
+        "x": 0.05,
+        "y": 0.25
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "タイプの異なる複数のモルト原酒をヴァッティングした、複雑さと奥行き"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドモルトウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "43%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト"
+        }
+      ],
+      "sources": [
+        {
+          "title": "本坊酒造 公式サイト「マルスモルテージ越百 モルトセレクション」",
+          "url": "https://www.hombo.co.jp/product/marsmaltage-cosmo/",
+          "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
+        }
+      ]
+    },
+    {
+      "id": "iwai-tradition",
+      "name": "岩井 トラディション",
+      "nameEn": "Iwai Tradition",
+      "short": "岩井",
+      "kana": "いわい とらでぃしょん",
+      "aliases": [
+        "岩井",
+        "いわい",
+        "iwai tradition"
+      ],
+      "maker": "本坊酒造",
+      "type": "ブレンデッド",
+      "standard": "foreign",
+      "limited": "販売店限定",
+      "standardNote": "商品情報の原料原産地が「英国製造、国内製造（グレーンウイスキー）」と表示されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "イギリス",
+          "kind": "原酒"
+        },
+        {
+          "distillery": null,
+          "country": "日本",
+          "kind": "原酒"
+        }
+      ],
+      "componentsNote": "原料原産地は「英国製造、国内製造（グレーンウイスキー）」（商品情報より）。熟成地・製造所はマルス駒ヶ岳蒸溜所です。",
+      "taste": {
+        "line": "まろやかで、スパイスがある",
+        "x": 0.0,
+        "y": 0.1
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "40%"
+        },
+        {
+          "k": "容量",
+          "v": "750ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "本坊酒造 公式サイト「岩井 トラディション」",
+          "url": "https://www.hombo.co.jp/product/iwai-tradition/",
+          "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
+        }
+      ]
+    },
+    {
+      "id": "iwai-tradition-wine",
+      "name": "岩井 トラディション ワインカスク フィニッシュ",
+      "nameEn": "Iwai Tradition Wine Cask Finish",
+      "short": "岩井 ワイン",
+      "kana": "いわい とらでぃしょん わいんかすく",
+      "aliases": [
+        "岩井 ワインカスク",
+        "iwai wine cask"
+      ],
+      "maker": "本坊酒造",
+      "type": "ブレンデッド",
+      "standard": "foreign",
+      "limited": "販売店限定",
+      "standardNote": "商品情報の原料原産地が「英国製造、国内製造（グレーンウイスキー）」と表示されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "イギリス",
+          "kind": "原酒"
+        },
+        {
+          "distillery": null,
+          "country": "日本",
+          "kind": "原酒"
+        }
+      ],
+      "componentsNote": "原料原産地は「英国製造、国内製造（グレーンウイスキー）」（商品情報より）。熟成地・製造所はマルス駒ヶ岳蒸溜所です。",
+      "casks": "ワイン樽で追加熟成しています（商品情報より）。",
+      "taste": {
+        "line": "ベリーの香りと、まろやかな甘さ",
+        "x": -0.35,
+        "y": 0.3
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 1
+      },
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "40%"
+        },
+        {
+          "k": "容量",
+          "v": "750ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "本坊酒造 公式サイト「岩井 トラディション ワインカスク フィニッシュ」",
+          "url": "https://www.hombo.co.jp/product/iwai-tradition-winecask/",
+          "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
+        }
+      ]
+    },
+    {
+      "id": "mars-extra",
+      "name": "マルス エクストラ",
+      "nameEn": "Mars Extra",
+      "short": "マルス エクストラ",
+      "kana": "まるす えくすとら",
+      "aliases": [
+        "マルスエクストラ",
+        "mars extra"
+      ],
+      "maker": "本坊酒造",
+      "type": "ブレンデッド",
+      "standard": "spirits",
+      "standardNote": "商品情報の原料原産地が「国内製造（グレーンスピリッツ）」と表示されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト・グレーン原酒"
+        },
+        {
+          "distillery": null,
+          "country": "日本",
+          "kind": "グレーンスピリッツ"
+        }
+      ],
+      "taste": {
+        "line": "素朴で、すっきり",
+        "x": -0.05,
+        "y": -0.55
+      },
+      "serve": {
+        "straight": 1,
+        "rock": 2,
+        "highball": 3,
+        "mizuwari": 3
+      },
+      "story": [
+        "「地ウイスキーの西の雄」と呼ばれたマルスのロングセラー。一升瓶に入ったウイスキーです（商品情報より）。"
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "37%"
+        },
+        {
+          "k": "容量",
+          "v": "1800ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "本坊酒造 公式サイト「マルス エクストラ」",
+          "url": "https://www.hombo.co.jp/product/marsextra/",
+          "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
+        }
+      ]
+    },
+    {
+      "id": "twin-alps",
+      "name": "TWIN ALPS",
+      "nameEn": "Mars Twin Alps",
+      "short": "TWIN ALPS",
+      "kana": "ついん あるぷす",
+      "aliases": [
+        "ツインアルプス",
+        "twin alps"
+      ],
+      "maker": "本坊酒造",
+      "type": "ブレンデッド",
+      "standard": "foreign",
+      "standardNote": "商品情報の原料原産地が「英国製造、国内製造（グレーンウイスキー）」と表示されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "イギリス",
+          "kind": "原酒"
+        },
+        {
+          "distillery": null,
+          "country": "日本",
+          "kind": "原酒"
+        }
+      ],
+      "componentsNote": "原料原産地は「英国製造、国内製造（グレーンウイスキー）」（商品情報より）。製造所はマルス駒ヶ岳蒸溜所です。",
+      "taste": {
+        "line": "軽やかで、バランスがよい",
+        "x": -0.1,
+        "y": -0.3
+      },
+      "serve": {
+        "straight": 2,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "story": [
+        "マルス駒ヶ岳蒸溜所で、中央アルプス駒ヶ岳山麓の地下120mから汲み上げた水で仕上げています。名前は蒸溜所を囲む中央アルプスと南アルプスから（商品情報より）。"
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "40%"
+        },
+        {
+          "k": "容量",
+          "v": "750ml（200mlもあり）"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "本坊酒造 公式サイト「TWIN ALPS」",
+          "url": "https://www.hombo.co.jp/product/twin-alps/",
+          "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
+        }
+      ]
+    },
+    {
+      "id": "mars-3and7",
+      "name": "マルスウイスキー 3&7",
+      "nameEn": "Mars Whisky 3&7",
+      "short": "3&7",
+      "kana": "まるすういすきー すりーあんどせぶん",
+      "aliases": [
+        "3&7",
+        "スリーアンドセブン"
+      ],
+      "maker": "本坊酒造",
+      "type": "ブレンデッド",
+      "standard": "foreign",
+      "standardNote": "商品情報の原料原産地が「英国製造、米国製造、国内製造（グレーンウイスキー）」と表示されています",
+      "components": [
+        {
+          "distillery": null,
+          "country": "イギリス",
+          "kind": "原酒"
+        },
+        {
+          "distillery": null,
+          "country": "アメリカ",
+          "kind": "原酒"
+        },
+        {
+          "distillery": null,
+          "country": "日本",
+          "kind": "原酒"
+        }
+      ],
+      "componentsNote": "原料原産地は「英国製造、米国製造、国内製造（グレーンウイスキー）」。製造所はマルス駒ヶ岳蒸溜所です（商品情報より）。",
+      "taste": {
+        "line": "樽香があり、すっきり",
+        "x": 0.0,
+        "y": -0.4
+      },
+      "serve": {
+        "straight": 1,
+        "rock": 2,
+        "highball": 3,
+        "mizuwari": 3
+      },
+      "official": [
+        {
+          "k": "特長",
+          "v": "ホワイトオークの樽香を感じるブレンデッドウイスキー"
+        }
+      ],
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ブレンデッドウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "40%"
+        },
+        {
+          "k": "容量",
+          "v": "720ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "原材料",
+          "v": "モルト、グレーン"
+        }
+      ],
+      "sources": [
+        {
+          "title": "本坊酒造 公式サイト「マルスウイスキー 3＆7」",
+          "url": "https://www.hombo.co.jp/product/marswhisky-3and7/",
+          "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
+        }
       ]
     }
   ]
@@ -489,6 +4898,28 @@ a.next{border-color:rgba(220,157,66,.5)}
   };
   const distName = (d) => d.name.replace(/蒸溜所$/, '');
   const quadOf = (t) => QUADS.find((q) => q.test(t));
+  const STD_KEYS = Object.keys(DATA.standards);
+
+  // ボトル図の色。個別の指定がなければ種類で液色を変え、ラベルの字は short の1文字目
+  function lookOf(w) {
+    if (w.look) return w.look;
+    const liquid = /グレーン/.test(w.type) && !/モルト/.test(w.type) ? '#d6a24e' : /シングルモルト/.test(w.type) ? '#b8732a' : '#c4832f';
+    return { liquid, label: '#e9dfcc', mark: '#2a1d10', char: [...w.short][0] };
+  }
+
+  // 限定品の表示（地域限定・数量限定など）
+  const limitedTag = (w) => (w.limited ? `<span class="limited">${esc(w.limited)}</span>` : '');
+
+  // 手書きの「次の1本」がない銘柄は、味の地図で近い2本を出す（同じメーカーは少し遠く扱って偏りを減らす）
+  function nextOf(w) {
+    if (w.next) return w.next;
+    return DATA.whiskies
+      .filter((o) => o.id !== w.id)
+      .map((o) => ({ o, d: Math.hypot(o.taste.x - w.taste.x, o.taste.y - w.taste.y) + (o.maker === w.maker ? 0.08 : 0) }))
+      .sort((a, b) => a.d - b.d)
+      .slice(0, 2)
+      .map(({ o }) => ({ id: o.id, name: o.name, why: `味の地図で近い位置にある、${o.maker}の${o.type}` }));
+  }
 
   // 産地の短い表記（県名、海外は国名）
   function originText(w) {
@@ -507,7 +4938,7 @@ a.next{border-color:rgba(220,157,66,.5)}
 
   // 写真の代わりの簡易なボトル図
   function bottle(w, size) {
-    const l = w.look;
+    const l = lookOf(w);
     return `<span class="bottle bottle--${size}" style="--liquid:${esc(l.liquid)};--label:${esc(l.label)};--mark:${esc(l.mark)}" aria-hidden="true"><span class="bottle-neck"></span><span class="bottle-body"></span><span class="bottle-label">${esc(l.char)}</span></span>`;
   }
 
@@ -517,6 +4948,8 @@ a.next{border-color:rgba(220,157,66,.5)}
     const P = 14;
     const I = S - P * 2;
     const at = (t) => [P + ((t.x + 1) / 2) * I, P + (1 - (t.y + 1) / 2) * I];
+    // 銘柄が多いとラベルが重なるので、点だけにする（点に触れると名前が出る）
+    const labels = DATA.whiskies.length <= 12;
     const dots = DATA.whiskies.map((w) => {
       const [cx, cy] = at(w.taste);
       if (opts.focus) {
@@ -524,7 +4957,8 @@ a.next{border-color:rgba(220,157,66,.5)}
         return { on, svg: `<circle class="dot${on ? ' dot--focus' : ''}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${on ? 7 : 4}"><title>${esc(w.name)}</title></circle>` };
       }
       const right = w.taste.x > 0.45;
-      return { on: false, svg: `<a href="#/whisky/${esc(w.id)}"><circle class="dot dot--all" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6"><title>${esc(w.name)}</title></circle><text class="dot-label" x="${(right ? cx - 10 : cx + 10).toFixed(1)}" y="${(cy + 4).toFixed(1)}" text-anchor="${right ? 'end' : 'start'}">${esc(w.short)}</text></a>` };
+      const label = labels ? `<text class="dot-label" x="${(right ? cx - 10 : cx + 10).toFixed(1)}" y="${(cy + 4).toFixed(1)}" text-anchor="${right ? 'end' : 'start'}">${esc(w.short)}</text>` : '';
+      return { on: false, svg: `<a href="#/whisky/${esc(w.id)}"><circle class="dot dot--all" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${labels ? 6 : 3.5}"><title>${esc(w.name)}</title></circle>${label}</a>` };
     });
     // 強調する点を最後に描いて前面に出す
     dots.sort((a, b) => Number(a.on) - Number(b.on));
@@ -539,7 +4973,7 @@ a.next{border-color:rgba(220,157,66,.5)}
   }
 
   function whiskyCard(w) {
-    return `<li><a class="card" href="#/whisky/${esc(w.id)}">${bottle(w, 'sm')}<span class="card-body"><span class="card-name">${esc(w.name)}</span><span class="card-meta">${esc(w.maker)}・${esc(w.type)}</span><span class="card-meta">${esc(originText(w))}</span>${badge(w.standard, false)}</span></a></li>`;
+    return `<li><a class="card" href="#/whisky/${esc(w.id)}">${bottle(w, 'sm')}<span class="card-body"><span class="card-name">${esc(w.name)}</span><span class="card-meta">${esc(w.maker)}・${esc(w.type)}</span><span class="card-meta">${esc(originText(w))}</span><span class="card-tags">${badge(w.standard, false)}${limitedTag(w)}</span></span></a></li>`;
   }
 
   function distilleryCard(d) {
@@ -549,13 +4983,13 @@ a.next{border-color:rgba(220,157,66,.5)}
   function viewNotFound() {
     return {
       title: `ページが見つかりません｜${SITE}`,
-      html: `<section class="hero"><h1>ページが見つかりません</h1><p class="hero-lead">いま掲載しているのは3銘柄と山崎蒸溜所です。順次増やしていきます。</p><p><a class="btn" href="#/">トップへ戻る</a></p></section>`,
+      html: `<section class="hero"><h1>ページが見つかりません</h1><p class="hero-lead">いま掲載しているのは${DATA.whiskies.length}銘柄と${DATA.distilleries.length}蒸溜所です。順次増やしていきます。</p><p><a class="btn" href="#/">トップへ戻る</a></p></section>`,
     };
   }
 
   // ===== 検索 =====
   const whiskyHay = new Map(DATA.whiskies.map((w) => [w.id, norm([
-    w.name, w.nameEn, w.kana, ...w.aliases, w.maker, w.type,
+    w.name, w.nameEn, w.kana, ...(w.aliases || []), w.maker, w.type, w.limited,
     ...w.components.flatMap((c) => {
       const d = c.distillery ? D.get(c.distillery) : null;
       return d ? [d.name, d.nameEn, d.kana, d.pref] : [c.country];
@@ -563,12 +4997,12 @@ a.next{border-color:rgba(220,157,66,.5)}
   ].join('|'))]));
   const distilleryHay = new Map(DATA.distilleries.map((d) => [d.id, norm([d.name, d.nameEn, d.kana, d.maker, d.pref].join('|'))]));
 
-  // ページのある蒸溜所を先に、続けて銘柄を返す
+  // 蒸溜所を先に、続けて銘柄を返す
   function search(q) {
     const nq = norm(q);
     if (!nq) return [];
     const ds = DATA.distilleries
-      .filter((d) => d.hasPage && distilleryHay.get(d.id).includes(nq))
+      .filter((d) => distilleryHay.get(d.id).includes(nq))
       .map((item) => ({ kind: 'distillery', item }));
     const ws = DATA.whiskies
       .filter((w) => whiskyHay.get(w.id).includes(nq))
@@ -585,7 +5019,7 @@ a.next{border-color:rgba(220,157,66,.5)}
     if (r.q) {
       head = `「${esc(r.q)}」の検索結果`;
       items = search(r.q);
-      emptyText = '見つかりませんでした。ひらがな・カタカナ・英字の読みでも探せます（例：よいち、yoichi）。いま掲載しているのは3銘柄で、順次増やしていきます。';
+      emptyText = `見つかりませんでした。ひらがな・カタカナ・英字の読みでも探せます（例：よいち、yoichi）。いま掲載しているのは${DATA.whiskies.length}銘柄で、順次増やしていきます。`;
     } else if (QUADS.some((q) => q.key === r.taste)) {
       const q = QUADS.find((x) => x.key === r.taste);
       head = `味：${esc(q.label)}`;
@@ -593,8 +5027,11 @@ a.next{border-color:rgba(220,157,66,.5)}
       clear = '<a class="clear" href="#/">すべて表示</a>';
       emptyText = 'この味の銘柄は、まだ掲載していません。';
     } else {
-      head = '掲載中の銘柄';
-      items = DATA.whiskies.map((item) => ({ kind: 'whisky', item }));
+      const makers = [...new Set(DATA.whiskies.map((w) => w.maker))];
+      return `<div class="sec-head"><h2 id="results-h">掲載中の銘柄</h2><span class="count">${DATA.whiskies.length}本</span></div>${makers.map((m, i) => {
+        const ws = DATA.whiskies.filter((w) => w.maker === m);
+        return `<details class="maker-group"${i === 0 ? ' open' : ''}><summary><span class="maker-name">${esc(m)}</span><span class="maker-count">${ws.length}本</span></summary><ul class="cards">${ws.map(whiskyCard).join('')}</ul></details>`;
+      }).join('')}`;
     }
     const list = items.length
       ? `<ul class="cards">${items.map((x) => (x.kind === 'whisky' ? whiskyCard(x.item) : distilleryCard(x.item))).join('')}</ul>`
@@ -628,8 +5065,8 @@ a.next{border-color:rgba(220,157,66,.5)}
   <div id="results">${resultsHtml(r)}</div>
 </section>
 <section class="sec" id="by-pref" aria-labelledby="pref-h">
-  <div class="sec-head"><h2 id="pref-h">都道府県から探す</h2><span class="count">ページは順次公開</span></div>
-  <ul class="prefs">${prefs.map((p) => `<li class="pref"><p class="pref-name">${esc(p)}</p><ul>${byPref.get(p).map((d) => (d.hasPage ? `<li><a href="#/distillery/${esc(d.id)}">${esc(d.name)}</a></li>` : `<li class="soon">${esc(d.name)}<small>準備中</small></li>`)).join('')}</ul></li>`).join('')}</ul>
+  <div class="sec-head"><h2 id="pref-h">都道府県から探す</h2><span class="count">${DATA.distilleries.length}蒸溜所</span></div>
+  <ul class="prefs">${prefs.map((p) => `<li class="pref"><p class="pref-name">${esc(p)}</p><ul>${byPref.get(p).map((d) => `<li><a href="#/distillery/${esc(d.id)}">${esc(d.name)}</a></li>`).join('')}</ul></li>`).join('')}</ul>
 </section>
 <section class="sec" id="by-taste" aria-labelledby="taste-top-h">
   <div class="sec-head"><h2 id="taste-top-h">味から探す</h2><span class="opinion">編集部の見立て</span></div>
@@ -642,8 +5079,8 @@ a.next{border-color:rgba(220,157,66,.5)}
 <section class="sec">
   <a class="std-card" href="#/standard">
     <h2>${esc(rule.title)}</h2>
-    <p>${esc(rule.summary)} このサイトでは全銘柄に、3つの区分のどれかを付けています。</p>
-    <span class="badges">${['jw', 'foreign', 'unknown'].map((k) => badge(k, false)).join('')}</span>
+    <p>${esc(rule.summary)} このサイトでは全銘柄に、${STD_KEYS.length}つの区分のどれかを付けています。</p>
+    <span class="badges">${STD_KEYS.map((k) => badge(k, false)).join('')}</span>
   </a>
 </section>`,
     };
@@ -670,12 +5107,12 @@ a.next{border-color:rgba(220,157,66,.5)}
   // 読点ごとの句に分ける（句の途中で改行させない）
   const phrases = (s) => s.split(/(?<=、)/).map((p) => `<span class="ph">${esc(p)}</span>`).join('');
 
-  // 最初の一画面の「産地・原酒」チップ。ページのある蒸溜所だけリンクにする
+  // 最初の一画面の「産地・原酒」チップ。蒸溜所が分かるものは蒸溜所ページへリンク
   function componentChip(c) {
     const d = c.distillery ? D.get(c.distillery) : null;
     const where = d ? d.pref : c.country;
     const inner = `<span class="chip-where">${esc(where)}</span>${d ? `<span class="chip-name">${esc(distName(d))}</span>` : ''}<span class="chip-kind">${esc(shortKind(c.kind))}</span>`;
-    return d && d.hasPage
+    return d
       ? `<a class="chip" href="#/distillery/${esc(d.id)}">${inner}</a>`
       : `<span class="chip">${inner}</span>`;
   }
@@ -684,7 +5121,7 @@ a.next{border-color:rgba(220,157,66,.5)}
   function flowItem(c) {
     const d = c.distillery ? D.get(c.distillery) : null;
     const name = d
-      ? (d.hasPage ? `<a href="#/distillery/${esc(d.id)}">${esc(d.name)}</a>` : esc(d.name))
+      ? `<a href="#/distillery/${esc(d.id)}">${esc(d.name)}</a>`
       : '蒸溜所名 非公表';
     const where = d ? `${c.country}・${d.pref}` : c.country;
     return `<div class="flow-item"><span class="flow-where">${esc(where)}</span><span class="flow-name">${name}</span><span class="flow-kind">${esc(c.kind)}</span>${c.note ? `<span class="flow-note">${esc(c.note)}</span>` : ''}</div>`;
@@ -714,8 +5151,8 @@ a.next{border-color:rgba(220,157,66,.5)}
   <div class="w-title">
     <p class="w-maker">${esc(w.maker)}・${esc(w.type)}</p>
     <h1 class="w-name">${esc(w.name)}</h1>
-    <p class="w-en">${esc(w.nameEn)}</p>
-    ${badge(w.standard, true)}
+    ${w.nameEn ? `<p class="w-en">${esc(w.nameEn)}</p>` : ''}
+    <p class="w-tags">${badge(w.standard, true)}${limitedTag(w)}</p>
   </div>
 </header>
 <div class="w-first">
@@ -735,29 +5172,29 @@ a.next{border-color:rgba(220,157,66,.5)}
   </section>
   <section class="w-next" aria-labelledby="next-h">
     <h2 class="label" id="next-h">似ている銘柄・次の1本${opinion}</h2>
-    <ul class="next-row">${w.next.map((n) => `<li>${nextCard(n)}</li>`).join('')}</ul>
+    <ul class="next-row">${nextOf(w).map((n) => `<li>${nextCard(n)}</li>`).join('')}</ul>
   </section>
 </div>
 <div class="deep">
   <p class="deep-intro">もっと知る</p>
-  <section id="official" aria-labelledby="official-h">
+  ${w.official ? `<section id="official" aria-labelledby="official-h">
     <h2 id="official-h">香り・味・余韻</h2>
     <dl class="dl">${w.official.map((o) => `<dt>${esc(o.k)}</dt><dd>${esc(o.v)}</dd>`).join('')}</dl>
     <p class="note">メーカー公式の説明を要約しています。${w.official.length === 1 ? '香り・味・余韻を分けた説明は、公式ページにありません。' : ''}</p>
-  </section>
+  </section>` : ''}
   <section id="casks" aria-labelledby="casks-h">
     <h2 id="casks-h">原酒と樽</h2>
     <div class="flow">${w.components.map(flowItem).join('')}<div class="flow-arrow" aria-hidden="true">▼</div><div class="flow-result">${esc(w.name)}</div></div>
-    <p class="note">${esc(w.componentsNote)}</p>
-    <p class="note">${esc(w.casks)}</p>
+    ${w.componentsNote ? `<p class="note">${esc(w.componentsNote)}</p>` : ''}
+    ${w.casks ? `<p class="note">${esc(w.casks)}</p>` : ''}
   </section>
-  <section id="story" class="story" aria-labelledby="story-h">
+  ${w.story ? `<section id="story" class="story" aria-labelledby="story-h">
     <h2 id="story-h">造り手と歴史</h2>
     ${w.story.map((p) => `<p>${esc(p)}</p>`).join('')}
-  </section>
+  </section>` : ''}
   <section id="specs" aria-labelledby="specs-h">
     <h2 id="specs-h">スペック</h2>
-    <dl class="dl">${w.specs.map((x) => `<dt>${esc(x.k)}</dt><dd>${esc(x.v)}</dd>`).join('')}<dt>表示基準</dt><dd>${esc(std.label)}。${esc(w.standardNote)}</dd></dl>
+    <dl class="dl">${(w.specs || []).map((x) => `<dt>${esc(x.k)}</dt><dd>${esc(x.v)}</dd>`).join('')}<dt>表示基準</dt><dd>${esc(std.label)}。${esc(w.standardNote)}</dd></dl>
   </section>
   ${sourcesHtml(w.sources)}
 </div>`,
@@ -767,9 +5204,14 @@ a.next{border-color:rgba(220,157,66,.5)}
   // ===== 画面：蒸溜所・表示基準 =====
   function viewDistillery(id) {
     const d = D.get(id);
-    if (!d || !d.hasPage) return viewNotFound();
-    // このサイトにある銘柄のうち、この蒸溜所の原酒を使っているもの
-    const used = DATA.whiskies.flatMap((w) => w.components.filter((c) => c.distillery === d.id).map((c) => ({ w, c })));
+    if (!d) return viewNotFound();
+    // この蒸溜所だけでつくる銘柄と、この蒸溜所の原酒が使われている銘柄に分ける
+    const own = DATA.whiskies.filter((w) => w.components.every((c) => c.distillery === d.id));
+    const used = DATA.whiskies
+      .filter((w) => !own.includes(w))
+      .map((w) => ({ w, c: w.components.find((c) => c.distillery === d.id) }))
+      .filter((x) => x.c);
+    const meta = [['所在地', d.address], ['創業', d.founded], ['運営', d.maker]].filter(([, v]) => v);
     return {
       title: `${d.name}｜${SITE}`,
       html: `
@@ -777,23 +5219,24 @@ a.next{border-color:rgba(220,157,66,.5)}
 <header class="d-head">
   <p class="w-maker">${esc(d.pref)}・${esc(d.maker)}</p>
   <h1 class="d-name">${esc(d.name)}</h1>
-  <p class="w-en">${esc(d.nameEn)}</p>
-  <p class="d-lead">${esc(d.lead)}</p>
+  ${d.nameEn ? `<p class="w-en">${esc(d.nameEn)}</p>` : ''}
+  ${d.lead ? `<p class="d-lead">${esc(d.lead)}</p>` : ''}
 </header>
-<dl class="dl d-meta"><dt>所在地</dt><dd>${esc(d.address)}</dd><dt>創業</dt><dd>${esc(d.founded)}</dd><dt>運営</dt><dd>${esc(d.maker)}</dd></dl>
+<dl class="dl d-meta">${meta.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
 <div class="deep">
-  <section id="features" aria-labelledby="features-h">
+  ${d.features ? `<section id="features" aria-labelledby="features-h">
     <h2 id="features-h">この蒸溜所の特徴</h2>
     <dl class="dl">${d.features.map((f) => `<dt>${esc(f.k)}</dt><dd>${esc(f.v)}</dd>`).join('')}</dl>
-  </section>
-  <section id="used" aria-labelledby="used-h">
+  </section>` : ''}
+  ${own.length ? `<section id="single" aria-labelledby="single-h">
+    <h2 id="single-h">この蒸溜所の銘柄</h2>
+    <ul class="cards">${own.map(whiskyCard).join('')}</ul>
+  </section>` : ''}
+  ${used.length ? `<section id="used" aria-labelledby="used-h">
     <h2 id="used-h">この蒸溜所の原酒が使われている銘柄</h2>
-    <h3 class="sub">このサイトで見られる銘柄</h3>
-    <ul class="cards">${used.map(({ w, c }) => `<li><a class="card" href="#/whisky/${esc(w.id)}">${bottle(w, 'sm')}<span class="card-body"><span class="used-role">${esc(c.kind)}として使用</span><span class="card-name">${esc(w.name)}</span><span class="card-meta">${esc(w.maker)}・${esc(w.type)}</span>${badge(w.standard, false)}</span></a></li>`).join('')}</ul>
-    <h3 class="sub">シングルモルト（定番品）</h3>
-    <ul class="plain-list">${d.singleMalts.map((m) => `<li><span>${esc(m)}</span><small>ページ準備中</small></li>`).join('')}</ul>
+    <ul class="cards">${used.map(({ w, c }) => `<li><a class="card" href="#/whisky/${esc(w.id)}">${bottle(w, 'sm')}<span class="card-body"><span class="used-role">${esc(c.kind)}として使用</span><span class="card-name">${esc(w.name)}</span><span class="card-meta">${esc(w.maker)}・${esc(w.type)}</span><span class="card-tags">${badge(w.standard, false)}${limitedTag(w)}</span></span></a></li>`).join('')}</ul>
     <p class="note">原酒の使用を公表で確認できた銘柄だけを載せています。</p>
-  </section>
+  </section>` : ''}
   ${sourcesHtml(d.sources)}
 </div>`,
     };
@@ -813,8 +5256,8 @@ a.next{border-color:rgba(220,157,66,.5)}
 <dl class="dl std-items">${rule.items.map((x) => `<dt>${esc(x.k)}</dt><dd>${esc(x.v)}</dd>`).join('')}</dl>
 <div class="deep">
   <section id="kinds" aria-labelledby="kinds-h">
-    <h2 id="kinds-h">このサイトの3つの区分</h2>
-    <ul class="kinds">${['jw', 'foreign', 'unknown'].map((k) => `<li>${badge(k, false)}<p>${esc(DATA.standards[k].desc)}</p></li>`).join('')}</ul>
+    <h2 id="kinds-h">このサイトの${STD_KEYS.length}つの区分</h2>
+    <ul class="kinds">${STD_KEYS.map((k) => `<li>${badge(k, false)}<p>${esc(DATA.standards[k].desc)}</p></li>`).join('')}</ul>
     <p class="note">区分はメーカーの公表内容で決めています。この基準は業界団体の自主基準で、法律による決まりではありません。</p>
   </section>
   ${sourcesHtml(rule.sources)}
