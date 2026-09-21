@@ -7,6 +7,13 @@ const DATA = readData();
 const text = (el) => el.textContent.replace(/\s+/g, '');
 const hrefs = (els) => [...els].map((a) => a.getAttribute('href'));
 
+// 度数はデータに数字で持たせず specs の文字列から取り出す
+const abvOf = (w) => {
+  const s = (w.specs || []).find((x) => x.k === 'アルコール度数');
+  const m = s && String(s.v).match(/(\d+(?:\.\d+)?)\s*%/);
+  return m ? Number(m[1]) : null;
+};
+
 // ===== トップ・検索 =====
 
 test('トップ：全銘柄がメーカー別にまとまって並び、エラーが出ない', async () => {
@@ -26,49 +33,6 @@ test('トップ：全銘柄がメーカー別にまとまって並び、エラ�
   assert.deepEqual(env.errors, []);
 });
 
-test('検索：ひびき・hibiki・ヒビキ・全角英字で響が出る', async () => {
-  const env = await load('');
-  for (const q of ['ひびき', 'hibiki', 'ヒビキ', 'ＨＩＢＩＫＩ', 'ジャパニーズ ハーモニー']) {
-    const ids = env.window.__app.search(q).map((r) => r.item.id);
-    assert.ok(ids.includes('hibiki-jh'), q);
-  }
-});
-
-test('検索：山崎で蒸溜所が先頭、山崎の原酒を使う銘柄も出る', async () => {
-  const env = await load('');
-  const found = env.window.__app.search('山崎');
-  assert.equal(found[0].kind, 'distillery');
-  assert.equal(found[0].item.id, 'yamazaki');
-  // jsdom 側で作られた配列は厳密比較で型が合わないため、テスト側の配列に作り直す
-  const ids = [...found.filter((r) => r.kind === 'whisky').map((r) => r.item.id)];
-  for (const id of ['yamazaki', 'yamazaki-12', 'hibiki-jh', 'ao', 'kakubin']) assert.ok(ids.includes(id), id);
-  assert.ok(!ids.includes('yoichi'));
-});
-
-test('検索：URL の q で結果が出る（蒸溜所が先頭）', async () => {
-  const env = await load('#/?q=%E3%82%88%E3%81%84%E3%81%A1');
-  assert.equal(env.document.getElementById('q').value, 'よいち');
-  const links = hrefs(env.document.querySelectorAll('#results a.card'));
-  assert.equal(links[0], '#/distillery/yoichi');
-  assert.ok(links.includes('#/whisky/yoichi'));
-  assert.ok(links.includes('#/whisky/yoichi-10'));
-});
-
-test('検索：入力するとその場で結果と URL が変わる', async () => {
-  const env = await load('');
-  const input = env.document.getElementById('q');
-  input.value = 'あお';
-  input.dispatchEvent(new env.window.Event('input'));
-  assert.ok(hrefs(env.document.querySelectorAll('#results a.card')).includes('#/whisky/ao'));
-  assert.equal(env.window.location.hash, '#/?q=%E3%81%82%E3%81%8A');
-});
-
-test('検索：見つからない時は読みでの検索を案内する', async () => {
-  const env = await load('#/?q=zzz');
-  assert.match(env.document.querySelector('#results .empty').textContent, /ひらがな/);
-  assert.equal(env.document.querySelectorAll('#results a.card').length, 0);
-});
-
 test('都道府県から探す：北から順に並び、全蒸溜所がリンク', async () => {
   const env = await load('');
   const prefs = [...env.document.querySelectorAll('#by-pref .pref-name')].map((p) => p.textContent);
@@ -76,18 +40,6 @@ test('都道府県から探す：北から順に並び、全蒸溜所がリン�
   assert.equal(new Set(prefs).size, prefs.length);
   const links = hrefs(env.document.querySelectorAll('#by-pref a'));
   assert.equal(links.length, DATA.distilleries.length);
-});
-
-test('味から探す：4つの入口があり、象限で絞り込める', async () => {
-  const env = await load('#/?taste=smoky-rich');
-  assert.equal(env.document.querySelectorAll('#by-taste a.quad').length, 4);
-  assert.ok(env.document.querySelector('#by-taste a.quad[aria-current="true"][href="#/?taste=smoky-rich"]'));
-  const ids = hrefs(env.document.querySelectorAll('#results a.card')).map((h) => h.replace('#/whisky/', ''));
-  assert.ok(ids.includes('yoichi'));
-  for (const id of ids) {
-    const t = DATA.whiskies.find((w) => w.id === id).taste;
-    assert.ok(t.x >= 0 && t.y >= 0, id);
-  }
 });
 
 test('トップ：表示基準の説明への入口に5区分が並ぶ', async () => {
@@ -359,4 +311,101 @@ test('好みから探す：トップに入口がある', async () => {
   const d = (await load('')).document;
   assert.ok(d.querySelector('.hero a[href="#/find"]'));
   assert.ok(d.querySelector('#by-find a[href="#/find"]'));
+});
+
+// ===== 銘柄一覧 =====
+
+test('一覧：最初は全銘柄が出て、件数が出る', async () => {
+  const env = await load('#/list');
+  const d = env.document;
+  assert.equal(d.querySelectorAll('#results a.card[href^="#/whisky/"]').length, DATA.whiskies.length);
+  assert.match(d.querySelector('#results-count').textContent, new RegExp(`${DATA.whiskies.length}本`));
+  assert.deepEqual(env.errors, []);
+});
+
+test('一覧：おすすめ順では編集部が選ぶ定番が先頭に並ぶ', async () => {
+  const env = await load('#/list');
+  const first = [...env.document.querySelectorAll('#results a.card')].slice(0, 8).map((a) => a.getAttribute('href'));
+  assert.deepEqual(first, [
+    '#/whisky/hibiki-jh', '#/whisky/yamazaki', '#/whisky/hakushu', '#/whisky/chita',
+    '#/whisky/yoichi', '#/whisky/miyagikyo', '#/whisky/fuji-single-blended', '#/whisky/kakubin',
+  ]);
+});
+
+test('一覧：タイプで絞り込める', async () => {
+  const env = await load('#/list?type=single-malt');
+  const n = DATA.whiskies.filter((w) => /^シングルモルト/.test(w.type)).length;
+  assert.equal(env.document.querySelectorAll('#results a.card').length, n);
+});
+
+test('一覧：地方で絞り込める', async () => {
+  const env = await load('#/list?region=hokkaido');
+  const ids = [...env.document.querySelectorAll('#results a.card')].map((a) => a.getAttribute('href'));
+  assert.ok(ids.includes('#/whisky/yoichi'), '余市が出る');
+  assert.ok(!ids.includes('#/whisky/yamazaki'), '山崎は出ない');
+});
+
+test('一覧：味わいで絞り込める（爽やかは飲みやすく濃すぎない）', async () => {
+  const env = await load('#/list?taste=fresh');
+  const n = DATA.whiskies.filter((w) => w.profile.drinkability >= 4 && w.profile.richness <= 2).length;
+  assert.equal(env.document.querySelectorAll('#results a.card').length, n);
+  assert.ok(n >= 1, '爽やかが1本もないと絞り込みの意味がない');
+});
+
+test('一覧：飲み方とシーンと区分で絞り込める', async () => {
+  const a = await load('#/list?serve=highball');
+  assert.equal(a.document.querySelectorAll('#results a.card').length, DATA.whiskies.filter((w) => w.serve.highball === 3).length);
+  const b = await load('#/list?scene=' + encodeURIComponent('初めての1本'));
+  assert.equal(b.document.querySelectorAll('#results a.card').length, DATA.whiskies.filter((w) => w.scenes.includes('初めての1本')).length);
+  const c = await load('#/list?standard=foreign');
+  assert.equal(c.document.querySelectorAll('#results a.card').length, DATA.whiskies.filter((w) => w.standard === 'foreign').length);
+});
+
+test('一覧：検索の言葉で絞り込める', async () => {
+  const env = await load('#/list?q=' + encodeURIComponent('よいち'));
+  const names = [...env.document.querySelectorAll('#results .card-name')].map((e) => e.textContent);
+  assert.ok(names.some((n) => n.includes('余市')));
+});
+
+test('一覧：名前順・新着順に並ぶ', async () => {
+  const name = await load('#/list?sort=name');
+  const first = name.document.querySelector('#results .card-name').textContent;
+  assert.equal(first, [...DATA.whiskies].sort((a, b) => a.kana.localeCompare(b.kana, 'ja'))[0].name);
+
+  const fresh = await load('#/list?sort=new');
+  const newest = fresh.document.querySelector('#results a.card').getAttribute('href').replace('#/whisky/', '');
+  assert.equal(DATA.whiskies.find((w) => w.id === newest).addedAt, DATA.whiskies.map((w) => w.addedAt).sort().at(-1));
+});
+
+test('一覧：度数の高い順・低い順に並ぶ', async () => {
+  const hi = await load('#/list?sort=abv-desc');
+  const top = hi.document.querySelector('#results a.card').getAttribute('href').replace('#/whisky/', '');
+  assert.equal(abvOf(DATA.whiskies.find((w) => w.id === top)), Math.max(...DATA.whiskies.map((w) => abvOf(w) ?? 0)));
+
+  const lo = await load('#/list?sort=abv-asc');
+  const bottom = lo.document.querySelector('#results a.card').getAttribute('href').replace('#/whisky/', '');
+  assert.equal(abvOf(DATA.whiskies.find((w) => w.id === bottom)), Math.min(...DATA.whiskies.filter((w) => abvOf(w) !== null).map((w) => abvOf(w))));
+});
+
+test('一覧：条件に合う銘柄が無いときは、条件をゆるめる案内を出す', async () => {
+  const env = await load('#/list?taste=smoky&type=grain&q=' + encodeURIComponent('ありえない銘柄名'));
+  assert.equal(env.document.querySelectorAll('#results a.card').length, 0);
+  assert.match(env.document.querySelector('#results .empty').textContent, /条件/);
+  assert.ok(env.document.querySelector('#results .empty a[href="#/list"]'), '全部見る導線がある');
+});
+
+test('一覧：絞り込みを選ぶと URL に残る', async () => {
+  const env = await load('#/list');
+  const sel = env.document.querySelector('select[name="taste"]');
+  sel.value = 'smoky';
+  sel.dispatchEvent(new env.window.Event('change', { bubbles: true }));
+  assert.match(env.window.location.hash, /taste=smoky/);
+});
+
+test('一覧：旧URL（トップの検索・味の絞り込み）は一覧に引き継ぐ', async () => {
+  const a = await load('#/?q=' + encodeURIComponent('よいち'));
+  assert.ok(a.document.getElementById('results'), '一覧が出る');
+  assert.ok([...a.document.querySelectorAll('#results .card-name')].some((e) => e.textContent.includes('余市')));
+  const b = await load('#/?taste=smoky-rich');
+  assert.equal(b.document.querySelector('select[name="taste"]').value, 'smoky');
 });

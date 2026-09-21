@@ -17,6 +17,111 @@
     { key: 'floral-light', label: '華やか × やわらか', test: (t) => t.x < 0 && t.y < 0 },
     { key: 'smoky-light', label: 'スモーキー × やわらか', test: (t) => t.x >= 0 && t.y < 0 },
   ];
+
+  // 地方（仕様書 §4.3）。蒸溜所の都道府県をまとめる
+  const REGIONS = [
+    { key: 'hokkaido', label: '北海道', prefs: ['北海道'] },
+    { key: 'tohoku', label: '東北', prefs: ['青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県'] },
+    { key: 'kanto', label: '関東', prefs: ['茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県'] },
+    { key: 'koshinetsu', label: '甲信越', prefs: ['新潟県', '山梨県', '長野県'] },
+    { key: 'tokai', label: '東海', prefs: ['岐阜県', '静岡県', '愛知県', '三重県'] },
+    { key: 'hokuriku', label: '北陸', prefs: ['富山県', '石川県', '福井県'] },
+    { key: 'kinki', label: '近畿', prefs: ['滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県'] },
+    { key: 'chugoku', label: '中国', prefs: ['鳥取県', '島根県', '岡山県', '広島県', '山口県'] },
+    { key: 'shikoku', label: '四国', prefs: ['徳島県', '香川県', '愛媛県', '高知県'] },
+    { key: 'kyushu', label: '九州・沖縄', prefs: ['福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県'] },
+  ];
+  const regionOf = (pref) => REGIONS.find((r) => r.prefs.includes(pref)) || null;
+  // 銘柄が属する地方（原酒の蒸溜所から。海外原酒は地方を持たない）
+  function regionKeysOf(w) {
+    const keys = w.components
+      .filter((c) => c.distillery)
+      .map((c) => regionOf(D.get(c.distillery).pref))
+      .filter(Boolean)
+      .map((r) => r.key);
+    return [...new Set(keys)];
+  }
+
+  // タイプのまとめ方。上から順に見て、最初に当てはまったものになる
+  const TYPE_GROUPS = [
+    { key: 'single-malt', label: 'シングルモルト', test: (w) => /^シングルモルト/.test(w.type) },
+    { key: 'grain', label: 'グレーン', test: (w) => /グレーン/.test(w.type) },
+    { key: 'malt', label: 'モルト（ピュアモルト・ブレンデッドモルト）', test: (w) => /モルト/.test(w.type) },
+    { key: 'blended', label: 'ブレンデッド', test: (w) => /ブレンデッド/.test(w.type) },
+    { key: 'other', label: 'その他', test: () => true },
+  ];
+  const typeGroupOf = (w) => TYPE_GROUPS.find((g) => g.test(w));
+
+  // 味わいの絞り込み（仕様書 §5.2。すべてサイト独自の目安）
+  const TASTE_FILTERS = [
+    { key: 'sweet', label: '甘い', test: (p) => p.sweetness >= 4 },
+    { key: 'fruity', label: 'フルーティ', test: (p) => p.fruitiness >= 4 },
+    { key: 'fresh', label: '爽やか', test: (p) => p.drinkability >= 4 && p.richness <= 2 },
+    { key: 'rich', label: '濃厚', test: (p) => p.richness >= 4 },
+    { key: 'smoky', label: 'スモーキー', test: (p) => p.smokiness >= 4 },
+  ];
+  const SCENES = ['初めての1本', '普段飲み', 'プレゼント', '特別な日', '食事と一緒に', 'バーで飲みたい'];
+  const PROFILE_KEYS = [
+    ['sweetness', '甘さ'], ['fruitiness', 'フルーティ'], ['smokiness', 'スモーキー'],
+    ['richness', '濃厚'], ['drinkability', '飲みやすさ'],
+  ];
+
+  // 編集部が選ぶ定番（人気順ではない）
+  const STAPLES = ['hibiki-jh', 'yamazaki', 'hakushu', 'chita', 'yoichi', 'miyagikyo', 'fuji-single-blended', 'kakubin'];
+
+  const SORTS = [
+    { key: 'recommend', label: 'おすすめ' },
+    { key: 'name', label: '名前' },
+    { key: 'new', label: '新着' },
+    { key: 'abv-desc', label: '度数が高い' },
+    { key: 'abv-asc', label: '度数が低い' },
+  ];
+
+  // 度数の数字（記載がなければ null）
+  function abvNum(w) {
+    const s = (w.specs || []).find((x) => x.k === 'アルコール度数');
+    const m = s && String(s.v).match(/(\d+(?:\.\d+)?)\s*%/);
+    return m ? Number(m[1]) : null;
+  }
+
+  // 絞り込み1件ぶんの判定
+  function listMatch(w, f) {
+    if (f.type && typeGroupOf(w).key !== f.type) return false;
+    if (f.region && !regionKeysOf(w).includes(f.region)) return false;
+    if (f.distillery && !w.components.some((c) => c.distillery === f.distillery)) return false;
+    if (f.taste) {
+      const t = TASTE_FILTERS.find((x) => x.key === f.taste);
+      if (t && !t.test(w.profile)) return false;
+    }
+    if (f.serve && w.serve[f.serve] !== 3) return false;
+    if (f.scene && !w.scenes.includes(f.scene)) return false;
+    if (f.standard && w.standard !== f.standard) return false;
+    if (f.q && !whiskyHay.get(w.id).includes(norm(f.q))) return false;
+    return true;
+  }
+
+  // 並び替え。同点のときは読みの順にそろえる
+  function sortList(arr, sort) {
+    const byName = (a, b) => a.kana.localeCompare(b.kana, 'ja') || a.name.localeCompare(b.name, 'ja');
+    const copy = [...arr];
+    if (sort === 'name') return copy.sort(byName);
+    if (sort === 'new') return copy.sort((a, b) => b.addedAt.localeCompare(a.addedAt) || byName(a, b));
+    if (sort === 'abv-desc') return copy.sort((a, b) => (abvNum(b) ?? -1) - (abvNum(a) ?? -1) || byName(a, b));
+    if (sort === 'abv-asc') return copy.sort((a, b) => (abvNum(a) ?? 999) - (abvNum(b) ?? 999) || byName(a, b));
+    // おすすめ：定番8本 → 飲みやすさの高い順 → 読みの順
+    const rank = (w) => (STAPLES.indexOf(w.id) < 0 ? 99 : STAPLES.indexOf(w.id));
+    return copy.sort((a, b) => rank(a) - rank(b) || b.profile.drinkability - a.profile.drinkability || byName(a, b));
+  }
+
+  // 絞り込みから URL を作る（空の項目は付けない）
+  const LIST_KEYS = ['q', 'type', 'region', 'distillery', 'taste', 'serve', 'scene', 'standard', 'sort'];
+  function listHref(f) {
+    const p = new URLSearchParams();
+    for (const k of LIST_KEYS) if (f[k]) p.set(k, f[k]);
+    const qs = p.toString();
+    return qs ? `#/list?${qs}` : '#/list';
+  }
+
   const app = document.getElementById('app');
 
   // HTML に差し込む文字列を無害化する
@@ -191,11 +296,11 @@
   <p class="eyebrow">JAPANESE WHISKY GUIDE</p>
   <h1>その一本を、<br>ちゃんと知る。</h1>
   <p class="hero-lead">ジャパニーズウイスキーを1本ずつ。どこの県の、どの原酒で、どんな味で、どう飲むとうまいか。</p>
-  <form class="search" role="search" id="search-form">
-    <label class="sr-only" for="q">銘柄名・蒸溜所名で探す</label>
-    <input id="q" name="q" type="search" enterkeyhint="search" autocomplete="off" placeholder="例：ひびき / hibiki / 山崎" value="${esc(r.q)}">
-    <button type="submit">探す</button>
-  </form>
+  <a class="search" href="#/list">
+    <span class="sr-only">銘柄名・蒸溜所名で探す</span>
+    <input type="text" placeholder="例：ひびき / hibiki / 山崎" readonly tabindex="-1">
+    <button type="button" tabindex="-1">探す</button>
+  </a>
   <p class="search-hint">ひらがな・カタカナ・英字でも引けます。棚のラベルの読みでどうぞ。</p>
   <p class="hero-find"><a class="btn" href="#/find">好みから探す（3タップ）</a></p>
 </section>
@@ -218,7 +323,7 @@
   ${tasteMap({})}
   <div class="quads">${QUADS.map((q) => {
     const n = DATA.whiskies.filter((w) => q.test(w.taste)).length;
-    return `<a class="quad" href="#/?taste=${q.key}"${r.taste === q.key ? ' aria-current="true"' : ''}><span class="quad-name">${esc(q.label)}</span><span class="quad-count">${n}本</span></a>`;
+    return `<a class="quad" href="${listHref({ taste: LEGACY_TASTE[q.key] })}"><span class="quad-name">${esc(q.label)}</span><span class="quad-count">${n}本</span></a>`;
   }).join('')}</div>
 </section>
 <section class="sec">
@@ -231,19 +336,82 @@
     };
   }
 
-  function bindTop() {
-    const form = document.getElementById('search-form');
-    const input = document.getElementById('q');
-    const results = document.getElementById('results');
-    input.addEventListener('input', () => {
-      const q = input.value;
-      results.innerHTML = resultsHtml({ q, taste: '' });
-      history.replaceState(null, '', q ? `#/?q=${encodeURIComponent(q)}` : '#/');
-    });
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      input.blur();
-    });
+  // トップの検索窓・味の入口は #/list へのリンクになったので、束ねる対象がない（Task 10 でトップを作り直す）
+  function bindTop() {}
+
+  // ===== 画面：銘柄一覧 =====
+
+  // 並び替えの select（「すべて」は出さない）
+  function sortSelect(current) {
+    return `<label class="filter filter--sort"><span class="filter-label">並び替え</span><select name="sort">${
+      SORTS.map((x) => `<option value="${esc(x.key)}"${x.key === (current || 'recommend') ? ' selected' : ''}>${esc(x.label)}</option>`).join('')
+    }</select></label>`;
+  }
+
+  // 絞り込みのひとつぶん（select）
+  function filterSelect(name, label, options, current) {
+    const opts = [`<option value="">${esc(label)}：すべて</option>`]
+      .concat(options.map(([v, t]) => `<option value="${esc(v)}"${v === current ? ' selected' : ''}>${esc(t)}</option>`))
+      .join('');
+    return `<label class="filter"><span class="filter-label">${esc(label)}</span><select name="${esc(name)}">${opts}</select></label>`;
+  }
+
+  function viewList(r) {
+    const hits = sortList(DATA.whiskies.filter((w) => listMatch(w, r)), r.sort || 'recommend');
+    const onCount = LIST_KEYS.filter((k) => k !== 'sort' && r[k]).length;
+    const filters = [
+      filterSelect('type', 'タイプ', TYPE_GROUPS.filter((g) => g.key !== 'other').map((g) => [g.key, g.label]).concat([['other', 'その他']]), r.type),
+      filterSelect('region', '地方', REGIONS.map((x) => [x.key, x.label]), r.region),
+      filterSelect('distillery', '蒸溜所', DATA.distilleries.map((d) => [d.id, d.name]), r.distillery),
+      filterSelect('taste', '味わい', TASTE_FILTERS.map((x) => [x.key, x.label]), r.taste),
+      filterSelect('serve', '飲み方', SERVES.map(([k, label]) => [k, `${label}が◎`]), r.serve),
+      filterSelect('scene', 'シーン', SCENES.map((s) => [s, s]), r.scene),
+      filterSelect('standard', '区分', STD_KEYS.map((k) => [k, DATA.standards[k].label]), r.standard),
+    ].join('');
+
+    const list = hits.length
+      ? `<ul class="cards">${hits.map((w) => whiskyCard(w)).join('')}</ul>`
+      : `<p class="empty">条件に合う銘柄は見つかりませんでした。条件をひとつ減らすか、<a href="#/list">すべての銘柄</a>から探してみてください。</p>`;
+
+    return {
+      title: `銘柄をさがす｜${SITE}`,
+      html: `
+<section class="list-head">
+  <h1>ウイスキーを探す</h1>
+  <label class="search"><span class="visually-hidden">銘柄名・蒸溜所名で検索</span>
+    <input id="q" type="search" name="q" value="${esc(r.q || '')}" placeholder="銘柄名・蒸溜所名（例：よいち、yoichi）" autocomplete="off"></label>
+  <details class="filters"${onCount ? ' open' : ''}>
+    <summary>絞り込み${onCount ? `<span class="filter-on">${onCount}</span>` : ''}</summary>
+    <div class="filter-grid">${filters}</div>
+    <p class="note">味わい・シーンは、このサイト独自の目安です。</p>
+    ${onCount ? '<a class="clear" href="#/list">条件をすべて外す</a>' : ''}
+  </details>
+  <div class="sec-head">
+    <span id="results-count" class="count">${hits.length}本</span>
+    ${sortSelect(r.sort)}
+  </div>
+</section>
+<section id="results">${list}</section>`,
+    };
+  }
+
+  // 入力・選択を URL に反映する
+  function bindList() {
+    const current = parseHash(location.hash);
+    const update = (name, value) => {
+      const next = { ...current, [name]: value };
+      location.hash = listHref(next);
+    };
+    const q = document.getElementById('q');
+    if (q) {
+      q.addEventListener('input', () => update('q', q.value.trim()));
+      const end = q.value.length;
+      q.focus();
+      if (q.setSelectionRange) q.setSelectionRange(end, end);
+    }
+    for (const sel of document.querySelectorAll('.list-head select')) {
+      sel.addEventListener('change', () => update(sel.name, sel.value));
+    }
   }
 
   // ===== 画面：好みから探す =====
@@ -484,12 +652,30 @@
   }
 
   // ===== ルーター =====
+  // 旧トップの味の絞り込み（象限）を、新しい味わいの絞り込みに読み替える
+  const LEGACY_TASTE = { 'floral-light': 'fresh', 'floral-rich': 'rich', 'smoky-light': 'smoky', 'smoky-rich': 'smoky' };
+
+  function listParams(params) {
+    const f = { view: 'list' };
+    for (const k of LIST_KEYS) f[k] = params.get(k) || '';
+    return f;
+  }
+
   function parseHash(h) {
     const raw = (h || '').replace(/^#/, '') || '/';
     const [path, qs] = raw.split('?');
     const params = new URLSearchParams(qs || '');
     const parts = path.split('/').filter(Boolean);
-    if (parts.length === 0) return { view: 'top', q: params.get('q') || '', taste: params.get('taste') || '' };
+    if (parts.length === 0) {
+      // 旧URL（#/?q= と #/?taste=）は一覧に引き継ぐ
+      if (params.get('q') || params.get('taste')) {
+        const f = listParams(params);
+        f.taste = LEGACY_TASTE[params.get('taste')] || '';
+        return f;
+      }
+      return { view: 'top' };
+    }
+    if (parts.length === 1 && parts[0] === 'list') return listParams(params);
     if (parts.length === 2 && parts[0] === 'whisky') return { view: 'whisky', id: decodeURIComponent(parts[1]) };
     if (parts.length === 2 && parts[0] === 'distillery') return { view: 'distillery', id: decodeURIComponent(parts[1]) };
     if (parts.length === 1 && parts[0] === 'find') {
@@ -502,14 +688,16 @@
   function render() {
     const r = parseHash(location.hash);
     const v = r.view === 'top' ? viewTop(r)
-      : r.view === 'find' ? viewFind(r)
-        : r.view === 'whisky' ? viewWhisky(r.id)
-          : r.view === 'distillery' ? viewDistillery(r.id)
-            : r.view === 'standard' ? viewStandard()
-              : viewNotFound();
+      : r.view === 'list' ? viewList(r)
+        : r.view === 'find' ? viewFind(r)
+          : r.view === 'whisky' ? viewWhisky(r.id)
+            : r.view === 'distillery' ? viewDistillery(r.id)
+              : r.view === 'standard' ? viewStandard()
+                : viewNotFound();
     app.innerHTML = v.html;
     document.title = v.title;
     if (r.view === 'top') bindTop();
+    if (r.view === 'list') bindList();
     return r;
   }
 
@@ -523,5 +711,5 @@
 
   document.getElementById('checked-at').textContent = fmtDate(DATA.checkedAt);
   render();
-  window.__app = { search, norm, parseHash, render };
+  window.__app = { search, norm, parseHash, render, listMatch, sortList, regionOf, typeGroupOf };
 })();
