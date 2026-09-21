@@ -34,3 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# サブエージェント実行の作業場（git管理しない）
+.superpowers/

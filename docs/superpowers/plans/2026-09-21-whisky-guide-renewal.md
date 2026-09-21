@@ -399,6 +399,11 @@ test('シーンのタグは条件どおりに付く', () => {
   assert.ok(u.includes('バーで飲みたい'));
 });
 
+test('どのシーンにも当てはまらない銘柄は、バーで飲みたいに入る', () => {
+  const none = { type: 'ブレンデッド', serve: { highball: 1, mizuwari: 1 }, maker: 'ニッカウヰスキー', specs: [] };
+  assert.deepEqual(scenesOf(none, { drinkability: 2, smokiness: 3 }), ['バーで飲みたい']);
+});
+
 test('enrich は元のデータを壊さず、全銘柄に項目を足す', () => {
   const out = enrich(DATA);
   assert.equal(out.whiskies.length, DATA.whiskies.length);
@@ -510,6 +515,8 @@ export function scenesOf(w, profile) {
   if ((age !== null && age >= 12) || w.limited) out.push('特別な日');
   if (w.serve.highball === 3 || w.serve.mizuwari === 3) out.push('食事と一緒に');
   if (isMalt && !w.limited) out.push('バーで飲みたい');
+  // どれにも当てはまらない銘柄（度数が高く、飲み慣れた人向け）は「バーで飲みたい」に入れる
+  if (!out.length) out.push('バーで飲みたい');
   return out;
 }
 
@@ -556,7 +563,7 @@ if (process.argv[1] && process.argv[1].endsWith('enrich_profile.mjs')) {
   const src = readFileSync(p, 'utf8');
   const json = src.match(/^window\.WDATA = ([\s\S]*);\s*$/)[1];
   const out = enrich(JSON.parse(json));
-  writeFileSync(p, 'window.WDATA = ' + JSON.stringify(out) + ';\n');
+  writeFileSync(p, 'window.WDATA = ' + JSON.stringify(out, null, 2) + ';\n');
   console.log(`${out.whiskies.length}銘柄に profile / finish / scenes / addedAt を書き込みました`);
 }
 ```
@@ -578,7 +585,14 @@ console.log('余市', JSON.stringify(w.find(x=>x.id==='yoichi').profile), w.find
 "
 ```
 
-期待: 各平均が2〜4の範囲に入り、シーンが極端に偏らない。**シーンが0件の銘柄が出たら、その銘柄を一覧で拾えなくなるので、次の Step で手当てする。**
+期待（計画を書く前に、同じ規則を実データで試算した値）:
+
+- 平均 … 甘さ3.65／フルーティ3.48／スモーキー2.74／濃厚3.19／飲みやすさ3.74
+- シーン … 初めての1本50／普段飲み41／プレゼント20／特別な日24／食事と一緒に59／バーで飲みたい37
+- シーン0件 … 0本（受け皿の規則で フロム・ザ・バレル と 嘉之助 DOUBLE DISTILLERY が「バーで飲みたい」に入る）
+- 味わいの絞り込み … 甘い51／フルーティ37／爽やか23／濃厚38／スモーキー11
+
+この値から大きくずれていたら、規則の写し間違いを疑う。
 
 - [ ] **Step 6: 結果を見て手で調整する（必要なときだけ）**
 
@@ -1030,7 +1044,16 @@ node --test site/tests/render.check.mjs
     return r;
 ```
 
-**既存のトップが壊れないようにする:** `viewTop` は `r.q` / `r.taste` を見ていたが、`parseHash` がトップで返さなくなる。この段階では `viewTop(r)` の中の検索窓と味の入口を、`#/list?q=...` / `#/list?taste=...` へのリンクに置き換えるだけにして、`resultsHtml` は残す（Task 10 でトップ全体を作り直す）。既存のトップのテストのうち、検索と味の絞り込みを見ている5件は一覧のテストに置き換わるので削除する。
+**既存のトップが壊れないようにする:** `viewTop` は `r.q` / `r.taste` を見ていたが、`parseHash` がトップで返さなくなる。この段階では `viewTop(r)` の中の検索窓と味の入口を、`#/list?q=...` / `#/list?taste=...` へのリンクに置き換えるだけにして、`resultsHtml` は残す（Task 10 でトップ全体を作り直す）。
+
+トップの入口を変えるので、`render.check.mjs` から次の6件を削除する（中身は一覧のテストに置き換わる）:
+
+- `検索：ひびき・hibiki・ヒビキ・全角英字で響が出る`
+- `検索：山崎で蒸溜所が先頭、山崎の原酒を使う銘柄も出る`
+- `検索：URL の q で結果が出る（蒸溜所が先頭）`
+- `検索：入力するとその場で結果と URL が変わる`
+- `検索：見つからない時は読みでの検索を案内する`
+- `味から探す：4つの入口があり、象限で絞り込める`
 
 - [ ] **Step 7: 見た目を足す**
 
@@ -2304,7 +2327,7 @@ EOF
 
 - [ ] **Step 1: トップのテストを書く**
 
-既存のトップのテスト（`トップ：全銘柄がメーカー別にまとまって並び...`、`都道府県から探す...`、`味から探す...`、`トップ：表示基準の説明への入口に5区分が並ぶ`）を削除し、次を足す:
+既存のトップのテスト（`トップ：全銘柄がメーカー別にまとまって並び...`、`都道府県から探す...`、`トップ：表示基準の説明への入口に5区分が並ぶ`）を削除し、次を足す:
 
 ```js
 // ===== トップ =====
