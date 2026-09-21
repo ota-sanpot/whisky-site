@@ -43,6 +43,9 @@ export async function load(hash = '') {
   // jsdom には file: URL の history.pushState/replaceState が同一パスでも
   // SecurityError になる既知バグがある（パス配列を参照比較しているため）。
   // app.js 側は変えず、テスト環境側だけで location.hash の直接代入に読み替えて吸収する。
+  // ただし飲み込む範囲は「ハッシュだけが変わる」場合に限定し、origin・pathname・search が
+  // 変わるような本物の SecurityError（将来 app.js が実際のオリジン外へ遷移しようとした場合など）は
+  // 隠さずそのまま投げ直す。
   const { history } = dom.window;
   for (const method of ['pushState', 'replaceState']) {
     const original = history[method].bind(history);
@@ -51,7 +54,12 @@ export async function load(hash = '') {
         original(data, unused, url);
       } catch (e) {
         if (e.name !== 'SecurityError') throw e;
-        dom.window.location.hash = new dom.window.URL(url, dom.window.location.href).hash;
+        const current = new dom.window.URL(dom.window.location.href);
+        const next = new dom.window.URL(url, dom.window.location.href);
+        const hashOnlyChange =
+          next.origin === current.origin && next.pathname === current.pathname && next.search === current.search;
+        if (!hashOnlyChange) throw e;
+        dom.window.location.hash = next.hash;
       }
     };
   }
