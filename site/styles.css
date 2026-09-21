@@ -181,10 +181,12 @@ a.next{border-color:rgba(220,157,66,.5)}
 .bar-fill{display:block;height:100%;width:calc(var(--v) / 5 * 100%);background:linear-gradient(90deg,var(--amber-dim),var(--amber))}
 .bar-value{font-size:13px;color:var(--text-3);text-align:right}
 .scene-tags{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 0}
-.scene-tag{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface-2);color:var(--text);font-size:14px;text-decoration:none;word-break:keep-all}
-.note-row{display:flex;gap:10px;margin:6px 0}
+.scene-tag{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface-2);color:var(--text);font-size:14px;text-decoration:none;word-break:keep-all}
+.note-row{display:flex;flex-wrap:wrap;gap:2px 10px;margin:6px 0}
 .note-k{flex:0 0 3.5em;color:var(--text-3);font-size:14px}
 .note-v{flex:1}
+/* 余韻の見立ての行は見出しが長いので、見出し・値とも1行ずつ縦に並べる */
+.note-finish .note-k{flex:0 0 100%}
 
 /* ===== 丁寧に知る部分・蒸溜所・表示基準 ===== */
 .deep{display:grid;gap:26px;margin-top:30px}

@@ -585,7 +585,7 @@
     const notes = (w.official || []).length || w.finish
       ? `<section id="notes" aria-labelledby="notes-h"><h2 id="notes-h">香り・味・余韻</h2>
 ${(w.official || []).map((o) => `<p class="note-row"><span class="note-k">${esc(o.k)}</span><span class="note-v">${esc(o.v)}</span></p>`).join('')}
-<p class="note-row"><span class="note-k">余韻</span><span class="note-v">${esc(w.finish)}</span></p>
+<p class="note-row note-finish"><span class="note-k">余韻の長さ（サイト独自の目安）</span><span class="note-v">${esc(w.finish)}</span></p>
 <p class="note">「特長」「香り」「味」はメーカー公式の説明を要約したものです。余韻の長さはサイト独自の目安です。</p></section>`
       : '';
     return {

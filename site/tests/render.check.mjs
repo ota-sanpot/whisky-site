@@ -103,10 +103,21 @@ test('銘柄ページ：味わいは5段階の棒で出て、サイト独自の�
   assert.equal(env.document.querySelectorAll('#profile svg').length, 0, '小さな味の地図は出さない');
 });
 
-test('銘柄ページ：余韻の長さが出る', async () => {
+test('銘柄ページ：余韻の長さが出る（公式の余韻とは見出しで区別する）', async () => {
   const env = await load('#/whisky/yoichi');
   const w = DATA.whiskies.find((x) => x.id === 'yoichi');
-  assert.match(text(env.document.querySelector('#notes')), new RegExp(`余韻${w.finish}`.replace(/\s/g, '')));
+  const notes = text(env.document.querySelector('#notes'));
+  assert.ok(notes.includes(`余韻の長さ（サイト独自の目安）${w.finish}`), notes);
+  // 公式に「余韻」の記述がある銘柄では、公式の行も残る
+  const official = (w.official || []).find((o) => o.k === '余韻');
+  if (official) assert.ok(notes.includes(official.v.replace(/\s+/g, '')), '公式の余韻の記述が消えている');
+
+  // 公式に余韻の記述がない銘柄（hibiki-jh）でも、見立ての行は出る
+  const hEnv = await load('#/whisky/hibiki-jh');
+  const hw = DATA.whiskies.find((x) => x.id === 'hibiki-jh');
+  assert.ok(!(hw.official || []).some((o) => o.k === '余韻'), 'このテストの前提（hibiki-jhに公式の余韻記述がないこと）が崩れている');
+  const hNotes = text(hEnv.document.querySelector('#notes'));
+  assert.ok(hNotes.includes(`余韻の長さ（サイト独自の目安）${hw.finish}`), hNotes);
 });
 
 test('銘柄ページ：こんな人におすすめが、シーンのタグつきで出る', async () => {
