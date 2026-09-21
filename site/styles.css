@@ -151,7 +151,6 @@ a.chip:hover{border-color:var(--amber)}
 a.chip .chip-name{text-decoration:underline;text-decoration-color:rgba(220,157,66,.55);text-underline-offset:3px}
 .chip-kind{font-size:11px;color:var(--amber-2)}
 .origin-note{margin:6px 0 0;font-size:11.5px;line-height:1.6;color:var(--text-3)}
-.w-taste-body{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px}
 .w-line{margin:0;font-size:16px;font-weight:700;line-height:1.6}
 .w-line .ph{display:inline-block}
 /* 名前・短いラベルは空白と句読点のところでだけ改行する（収まらない時は body の overflow-wrap で折る） */
@@ -173,6 +172,19 @@ a.next{border-color:rgba(220,157,66,.5)}
 .next-name{font-size:14px;font-weight:700;line-height:1.45}
 .next-why{font-size:12px;line-height:1.6;color:var(--text-2)}
 .next-soon{margin-top:auto;font-size:10.5px;color:var(--text-3)}
+
+/* ===== 味わい5段階 ===== */
+.bars{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.bar{display:grid;grid-template-columns:5.5em 1fr 1.4em;align-items:center;gap:8px}
+.bar-label{font-size:13px;color:var(--text-2);word-break:keep-all}
+.bar-track{height:10px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.bar-fill{display:block;height:100%;width:calc(var(--v) / 5 * 100%);background:linear-gradient(90deg,var(--amber-dim),var(--amber))}
+.bar-value{font-size:13px;color:var(--text-3);text-align:right}
+.scene-tags{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 0}
+.scene-tag{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface-2);color:var(--text);font-size:14px;text-decoration:none;word-break:keep-all}
+.note-row{display:flex;gap:10px;margin:6px 0}
+.note-k{flex:0 0 3.5em;color:var(--text-3);font-size:14px}
+.note-v{flex:1}
 
 /* ===== 丁寧に知る部分・蒸溜所・表示基準 ===== */
 .deep{display:grid;gap:26px;margin-top:30px}

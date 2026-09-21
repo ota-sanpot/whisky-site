@@ -152,15 +152,37 @@
   // 限定品の表示（地域限定・数量限定など）
   const limitedTag = (w) => (w.limited ? `<span class="limited">${esc(w.limited)}</span>` : '');
 
-  // 手書きの「次の1本」がない銘柄は、味の地図で近い2本を出す（同じメーカーは少し遠く扱って偏りを減らす）
+  // 次の1本。手書きがあれば優先し、3本に足りない分は理由を変えて補う
   function nextOf(w) {
-    if (w.next) return w.next;
-    return DATA.whiskies
-      .filter((o) => o.id !== w.id)
-      .map((o) => ({ o, d: Math.hypot(o.taste.x - w.taste.x, o.taste.y - w.taste.y) + (o.maker === w.maker ? 0.08 : 0) }))
-      .sort((a, b) => a.d - b.d)
-      .slice(0, 2)
-      .map(({ o }) => ({ id: o.id, name: o.name, why: `味の地図で近い位置にある、${o.maker}の${o.type}` }));
+    const picked = [...(w.next || [])].slice(0, 3);
+    const used = new Set([w.id, ...picked.map((n) => n.id)]);
+    const dist = (o) => Math.hypot(o.taste.x - w.taste.x, o.taste.y - w.taste.y);
+    const add = (o, why) => {
+      if (!o || used.has(o.id)) return;
+      used.add(o.id);
+      picked.push({ id: o.id, name: o.name, why });
+    };
+    const rest = () => DATA.whiskies.filter((o) => !used.has(o.id)).sort((a, b) => dist(a) - dist(b));
+
+    if (picked.length < 3) {
+      const near = rest()[0];
+      add(near, near ? `味わいが近い1本（${near.maker}の${near.type}）` : '');
+    }
+    if (picked.length < 3) {
+      const other = rest().find((o) => typeGroupOf(o).key !== typeGroupOf(w).key);
+      add(other, other ? `味わいは近いが、タイプが違う（${other.type}）` : '');
+    }
+    if (picked.length < 3) {
+      const sameHouse = rest().find((o) => o.maker === w.maker)
+        || rest().find((o) => o.components.some((c) => c.distillery && w.components.some((x) => x.distillery === c.distillery)));
+      add(sameHouse, sameHouse ? `同じ造り手の別の1本（${sameHouse.maker}）` : '');
+    }
+    while (picked.length < 3) {
+      const any = rest()[0];
+      if (!any) break;
+      add(any, '味わいの地図で近い位置にある1本');
+    }
+    return picked.slice(0, 3);
   }
 
   // 産地の短い表記（県名、海外は国名）
@@ -522,12 +544,50 @@
       : `<div class="next next--off">${inner}</div>`;
   }
 
+  // 味わい5段階の棒（サイト独自の目安）
+  function profileBars(w) {
+    const rows = PROFILE_KEYS.map(([k, label]) => {
+      const v = w.profile[k];
+      return `<li class="bar" data-key="${esc(k)}" data-value="${v}" role="img" aria-label="${esc(label)} 5段階で${v}" aria-valuenow="${v}">
+  <span class="bar-label">${esc(label)}</span>
+  <span class="bar-track"><span class="bar-fill" style="--v:${v}"></span></span>
+  <span class="bar-value">${v}</span></li>`;
+    }).join('');
+    return `<ul class="bars">${rows}</ul>`;
+  }
+
+  // こんな人におすすめ（見立て）
+  function forWhomHtml(w) {
+    const p = w.profile;
+    const bits = [];
+    if (p.drinkability >= 4) bits.push('ウイスキーを飲み慣れていない人');
+    if (p.smokiness >= 4) bits.push('煙っぽい香りを楽しみたい人');
+    if (p.fruitiness >= 4) bits.push('果実のような香りが好きな人');
+    if (p.sweetness >= 4) bits.push('甘みのある味わいが好きな人');
+    if (p.richness >= 4) bits.push('飲みごたえがほしい人');
+    if (!bits.length) bits.push('クセの少ない1本を探している人');
+    const tags = w.scenes.map((s) => `<a class="scene-tag" href="#/list?scene=${encodeURIComponent(s)}">${esc(s)}</a>`).join('');
+    return `<section id="for-whom" aria-labelledby="for-whom-h">
+  <h2 id="for-whom-h">こんな人におすすめ</h2>
+  <p>${esc(bits.join('、'))}に向いています。</p>
+  <p class="scene-tags">${tags}</p>
+  <p class="note">この項目は編集部の見立てです。</p>
+</section>`;
+  }
+
   function viewWhisky(id) {
     const w = W.get(id);
     if (!w) return viewNotFound();
     const multi = w.components.length > 1;
     const std = DATA.standards[w.standard];
     const opinion = '<span class="opinion">編集部の見立て</span>';
+    // 香り・味・余韻（公式の要約＋余韻の長さ）。finish は全銘柄に入っているので、この節は必ず出る
+    const notes = (w.official || []).length || w.finish
+      ? `<section id="notes" aria-labelledby="notes-h"><h2 id="notes-h">香り・味・余韻</h2>
+${(w.official || []).map((o) => `<p class="note-row"><span class="note-k">${esc(o.k)}</span><span class="note-v">${esc(o.v)}</span></p>`).join('')}
+<p class="note-row"><span class="note-k">余韻</span><span class="note-v">${esc(w.finish)}</span></p>
+<p class="note">「特長」「香り」「味」はメーカー公式の説明を要約したものです。余韻の長さはサイト独自の目安です。</p></section>`
+      : '';
     return {
       title: `${w.name}｜${SITE}`,
       html: `
@@ -542,32 +602,34 @@
   </div>
 </header>
 <div class="w-first">
-  <section class="w-origin" aria-labelledby="origin-h">
-    <h2 class="label" id="origin-h">${multi ? '中身の原酒と産地' : '産地・蒸溜所'}</h2>
-    <ul class="chips">${w.components.map((c) => `<li>${componentChip(c)}</li>`).join('')}</ul>
-    ${w.originNote ? `<p class="origin-note">${esc(w.originNote)}</p>` : ''}
+  <section id="taste" aria-labelledby="taste-h">
+    <h2 class="label" id="taste-h">味の一言${opinion}</h2>
+    <p class="w-line">${phrases(w.taste.line)}</p>
   </section>
-  <section class="w-taste" aria-labelledby="taste-h">
-    <h2 class="label" id="taste-h">味のイメージ${opinion}</h2>
-    <div class="w-taste-body"><p class="w-line">${phrases(w.taste.line)}</p>${tasteMap({ focus: w.id })}</div>
+  <section id="profile" aria-labelledby="profile-h">
+    <h2 class="label" id="profile-h">味わい（5段階）</h2>
+    ${profileBars(w)}
+    <p class="note">味わいの5段階は、このサイト独自の目安です。</p>
   </section>
-  <section class="w-serve" aria-labelledby="serve-h">
+  ${notes}
+  <section id="serve" aria-labelledby="serve-h">
     <h2 class="label" id="serve-h">おすすめの飲み方${opinion}</h2>
     <ul class="serve">${SERVES.map(([k, label]) => `<li class="serve-item serve-${w.serve[k]}"><span class="serve-mark" aria-hidden="true">${MARK[w.serve[k]]}</span><span class="serve-name">${label}</span><span class="sr-only">${MARK_TEXT[w.serve[k]]}</span></li>`).join('')}</ul>
     ${w.makerServe ? `<p class="maker-serve"><span class="maker-tag">メーカーのおすすめ</span>${esc(w.makerServe.text)}</p>` : ''}
   </section>
-  <section class="w-next" aria-labelledby="next-h">
-    <h2 class="label" id="next-h">似ている銘柄・次の1本${opinion}</h2>
+  ${forWhomHtml(w)}
+  <section id="origin" aria-labelledby="origin-h">
+    <h2 class="label" id="origin-h">${multi ? '中身の原酒と産地' : '産地・蒸溜所'}</h2>
+    <ul class="chips">${w.components.map((c) => `<li>${componentChip(c)}</li>`).join('')}</ul>
+    ${w.originNote ? `<p class="origin-note">${esc(w.originNote)}</p>` : ''}
+  </section>
+  <section id="next" aria-labelledby="next-h">
+    <h2 class="label" id="next-h">次の1本${opinion}</h2>
     <ul class="next-row">${nextOf(w).map((n) => `<li>${nextCard(n)}</li>`).join('')}</ul>
   </section>
 </div>
-<div class="deep">
+<section id="deep" class="deep">
   <p class="deep-intro">もっと知る</p>
-  ${w.official ? `<section id="official" aria-labelledby="official-h">
-    <h2 id="official-h">香り・味・余韻</h2>
-    <dl class="dl">${w.official.map((o) => `<dt>${esc(o.k)}</dt><dd>${esc(o.v)}</dd>`).join('')}</dl>
-    <p class="note">メーカー公式の説明を要約しています。${w.official.length === 1 ? '香り・味・余韻を分けた説明は、公式ページにありません。' : ''}</p>
-  </section>` : ''}
   <section id="casks" aria-labelledby="casks-h">
     <h2 id="casks-h">原酒と樽</h2>
     <div class="flow">${w.components.map(flowItem).join('')}<div class="flow-arrow" aria-hidden="true">▼</div><div class="flow-result">${esc(w.name)}</div></div>
@@ -583,7 +645,7 @@
     <dl class="dl">${(w.specs || []).map((x) => `<dt>${esc(x.k)}</dt><dd>${esc(x.v)}</dd>`).join('')}<dt>表示基準</dt><dd>${esc(std.label)}。${esc(w.standardNote)}</dd></dl>
   </section>
   ${sourcesHtml(w.sources)}
-</div>`,
+</section>`,
     };
   }
 

@@ -70,33 +70,78 @@ test('銘柄ページ：響の最初の一画面', async () => {
   assert.equal(d.querySelector('h1').textContent, '響 JAPANESE HARMONY');
   assert.equal(d.querySelector('.w-head .badge').textContent, 'ジャパニーズウイスキー');
   assert.equal(d.querySelector('.w-head .badge').getAttribute('href'), '#/standard');
-  const chips = [...d.querySelectorAll('.w-origin .chip')].map(text);
+  const chips = [...d.querySelectorAll('#origin .chip')].map(text);
   assert.deepEqual(chips, ['大阪府山崎モルト', '山梨県白州モルト', '愛知県知多グレーン']);
-  assert.equal(d.querySelectorAll('.w-origin a.chip').length, 3);
+  assert.equal(d.querySelectorAll('#origin a.chip').length, 3);
   assert.match(d.querySelector('.w-line').textContent, /華やか/);
-  assert.ok(d.querySelector('.w-taste svg circle.dot--focus'));
-  assert.equal(d.querySelectorAll('.w-serve .serve-item').length, 4);
-  assert.deepEqual(hrefs(d.querySelectorAll('.w-next a.next')), ['#/whisky/yamazaki', '#/whisky/hakushu', '#/whisky/ao']);
+  assert.equal(d.querySelectorAll('#taste svg').length, 0, '銘柄ページから小さな味の地図は外した');
+  assert.equal(d.querySelectorAll('#serve .serve-item').length, 4);
+  assert.deepEqual(hrefs(d.querySelectorAll('#next a.next')), ['#/whisky/yamazaki', '#/whisky/hakushu', '#/whisky/ao']);
   assert.equal(d.title, '響 JAPANESE HARMONY｜Japanese Whisky Guide');
   assert.deepEqual(env.errors, []);
 });
 
-test('銘柄ページ：最初の一画面は 産地→味→飲み方→次の1本 の順', async () => {
+test('銘柄ページ：仕様書の順に並ぶ', async () => {
   const env = await load('#/whisky/hibiki-jh');
-  const order = [...env.document.querySelectorAll('.w-first > section')].map((s) => s.className);
-  assert.deepEqual(order, ['w-origin', 'w-taste', 'w-serve', 'w-next']);
+  const ids = [...env.document.querySelectorAll('main section[id]')].map((s) => s.id);
+  const want = ['taste', 'profile', 'notes', 'serve', 'for-whom', 'origin', 'next'];
+  assert.deepEqual(ids.slice(0, want.length), want);
+});
+
+test('銘柄ページ：味わいは5段階の棒で出て、サイト独自の目安と書いてある', async () => {
+  const env = await load('#/whisky/yoichi');
+  const w = DATA.whiskies.find((x) => x.id === 'yoichi');
+  const bars = [...env.document.querySelectorAll('#profile .bar')];
+  assert.equal(bars.length, 5);
+  for (const b of bars) {
+    const v = Number(b.getAttribute('data-value'));
+    assert.ok(v >= 1 && v <= 5);
+    assert.equal(b.getAttribute('aria-valuenow'), String(v));
+  }
+  assert.equal(Number(env.document.querySelector('#profile .bar[data-key="smokiness"]').getAttribute('data-value')), w.profile.smokiness);
+  assert.match(env.document.querySelector('#profile').textContent, /サイト独自の目安/);
+  assert.equal(env.document.querySelectorAll('#profile svg').length, 0, '小さな味の地図は出さない');
+});
+
+test('銘柄ページ：余韻の長さが出る', async () => {
+  const env = await load('#/whisky/yoichi');
+  const w = DATA.whiskies.find((x) => x.id === 'yoichi');
+  assert.match(text(env.document.querySelector('#notes')), new RegExp(`余韻${w.finish}`.replace(/\s/g, '')));
+});
+
+test('銘柄ページ：こんな人におすすめが、シーンのタグつきで出る', async () => {
+  const env = await load('#/whisky/hibiki-jh');
+  const w = DATA.whiskies.find((x) => x.id === 'hibiki-jh');
+  const sec = env.document.querySelector('#for-whom');
+  assert.match(sec.textContent, /編集部の見立て|サイト独自の目安/);
+  const tags = [...sec.querySelectorAll('a.scene-tag')].map((a) => a.textContent);
+  assert.deepEqual([...tags], w.scenes);
+  const href = sec.querySelector('a.scene-tag').getAttribute('href');
+  assert.equal(href, '#/list?scene=' + encodeURIComponent(w.scenes[0]));
+});
+
+test('銘柄ページ：次の1本は必ず3本出て、理由が付く', async () => {
+  for (const id of ['hibiki-jh', 'yoichi', 'kujira-5']) {
+    const env = await load('#/whisky/' + id);
+    const items = [...env.document.querySelectorAll('#next .next-row > li')];
+    assert.equal(items.length, 3, id);
+    for (const li of items) assert.ok(li.querySelector('.next-why').textContent.trim().length >= 4, id);
+    const hrefs = items.map((li) => li.querySelector('a').getAttribute('href'));
+    assert.equal(new Set(hrefs).size, 3, `${id}: 同じ銘柄が重複している`);
+    assert.ok(!hrefs.includes('#/whisky/' + id), `${id}: 自分自身を出している`);
+  }
 });
 
 test('銘柄ページ：見立ての項目には見立ての表示がある', async () => {
   const env = await load('#/whisky/yoichi');
-  for (const sel of ['.w-taste', '.w-serve', '.w-next']) {
+  for (const sel of ['#taste', '#serve', '#next']) {
     assert.equal(env.document.querySelector(`${sel} .opinion`).textContent, '編集部の見立て', sel);
   }
 });
 
 test('銘柄ページ：飲み方は◎○△と読み上げ用の言葉で出る', async () => {
   const env = await load('#/whisky/yoichi');
-  const items = [...env.document.querySelectorAll('.w-serve .serve-item')].map(text);
+  const items = [...env.document.querySelectorAll('#serve .serve-item')].map(text);
   assert.deepEqual(items, ['◎ストレートとても合う', '◎ロックとても合う', '○ハイボール合う', '△水割り好みが分かれる']);
 });
 
@@ -106,18 +151,18 @@ test('銘柄ページ：碧Aoは海外原酒の区分と国別の原酒', async 
   const b = d.querySelector('.w-head .badge');
   assert.equal(b.textContent, '海外原酒を含む');
   assert.ok(b.classList.contains('badge--foreign'));
-  const chips = [...d.querySelectorAll('.w-origin .chip')].map(text);
+  const chips = [...d.querySelectorAll('#origin .chip')].map(text);
   assert.deepEqual(chips, ['大阪府山崎モルト', 'アメリカバーボン', 'スコットランド原酒', 'アイルランド原酒', 'カナダ原酒']);
-  assert.match(d.querySelector('.w-origin .origin-note').textContent, /非公表|公表されていません/);
+  assert.match(d.querySelector('#origin .origin-note').textContent, /非公表|公表されていません/);
 });
 
 test('銘柄ページ：余市は1蒸溜所のシングルモルト、蒸溜所へリンク', async () => {
   const env = await load('#/whisky/yoichi');
   const d = env.document;
-  assert.equal(d.querySelector('.w-origin h2').firstChild.textContent, '産地・蒸溜所');
-  assert.deepEqual([...d.querySelectorAll('.w-origin .chip')].map(text), ['北海道余市モルト']);
-  assert.deepEqual(hrefs(d.querySelectorAll('.w-origin a.chip')), ['#/distillery/yoichi']);
-  assert.equal(d.querySelector('.w-origin .origin-note'), null);
+  assert.equal(d.querySelector('#origin h2').firstChild.textContent, '産地・蒸溜所');
+  assert.deepEqual([...d.querySelectorAll('#origin .chip')].map(text), ['北海道余市モルト']);
+  assert.deepEqual(hrefs(d.querySelectorAll('#origin a.chip')), ['#/distillery/yoichi']);
+  assert.equal(d.querySelector('#origin .origin-note'), null);
 });
 
 test('銘柄ページ：スピリッツを含む区分', async () => {
@@ -127,9 +172,9 @@ test('銘柄ページ：スピリッツを含む区分', async () => {
 });
 
 test('銘柄ページ：チップの蒸溜所名と原酒の種類は短く出る', async () => {
-  const t1 = [...(await load('#/whisky/sunshine')).document.querySelectorAll('.w-origin .chip')].map(text);
+  const t1 = [...(await load('#/whisky/sunshine')).document.querySelectorAll('#origin .chip')].map(text);
   assert.equal(t1[0], '富山県三郎丸モルト');
-  const t2 = [...(await load('#/whisky/kujira-5')).document.querySelectorAll('.w-origin .chip')].map(text);
+  const t2 = [...(await load('#/whisky/kujira-5')).document.querySelectorAll('#origin .chip')].map(text);
   assert.deepEqual(t2, ['沖縄県まさひろ酒造米']);
 });
 
@@ -146,23 +191,12 @@ test('銘柄ページ：限定品には限定の表示が出る', async () => {
   assert.equal((await load('#/whisky/hibiki-jh')).document.querySelector('.w-head .limited'), null);
 });
 
-test('銘柄ページ：次の1本の手書きがない銘柄は、味の地図の近い銘柄を2本出す', async () => {
-  const w = DATA.whiskies.find((x) => !x.next);
-  const d = (await load(`#/whisky/${w.id}`)).document;
-  const cards = d.querySelectorAll('.w-next a.next');
-  assert.equal(cards.length, 2);
-  for (const c of cards) {
-    assert.notEqual(c.getAttribute('href'), `#/whisky/${w.id}`);
-    assert.match(c.querySelector('.next-why').textContent, /味の地図/);
-  }
-});
-
 test('銘柄ページ：丁寧に知る部分と出典', async () => {
   for (const w of DATA.whiskies) {
     const d = (await load(`#/whisky/${w.id}`)).document;
     assert.ok(d.getElementById('casks'), `${w.id}: #casks`);
     assert.equal(d.querySelectorAll('#casks .flow-item').length, w.components.length, `${w.id}: flow`);
-    assert.equal(d.querySelectorAll('#official dt').length, (w.official || []).length, `${w.id}: official`);
+    assert.equal(d.querySelectorAll('#notes .note-row').length, (w.official || []).length + 1, `${w.id}: notes（公式の要約＋余韻）`);
     assert.equal(d.querySelectorAll('#story p').length, (w.story || []).length, `${w.id}: story`);
     assert.equal(d.querySelectorAll('#specs dt').length, (w.specs || []).length + 1, `${w.id}: specs＋表示基準`);
     const links = d.querySelectorAll('#sources a');
@@ -187,10 +221,10 @@ test('銘柄ページ：味の一言は読点ごとの句に分けて、句の�
 });
 
 test('銘柄ページ：メーカーのおすすめがある銘柄だけ、見立てとは別に出す', async () => {
-  const yoichi = (await load('#/whisky/yoichi')).document.querySelector('.w-serve .maker-serve');
+  const yoichi = (await load('#/whisky/yoichi')).document.querySelector('#serve .maker-serve');
   assert.ok(yoichi);
   assert.match(yoichi.textContent, /^メーカーのおすすめ/);
-  assert.equal((await load('#/whisky/ao')).document.querySelector('.w-serve .maker-serve'), null);
+  assert.equal((await load('#/whisky/ao')).document.querySelector('#serve .maker-serve'), null);
 });
 
 // ===== 蒸溜所・表示基準 =====
@@ -227,7 +261,7 @@ test('蒸溜所ページ：存在しない id は見つからない表示', asyn
 
 test('銘柄と蒸溜所を行き来できる', async () => {
   const env = await load('#/whisky/hibiki-jh');
-  go(env, env.document.querySelector('.w-origin a.chip').getAttribute('href'));
+  go(env, env.document.querySelector('#origin a.chip').getAttribute('href'));
   assert.equal(env.document.querySelector('h1').textContent, '山崎蒸溜所');
   go(env, env.document.querySelector('#used a.card[href="#/whisky/hibiki-jh"]').getAttribute('href'));
   assert.equal(env.document.querySelector('h1').textContent, '響 JAPANESE HARMONY');
