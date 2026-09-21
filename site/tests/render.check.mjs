@@ -295,3 +295,68 @@ test('銘柄ページのバッジから表示基準ページへ行ける', () =>
   go(env, env.document.querySelector('.w-head .badge').getAttribute('href'));
   assert.match(env.document.querySelector('h1').textContent, /名乗れる条件/);
 });
+
+// ===== 好みから探す =====
+
+test('好みから探す：3つの質問があり、選ぶ前は案内を出す', () => {
+  const env = load('#/find');
+  const d = env.document;
+  assert.equal(d.querySelectorAll('#find-form .find-q').length, 3);
+  assert.deepEqual([...d.querySelectorAll('#find-form .find-q > .label')].map((e) => e.firstChild.textContent), ['どう飲む？', 'どんな香り？', '濃さは？']);
+  assert.ok(d.querySelector('#find-result .find-hint'));
+  assert.equal(d.querySelectorAll('#find-result a.card').length, 0);
+  assert.match(d.title, /^好みから探す｜/);
+  assert.deepEqual(env.errors, []);
+});
+
+test('好みから探す：選ぶと合う順に3本出る', () => {
+  const d = load('#/find?serve=highball&flavor=smoky&body=rich').document;
+  const cards = d.querySelectorAll('#find-result a.card');
+  assert.equal(cards.length, 3);
+  const ids = hrefs(cards).map((h) => h.replace('#/whisky/', ''));
+  for (const id of ids) {
+    const w = DATA.whiskies.find((x) => x.id === id);
+    assert.equal(w.serve.highball, 3, `${id}: ハイボールが◎でない`);
+    assert.ok(w.taste.x > 0 && w.taste.y > 0, `${id}: スモーキー×濃厚でない`);
+  }
+});
+
+test('好みから探す：1つだけ選んでも結果が出る', () => {
+  const d = load('#/find?serve=straight').document;
+  const cards = d.querySelectorAll('#find-result a.card');
+  assert.equal(cards.length, 3);
+  for (const h of hrefs(cards)) {
+    const w = DATA.whiskies.find((x) => x.id === h.replace('#/whisky/', ''));
+    assert.notEqual(w.serve.straight, 1, `${w.id}: ストレートが△なのに上位`);
+  }
+});
+
+test('好みから探す：結果には合う理由と見立ての表示がある', () => {
+  const d = load('#/find?serve=highball&flavor=floral&body=light').document;
+  const why = [...d.querySelectorAll('#find-result .card-why')].map((e) => e.textContent);
+  assert.equal(why.length, 3);
+  assert.match(why[0], /ハイボール/);
+  assert.equal(d.querySelector('#find-result .opinion').textContent, '編集部の見立て');
+});
+
+test('好みから探す：選ぶと URL に残り、選んだものに印が付く', () => {
+  const env = load('#/find');
+  // 選ぶ前は、どの質問も「こだわらない」が選ばれている
+  assert.deepEqual([...env.document.querySelectorAll('.find-opt[aria-current="true"]')].map((e) => e.textContent), ['こだわらない', 'こだわらない', 'こだわらない']);
+  go(env, env.document.querySelector('.find-opt[href*="serve=rock"]').getAttribute('href'));
+  assert.equal(env.window.location.hash, '#/find?serve=rock');
+  const sel = [...env.document.querySelectorAll('.find-opt[aria-current="true"]')].map((e) => e.textContent);
+  assert.equal(sel.length, 3, '質問ごとに1つずつ選ばれている');
+  assert.equal(sel[0], 'ロック');
+  // ほかの質問を選ぶと、前の答えは残る
+  go(env, env.document.querySelector('.find-opt[href*="body=rich"]').getAttribute('href'));
+  assert.match(env.window.location.hash, /serve=rock/);
+  assert.match(env.window.location.hash, /body=rich/);
+  assert.deepEqual(env.errors, []);
+});
+
+test('好みから探す：トップに入口がある', () => {
+  const d = load('').document;
+  assert.ok(d.querySelector('.hero a[href="#/find"]'));
+  assert.ok(d.querySelector('#by-find a[href="#/find"]'));
+});

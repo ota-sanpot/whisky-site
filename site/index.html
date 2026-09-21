@@ -130,6 +130,15 @@ a.badge::after{content:"›";margin-left:2px;opacity:.7}
 .pref a{font-weight:700;text-decoration:underline;text-decoration-color:rgba(220,157,66,.55);text-underline-offset:3px}
 .pref .soon{font-size:14px;color:var(--text-2)}
 .pref .soon small{margin-left:6px;font-size:10px;color:var(--text-3)}
+.hero-find{margin:14px 0 0}
+.find-q{margin-bottom:18px}
+.find-opts{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.find-opt{display:inline-block;padding:9px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--line-2);font-size:14px;font-weight:700;text-decoration:none;word-break:keep-all}
+.find-opt:hover{border-color:var(--amber)}
+.find-opt[aria-current="true"]{background:var(--amber);border-color:var(--amber);color:var(--amber-ink)}
+.find-hint{margin:0;padding:14px 16px;border:1px dashed var(--line-2);border-radius:var(--radius);color:var(--text-2);font-size:14px}
+.card-why{margin-top:4px;font-size:12.5px;line-height:1.6;color:var(--amber-2)}
+#find-result{scroll-margin-top:calc(var(--header-h) + 12px)}
 .quads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px}
 .quad{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);text-decoration:none}
 .quad[aria-current="true"]{border-color:var(--amber);background:var(--amber-dim)}
@@ -8314,8 +8323,8 @@ a.next{border-color:rgba(220,157,66,.5)}
     return `<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">出典</h2><ol class="sources">${list.map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a><span class="source-used">${esc(s.used)}</span></li>`).join('')}</ol><p class="note">確認日：${esc(fmtDate(DATA.checkedAt))}</p></section>`;
   }
 
-  function whiskyCard(w) {
-    return `<li><a class="card" href="#/whisky/${esc(w.id)}">${bottle(w, 'sm')}<span class="card-body"><span class="card-name">${esc(w.name)}</span><span class="card-meta">${esc(w.maker)}・${esc(w.type)}</span><span class="card-meta">${esc(originText(w))}</span><span class="card-tags">${badge(w.standard, false)}${limitedTag(w)}</span></span></a></li>`;
+  function whiskyCard(w, why) {
+    return `<li><a class="card" href="#/whisky/${esc(w.id)}">${bottle(w, 'sm')}<span class="card-body"><span class="card-name">${esc(w.name)}</span><span class="card-meta">${esc(w.maker)}・${esc(w.type)}</span><span class="card-meta">${esc(originText(w))}</span>${why ? `<span class="card-why">${esc(why)}</span>` : ''}<span class="card-tags">${badge(w.standard, false)}${limitedTag(w)}</span></span></a></li>`;
   }
 
   function distilleryCard(d) {
@@ -8372,7 +8381,7 @@ a.next{border-color:rgba(220,157,66,.5)}
       const makers = [...new Set(DATA.whiskies.map((w) => w.maker))];
       return `<div class="sec-head"><h2 id="results-h">掲載中の銘柄</h2><span class="count">${DATA.whiskies.length}本</span></div>${makers.map((m, i) => {
         const ws = DATA.whiskies.filter((w) => w.maker === m);
-        return `<details class="maker-group"${i === 0 ? ' open' : ''}><summary><span class="maker-name">${esc(m)}</span><span class="maker-count">${ws.length}本</span></summary><ul class="cards">${ws.map(whiskyCard).join('')}</ul></details>`;
+        return `<details class="maker-group"${i === 0 ? ' open' : ''}><summary><span class="maker-name">${esc(m)}</span><span class="maker-count">${ws.length}本</span></summary><ul class="cards">${ws.map((w) => whiskyCard(w)).join('')}</ul></details>`;
       }).join('')}`;
     }
     const list = items.length
@@ -8402,6 +8411,7 @@ a.next{border-color:rgba(220,157,66,.5)}
     <button type="submit">探す</button>
   </form>
   <p class="search-hint">ひらがな・カタカナ・英字でも引けます。棚のラベルの読みでどうぞ。</p>
+  <p class="hero-find"><a class="btn" href="#/find">好みから探す（3タップ）</a></p>
 </section>
 <section class="sec" aria-labelledby="results-h">
   <div id="results">${resultsHtml(r)}</div>
@@ -8409,6 +8419,13 @@ a.next{border-color:rgba(220,157,66,.5)}
 <section class="sec" id="by-pref" aria-labelledby="pref-h">
   <div class="sec-head"><h2 id="pref-h">都道府県から探す</h2><span class="count">${DATA.distilleries.length}蒸溜所</span></div>
   <ul class="prefs">${prefs.map((p) => `<li class="pref"><p class="pref-name">${esc(p)}</p><ul>${byPref.get(p).map((d) => `<li><a href="#/distillery/${esc(d.id)}">${esc(d.name)}</a></li>`).join('')}</ul></li>`).join('')}</ul>
+</section>
+<section class="sec" id="by-find">
+  <a class="std-card" href="#/find">
+    <h2>迷ったら、好みから探す</h2>
+    <p>飲み方と味の好みを3タップ選ぶと、合いそうな3本を出します。</p>
+    <span class="badges"><span class="badge badge--jw">3タップ</span><span class="opinion">編集部の見立て</span></span>
+  </a>
 </section>
 <section class="sec" id="by-taste" aria-labelledby="taste-top-h">
   <div class="sec-head"><h2 id="taste-top-h">味から探す</h2><span class="opinion">編集部の見立て</span></div>
@@ -8441,6 +8458,79 @@ a.next{border-color:rgba(220,157,66,.5)}
       e.preventDefault();
       input.blur();
     });
+  }
+
+  // ===== 画面：好みから探す =====
+  // 3つの質問。answers は { serve, flavor, body }（'any' は「こだわらない」）
+  const FIND_QUESTIONS = [
+    { key: 'serve', label: 'どう飲む？', options: [['straight', 'ストレート'], ['rock', 'ロック'], ['highball', 'ハイボール'], ['mizuwari', '水割り'], ['any', 'こだわらない']] },
+    { key: 'flavor', label: 'どんな香り？', options: [['floral', '華やか・フルーティ'], ['any', 'こだわらない'], ['smoky', 'スモーキー']] },
+    { key: 'body', label: '濃さは？', options: [['light', '軽やか'], ['any', 'こだわらない'], ['rich', '濃厚']] },
+  ];
+  const SERVE_NAME = Object.fromEntries(SERVES);
+
+  // 飲み方は◎+2・○+1・△-2、香りと濃さは味の地図の位置で点を付ける。限定品は店で会いにくいので少し下げる
+  function findScore(w, a) {
+    let s = 0;
+    if (a.serve !== 'any') s += { 3: 2, 2: 1, 1: -2 }[w.serve[a.serve]];
+    if (a.flavor === 'floral') s += -w.taste.x * 2;
+    if (a.flavor === 'smoky') s += w.taste.x * 2;
+    if (a.body === 'light') s += -w.taste.y * 2;
+    if (a.body === 'rich') s += w.taste.y * 2;
+    if (w.limited) s -= 0.3;
+    return s;
+  }
+
+  function recommend(a) {
+    return DATA.whiskies
+      .map((w) => ({ w, s: findScore(w, a) }))
+      .sort((x, y) => y.s - x.s || x.w.id.localeCompare(y.w.id))
+      .slice(0, 3);
+  }
+
+  // 「なぜ合うか」の1行（飲み方の◎○△と、味の地図の位置から）
+  function findWhy(w, a) {
+    const parts = [];
+    if (a.serve !== 'any') parts.push(`${SERVE_NAME[a.serve]}が${MARK_TEXT[w.serve[a.serve]]}`);
+    parts.push(quadOf(w.taste).label.replace(' × ', 'で'));
+    return parts.join('・');
+  }
+
+  const findHref = (a, key, value) => {
+    const next = { ...a, [key]: value };
+    const qs = FIND_QUESTIONS.map((q) => q.key).filter((k) => next[k] !== 'any').map((k) => `${k}=${next[k]}`).join('&');
+    return qs ? `#/find?${qs}` : '#/find';
+  };
+
+  function findResultHtml(a) {
+    const chosen = FIND_QUESTIONS.some((q) => a[q.key] !== 'any');
+    if (!chosen) {
+      return `<p class="find-hint">上の3つから選ぶと、合う順に3本出します。1つだけ選んでも大丈夫です。</p>`;
+    }
+    const hits = recommend(a);
+    return `<div class="sec-head"><h2 id="find-result-h">あなたに合いそうな3本</h2><span class="opinion">編集部の見立て</span></div>
+<ul class="cards">${hits.map(({ w }) => whiskyCard(w, findWhy(w, a))).join('')}</ul>
+<p class="note">飲み方の◎○△と味の地図をもとにした、編集部の見立てです。</p>`;
+  }
+
+  function viewFind(a) {
+    return {
+      title: `好みから探す｜${SITE}`,
+      html: `
+<nav class="crumb" aria-label="現在地"><a href="#/">トップ</a> / 好みから探す</nav>
+<header class="d-head">
+  <p class="w-maker">3タップで選ぶ</p>
+  <h1 class="d-name">好みから探す</h1>
+  <p class="d-lead">飲み方と味の好みを選ぶと、合いそうな3本を出します。</p>
+</header>
+<div id="find-form">
+  ${FIND_QUESTIONS.map((q) => `<section class="find-q" aria-labelledby="find-${q.key}">
+    <h2 class="label" id="find-${q.key}">${q.label}</h2>
+    <ul class="find-opts">${q.options.map(([v, label]) => `<li><a class="find-opt" href="${findHref(a, q.key, v)}"${a[q.key] === v ? ' aria-current="true"' : ''}>${label}</a></li>`).join('')}</ul>
+  </section>`).join('')}
+</div>
+<section class="sec" id="find-result" aria-labelledby="find-result-h">${findResultHtml(a)}</section>`,
+    };
   }
 
   // ===== 画面：銘柄 =====
@@ -8572,7 +8662,7 @@ a.next{border-color:rgba(220,157,66,.5)}
   </section>` : ''}
   ${own.length ? `<section id="single" aria-labelledby="single-h">
     <h2 id="single-h">この蒸溜所の銘柄</h2>
-    <ul class="cards">${own.map(whiskyCard).join('')}</ul>
+    <ul class="cards">${own.map((w) => whiskyCard(w)).join('')}</ul>
   </section>` : ''}
   ${used.length ? `<section id="used" aria-labelledby="used-h">
     <h2 id="used-h">この蒸溜所の原酒が使われている銘柄</h2>
@@ -8616,6 +8706,9 @@ a.next{border-color:rgba(220,157,66,.5)}
     if (parts.length === 0) return { view: 'top', q: params.get('q') || '', taste: params.get('taste') || '' };
     if (parts.length === 2 && parts[0] === 'whisky') return { view: 'whisky', id: decodeURIComponent(parts[1]) };
     if (parts.length === 2 && parts[0] === 'distillery') return { view: 'distillery', id: decodeURIComponent(parts[1]) };
+    if (parts.length === 1 && parts[0] === 'find') {
+      return { view: 'find', serve: params.get('serve') || 'any', flavor: params.get('flavor') || 'any', body: params.get('body') || 'any' };
+    }
     if (parts.length === 1 && parts[0] === 'standard') return { view: 'standard' };
     return { view: 'notfound' };
   }
@@ -8623,10 +8716,11 @@ a.next{border-color:rgba(220,157,66,.5)}
   function render() {
     const r = parseHash(location.hash);
     const v = r.view === 'top' ? viewTop(r)
-      : r.view === 'whisky' ? viewWhisky(r.id)
-        : r.view === 'distillery' ? viewDistillery(r.id)
-          : r.view === 'standard' ? viewStandard()
-            : viewNotFound();
+      : r.view === 'find' ? viewFind(r)
+        : r.view === 'whisky' ? viewWhisky(r.id)
+          : r.view === 'distillery' ? viewDistillery(r.id)
+            : r.view === 'standard' ? viewStandard()
+              : viewNotFound();
     app.innerHTML = v.html;
     document.title = v.title;
     if (r.view === 'top') bindTop();
