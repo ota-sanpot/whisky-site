@@ -36,7 +36,8 @@ jobs:
       - name: Assemble
         run: |
           mkdir -p _site
-          cp site/index.html site/404.html site/favicon.svg site/apple-touch-icon.png _site/
+          cp site/index.html site/styles.css site/data.js site/app.js _site/
+          cp site/404.html site/favicon.svg site/apple-touch-icon.png _site/
           touch _site/.nojekyll
 
       - uses: actions/upload-pages-artifact@v3

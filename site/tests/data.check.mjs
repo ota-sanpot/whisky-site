@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { html, readData, HTML_PATH } from './helpers.mjs';
+import { html, allSource, readData, HTML_PATH } from './helpers.mjs';
 
 const data = readData();
 const distilleryIds = new Set(data.distilleries.map((d) => d.id));
@@ -91,15 +91,15 @@ test('価格は載せない', () => {
   for (const w of data.whiskies) {
     for (const s of w.specs || []) assert.ok(!/価格/.test(s.k), `${w.id}: ${s.k}`);
   }
-  assert.ok(!/円（税別）|円（税込）/.test(html()), '価格の表記が残っている');
+  assert.ok(!/円（税別）|円（税込）/.test(allSource()), '価格の表記が残っている');
 });
 
 test('長いダッシュを使っていない', () => {
-  assert.ok(!/[—―]/.test(html()), '長いダッシュが入っている');
+  assert.ok(!/[—―]/.test(allSource()), '長いダッシュが入っている');
 });
 
 test('公開用の文言：モック・仮称の表記が残っていない', () => {
-  assert.ok(!/モック|仮称|（仮）/.test(html()), 'モック・仮称の表記が残っている');
+  assert.ok(!/モック|仮称|（仮）/.test(allSource()), 'モック・仮称の表記が残っている');
 });
 
 test('旧サイトの URL は新しいトップへ転送する（404.html）', () => {
@@ -115,4 +115,16 @@ test('アイコンがある', () => {
   for (const f of ['favicon.svg', 'apple-touch-icon.png']) assert.ok(existsSync(join(dir, f)), f);
   assert.match(html(), /<link rel="icon" href="favicon\.svg" type="image\/svg\+xml">/);
   assert.match(html(), /<link rel="apple-touch-icon" href="apple-touch-icon\.png">/);
+});
+
+test('4つのファイルに分かれていて、index.html から読み込んでいる', () => {
+  const dir = dirname(HTML_PATH);
+  for (const f of ['styles.css', 'data.js', 'app.js']) assert.ok(existsSync(join(dir, f)), f);
+  const s = html();
+  assert.match(s, /<link rel="stylesheet" href="styles\.css">/);
+  assert.match(s, /<script src="data\.js"><\/script>/);
+  assert.match(s, /<script src="app\.js"><\/script>/);
+  assert.ok(!/<style>/.test(s), 'index.html に <style> が残っている');
+  assert.ok(!/id="wdata"/.test(s), 'index.html にデータが残っている');
+  assert.ok(s.length < 4000, `index.html が大きすぎる（${s.length}文字）`);
 });

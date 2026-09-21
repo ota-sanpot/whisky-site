@@ -8,7 +8,10 @@
 
 | パス | 役割 |
 |------|------|
-| `site/index.html` | サイト本体（CSS・データ・JavaScript を1ファイルに内包） |
+| `site/index.html` | サイト本体（骨格の HTML のみ） |
+| `site/styles.css` | 見た目（CSS） |
+| `site/data.js` | 銘柄・蒸溜所などのデータ（`window.WDATA`） |
+| `site/app.js` | 画面描画・検索・画面遷移の JavaScript |
 | `site/404.html` | 旧サイトの URL に来た人を新しいトップへ移す |
 | `site/favicon.svg`, `site/apple-touch-icon.png` | アイコン |
 | `site/SOURCES.md` | 事実の裏取りの記録（出典と確認日） |
@@ -16,7 +19,7 @@
 
 ## 公開の仕組み
 
-main に push すると GitHub Actions（`.github/workflows/deploy.yml`）がテストを実行し、通った場合だけ `site/` の4ファイルを GitHub Pages に公開します。Pages の公開元は「GitHub Actions」にしておく必要があります。
+main に push すると GitHub Actions（`.github/workflows/deploy.yml`）がテストを実行し、通った場合だけ `site/` の公開用ファイル（本体4ファイル＋404.html・アイコン類）を GitHub Pages に公開します。Pages の公開元は「GitHub Actions」にしておく必要があります。
 
 ## 手元での確認
 
@@ -30,7 +33,7 @@ bash site/tests/shots.sh /tmp/whisky-shots
 ## 銘柄を増やす手順
 
 1. メーカー公式などの一次情報で裏取りし、`site/SOURCES.md` に出典と確認日を書く
-2. `site/index.html` のデータ（`<script type="application/json" id="wdata">`）に銘柄を足す
+2. `site/data.js`（`window.WDATA`）に銘柄を足す
 3. 味の地図・飲み方の◎○△・次の1本は「編集部の見立て」として書き、事実と混ぜない
 4. テストを通してから main に push する
 
