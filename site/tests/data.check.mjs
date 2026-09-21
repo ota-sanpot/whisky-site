@@ -117,6 +117,21 @@ test('アイコンがある', () => {
   assert.match(html(), /<link rel="apple-touch-icon" href="apple-touch-icon\.png">/);
 });
 
+test('全銘柄に味わい5段階・余韻・シーン・掲載日がある', () => {
+  const FINISH = ['短め', '中くらい', '長い'];
+  const SCENES = ['初めての1本', '普段飲み', 'プレゼント', '特別な日', '食事と一緒に', 'バーで飲みたい'];
+  for (const w of data.whiskies) {
+    for (const k of ['sweetness', 'fruitiness', 'smokiness', 'richness', 'drinkability']) {
+      const v = w.profile[k];
+      assert.ok(Number.isInteger(v) && v >= 1 && v <= 5, `${w.id}: profile.${k} = ${v}`);
+    }
+    assert.ok(FINISH.includes(w.finish), `${w.id}: finish`);
+    assert.ok(Array.isArray(w.scenes) && w.scenes.length >= 1, `${w.id}: scenes が空`);
+    for (const s of w.scenes) assert.ok(SCENES.includes(s), `${w.id}: 知らないシーン ${s}`);
+    assert.match(w.addedAt, /^\d{4}-\d{2}-\d{2}$/, `${w.id}: addedAt`);
+  }
+});
+
 test('4つのファイルに分かれていて、index.html から読み込んでいる', () => {
   const dir = dirname(HTML_PATH);
   for (const f of ['styles.css', 'data.js', 'app.js']) assert.ok(existsSync(join(dir, f)), f);

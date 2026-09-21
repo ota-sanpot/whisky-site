@@ -756,7 +756,21 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/chita/about/",
           "used": "知多蒸溜所のグレーン原酒が響・角瓶・オールドに使われていること、3タイプのグレーン原酒"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 4,
+        "smokiness": 2,
+        "richness": 2,
+        "drinkability": 5
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-18"
     },
     {
       "id": "yoichi",
@@ -884,7 +898,20 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/yoichi/yoichi.html",
           "used": "表示基準、この商品を使うカクテル（メーカーのおすすめ）"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 4,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "プレゼント",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-18"
     },
     {
       "id": "ao",
@@ -1023,7 +1050,21 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/factory/yamazaki/access/",
           "used": "山崎蒸溜所の所在県"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 4,
+        "drinkability": 4
+      },
+      "finish": "長い",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-18"
     },
     {
       "id": "yamazaki",
@@ -1094,7 +1135,22 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000099.html",
           "used": "商品説明、容量、度数、原材料、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 4,
+        "smokiness": 2,
+        "richness": 3,
+        "drinkability": 5
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "プレゼント",
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "yamazaki-12",
@@ -1162,7 +1218,22 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000099.html",
           "used": "商品説明、容量、度数、原材料、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 4,
+        "smokiness": 2,
+        "richness": 4,
+        "drinkability": 4
+      },
+      "finish": "長い",
+      "scenes": [
+        "初めての1本",
+        "プレゼント",
+        "特別な日",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "yamazaki-18",
@@ -1231,7 +1302,22 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000099.html",
           "used": "商品説明、容量、度数、原材料、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 5,
+        "drinkability": 4
+      },
+      "finish": "長い",
+      "scenes": [
+        "初めての1本",
+        "プレゼント",
+        "特別な日",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "yamazaki-25",
@@ -1301,7 +1387,20 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000099.html",
           "used": "商品説明、容量、度数、原材料、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 5,
+        "drinkability": 4
+      },
+      "finish": "長い",
+      "scenes": [
+        "プレゼント",
+        "特別な日"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "hakushu",
@@ -1371,7 +1470,22 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000100.html",
           "used": "商品説明、容量、度数、原材料、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 2,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 2,
+        "drinkability": 4
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "プレゼント",
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "hakushu-12",
@@ -1447,7 +1561,23 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000100.html",
           "used": "商品説明、容量、度数、原材料、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 4,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 5
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "プレゼント",
+        "特別な日",
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "hakushu-18",
@@ -1523,7 +1653,21 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000100.html",
           "used": "商品説明、容量、度数、原材料、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 4,
+        "smokiness": 4,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "プレゼント",
+        "特別な日",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "hakushu-25",
@@ -1592,7 +1736,21 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000100.html",
           "used": "商品説明、容量、度数、原材料、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 4,
+        "richness": 5,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "プレゼント",
+        "特別な日",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "chita",
@@ -1668,7 +1826,21 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/chitadistillery/company/index.html",
           "used": "所在地、設立年、蒸溜開始年、知多の発売年"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 4,
+        "smokiness": 2,
+        "richness": 1,
+        "drinkability": 5
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "hibiki-21",
@@ -1749,7 +1921,22 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/chita/about/",
           "used": "知多蒸溜所のグレーン原酒が響・角瓶・オールドに使われていること、3タイプのグレーン原酒"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 5,
+        "smokiness": 2,
+        "richness": 4,
+        "drinkability": 4
+      },
+      "finish": "長い",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "プレゼント",
+        "特別な日"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "hibiki-30",
@@ -1831,7 +2018,20 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/chita/about/",
           "used": "知多蒸溜所のグレーン原酒が響・角瓶・オールドに使われていること、3タイプのグレーン原酒"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 2,
+        "richness": 5,
+        "drinkability": 4
+      },
+      "finish": "長い",
+      "scenes": [
+        "プレゼント",
+        "特別な日"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kakubin",
@@ -1921,7 +2121,21 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/chita/about/",
           "used": "知多蒸溜所のグレーン原酒が響・角瓶・オールドに使われていること、3タイプのグレーン原酒"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 2,
+        "drinkability": 4
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "old",
@@ -2001,7 +2215,21 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/chita/about/",
           "used": "知多蒸溜所のグレーン原酒が響・角瓶・オールドに使われていること、3タイプのグレーン原酒"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 4,
+        "smokiness": 2,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "royal",
@@ -2072,7 +2300,21 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000115.html",
           "used": "商品説明、容量、度数、原材料、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 4,
+        "smokiness": 2,
+        "richness": 3,
+        "drinkability": 5
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "special-reserve",
@@ -2145,7 +2387,21 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000971.html",
           "used": "商品説明、容量、度数、原材料、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 2,
+        "drinkability": 4
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "white",
@@ -2222,7 +2478,21 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000120.html",
           "used": "商品説明、容量、度数、原材料、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 2,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 2,
+        "drinkability": 5
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "torys",
@@ -2305,7 +2575,21 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000122.html",
           "used": "商品説明、容量、度数、原材料、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 2,
+        "richness": 2,
+        "drinkability": 5
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "red",
@@ -2341,7 +2625,7 @@ window.WDATA = {
       ],
       "taste": {
         "line": "すっきり軽い",
-        "x": 0.0,
+        "x": 0,
         "y": -0.75
       },
       "serve": {
@@ -2387,7 +2671,21 @@ window.WDATA = {
           "url": "https://www.suntory.co.jp/whisky/products/0000000038/0000000121.html",
           "used": "商品説明、容量、度数、原材料、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 2,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 2,
+        "drinkability": 5
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "yoichi-10",
@@ -2459,7 +2757,20 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/yoichi/4B885.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 4,
+        "richness": 5,
+        "drinkability": 2
+      },
+      "finish": "長い",
+      "scenes": [
+        "プレゼント",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "miyagikyo",
@@ -2539,7 +2850,21 @@ window.WDATA = {
           "url": "https://www.nikka.com/brands/yoichi_miyagikyo/products/",
           "used": "商品説明、香り・味・余韻、度数、容量"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 5,
+        "smokiness": 2,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "プレゼント",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "miyagikyo-10",
@@ -2611,7 +2936,20 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/miyagikyo/4B886.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 5,
+        "smokiness": 2,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "プレゼント",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "taketsuru",
@@ -2693,7 +3031,19 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/taketsuru/4B746.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 4,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 5
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "特別な日"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "session",
@@ -2777,7 +3127,22 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkamaltwhisky/session/49482.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 5
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "coffey-malt",
@@ -2861,7 +3226,21 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/date/48889.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 4,
+        "smokiness": 2,
+        "richness": 2,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "coffey-grain",
@@ -2940,7 +3319,21 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/date/48889.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 4,
+        "smokiness": 2,
+        "richness": 2,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "the-nikka",
@@ -3023,7 +3416,20 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/thenikka/48746.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 2,
+        "richness": 4,
+        "drinkability": 5
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "super-nikka",
@@ -3100,7 +3506,21 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/supernikka/47527.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "from-the-barrel",
@@ -3178,7 +3598,19 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/barrel/40787.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 5,
+        "drinkability": 2
+      },
+      "finish": "長い",
+      "scenes": [
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "frontier",
@@ -3260,7 +3692,20 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/frontier/4B667.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 4,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "black-nikka-clear",
@@ -3342,7 +3787,21 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/blacknikka/44055.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 1,
+        "drinkability": 5
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "black-nikka-deep",
@@ -3429,7 +3888,19 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/blacknikka/48613.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 2,
+        "smokiness": 4,
+        "richness": 4,
+        "drinkability": 2
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "black-nikka-rich",
@@ -3516,7 +3987,20 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/blacknikka/49899.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 5,
+        "smokiness": 2,
+        "richness": 3,
+        "drinkability": 5
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "black-nikka-special",
@@ -3603,7 +4087,21 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/blacknikka/4B952.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 5
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "hi-nikka",
@@ -3692,7 +4190,21 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/hinikka/47516.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 2,
+        "drinkability": 5
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "date",
@@ -3776,7 +4288,20 @@ window.WDATA = {
           "url": "https://www.asahibeer.co.jp/products/whisky_brandy/nikkablended/date/48889.html",
           "used": "商品説明、香り・味・余韻、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 3,
+        "smokiness": 2,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "特別な日",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "fuji-single-blended",
@@ -3857,7 +4382,20 @@ window.WDATA = {
           "url": "https://onlineshop.kirin.co.jp/view/item/000000000007",
           "used": "原酒の構成"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 4,
+        "smokiness": 2,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "fuji-single-malt",
@@ -3932,7 +4470,20 @@ window.WDATA = {
           "url": "https://onlineshop.kirin.co.jp/view/item/000000000008",
           "used": "樽の構成"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 5,
+        "smokiness": 2,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "プレゼント",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "fuji-single-grain",
@@ -4007,7 +4558,20 @@ window.WDATA = {
           "url": "https://onlineshop.kirin.co.jp/view/item/000000000006",
           "used": "3タイプのグレーン原酒"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 4,
+        "smokiness": 2,
+        "richness": 3,
+        "drinkability": 3
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "riku",
@@ -4079,7 +4643,19 @@ window.WDATA = {
           "url": "https://products.kirin.co.jp/alcohol/whisky_brandy/detail.html?id=6930",
           "used": "商品説明、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 2
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "fujisanroku-signature",
@@ -4150,7 +4726,19 @@ window.WDATA = {
           "url": "https://products.kirin.co.jp/alcohol/whisky_brandy/detail.html?id=1564",
           "used": "商品説明、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 4,
+        "drinkability": 2
+      },
+      "finish": "長い",
+      "scenes": [
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "robert-brown",
@@ -4180,7 +4768,7 @@ window.WDATA = {
       "taste": {
         "line": "まろやか",
         "x": -0.2,
-        "y": 0.0
+        "y": 0
       },
       "serve": {
         "straight": 2,
@@ -4218,7 +4806,21 @@ window.WDATA = {
           "url": "https://products.kirin.co.jp/alcohol/whisky_brandy/detail.html?id=1566",
           "used": "商品説明、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "ocean-lucky-gold",
@@ -4290,7 +4892,21 @@ window.WDATA = {
           "url": "https://products.kirin.co.jp/alcohol/whisky_brandy/detail.html?id=8101",
           "used": "商品説明、容量、度数、表示基準や輸入原酒の記載"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "komagatake",
@@ -4361,7 +4977,19 @@ window.WDATA = {
           "url": "https://www.hombo.co.jp/product/mars-singlemalt-komagatake/",
           "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 4,
+        "smokiness": 2,
+        "richness": 3,
+        "drinkability": 3
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "tsunuki-2026",
@@ -4428,7 +5056,19 @@ window.WDATA = {
           "url": "https://www.hombo.co.jp/product/mars-singlemalt-tsunuki-2026-edition/",
           "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "cosmo",
@@ -4504,7 +5144,22 @@ window.WDATA = {
           "url": "https://www.hombo.co.jp/product/marsmaltage-cosmo/",
           "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 4,
+        "drinkability": 4
+      },
+      "finish": "長い",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "iwai-tradition",
@@ -4537,7 +5192,7 @@ window.WDATA = {
       "componentsNote": "原料原産地は「英国製造、国内製造（グレーンウイスキー）」（商品情報より）。熟成地・製造所はマルス駒ヶ岳蒸溜所です。",
       "taste": {
         "line": "まろやかで、スパイスがある",
-        "x": 0.0,
+        "x": 0,
         "y": 0.1
       },
       "serve": {
@@ -4574,7 +5229,20 @@ window.WDATA = {
           "url": "https://www.hombo.co.jp/product/iwai-tradition/",
           "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "特別な日",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "iwai-tradition-wine",
@@ -4644,7 +5312,19 @@ window.WDATA = {
           "url": "https://www.hombo.co.jp/product/iwai-tradition-winecask/",
           "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 5,
+        "smokiness": 2,
+        "richness": 4,
+        "drinkability": 4
+      },
+      "finish": "長い",
+      "scenes": [
+        "特別な日"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "mars-extra",
@@ -4714,7 +5394,21 @@ window.WDATA = {
           "url": "https://www.hombo.co.jp/product/marsextra/",
           "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 2,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 2,
+        "drinkability": 5
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "twin-alps",
@@ -4785,7 +5479,21 @@ window.WDATA = {
           "url": "https://www.hombo.co.jp/product/twin-alps/",
           "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 2,
+        "drinkability": 5
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "mars-3and7",
@@ -4821,7 +5529,7 @@ window.WDATA = {
       "componentsNote": "原料原産地は「英国製造、米国製造、国内製造（グレーンウイスキー）」。製造所はマルス駒ヶ岳蒸溜所です（商品情報より）。",
       "taste": {
         "line": "樽香があり、すっきり",
-        "x": 0.0,
+        "x": 0,
         "y": -0.4
       },
       "serve": {
@@ -4864,7 +5572,21 @@ window.WDATA = {
           "url": "https://www.hombo.co.jp/product/marswhisky-3and7/",
           "used": "商品説明、品目・タイプ、原料原産地、樽、容量、度数、製造所"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 2,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 2,
+        "drinkability": 5
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "amahagan-basic",
@@ -4934,7 +5656,21 @@ window.WDATA = {
           "url": "https://www.romanbeer.com/item/amahagan/",
           "used": "商品説明、度数、容量、原酒の構成、樽"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 4,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 3
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "普段飲み",
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "amahagan-red-wine",
@@ -5005,7 +5741,20 @@ window.WDATA = {
           "url": "https://www.romanbeer.com/item/amahagan/",
           "used": "商品説明、度数、容量、原酒の構成、樽"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 5,
+        "smokiness": 2,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "普段飲み",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "amahagan-mizunara",
@@ -5076,7 +5825,20 @@ window.WDATA = {
           "url": "https://www.romanbeer.com/item/amahagan/",
           "used": "商品説明、度数、容量、原酒の構成、樽"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 5,
+        "smokiness": 2,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "普段飲み",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "amahagan-yamazakura",
@@ -5147,7 +5909,20 @@ window.WDATA = {
           "url": "https://www.romanbeer.com/item/amahagan/",
           "used": "商品説明、度数、容量、原酒の構成、樽"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 2,
+        "richness": 3,
+        "drinkability": 3
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "普段飲み",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "amahagan-peated",
@@ -5223,7 +5998,20 @@ window.WDATA = {
           "url": "https://www.romanbeer.com/item/amahagan/",
           "used": "商品説明、度数、容量、原酒の構成、樽"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 4,
+        "richness": 3,
+        "drinkability": 2
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "sakurao",
@@ -5296,7 +6084,20 @@ window.WDATA = {
           "url": "https://www.sakuraobd.co.jp/singlemalt/",
           "used": "商品説明、香り・味・余韻、度数、容量、熟成場所、樽、所在地"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 4,
+        "smokiness": 3,
+        "richness": 4,
+        "drinkability": 4
+      },
+      "finish": "長い",
+      "scenes": [
+        "初めての1本",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "togouchi",
@@ -5370,7 +6171,21 @@ window.WDATA = {
           "url": "https://www.sakuraobd.co.jp/singlemalt/",
           "used": "商品説明、香り・味・余韻、度数、容量、熟成場所、樽、所在地"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 5,
+        "smokiness": 2,
+        "richness": 2,
+        "drinkability": 5
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kanosuke-single-malt",
@@ -5451,7 +6266,20 @@ window.WDATA = {
           "url": "https://kanosuke.com/",
           "used": "商品一覧、所在地、蒸溜所の説明"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 4,
+        "smokiness": 2,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kanosuke-hioki",
@@ -5531,7 +6359,19 @@ window.WDATA = {
           "url": "https://kanosuke.com/",
           "used": "商品一覧、所在地、蒸溜所の説明"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 4,
+        "drinkability": 2
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kanosuke-double",
@@ -5616,7 +6456,19 @@ window.WDATA = {
           "url": "https://kanosuke.com/",
           "used": "商品一覧、所在地、蒸溜所の説明"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 4,
+        "smokiness": 3,
+        "richness": 4,
+        "drinkability": 2
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "shizuoka-pot-still-w",
@@ -5681,7 +6533,19 @@ window.WDATA = {
           "url": "https://shizuoka-distillery.jp/products/",
           "used": "商品名（SHIZUOKA SINGLE MALT JAPANESE WHISKY）"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 2,
+        "smokiness": 4,
+        "richness": 4,
+        "drinkability": 2
+      },
+      "finish": "長い",
+      "scenes": [
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "shizuoka-pot-still-k",
@@ -5746,7 +6610,21 @@ window.WDATA = {
           "url": "https://shizuoka-distillery.jp/products/",
           "used": "商品名（SHIZUOKA SINGLE MALT JAPANESE WHISKY）"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 5,
+        "smokiness": 2,
+        "richness": 2,
+        "drinkability": 4
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "shizuoka-united-s",
@@ -5810,7 +6688,21 @@ window.WDATA = {
           "url": "https://shizuoka-distillery.jp/products/",
           "used": "商品名（SHIZUOKA SINGLE MALT JAPANESE WHISKY）"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "gaiaflow-blended-m",
@@ -5888,7 +6780,21 @@ window.WDATA = {
           "url": "https://shizuoka-distillery.jp/products/blended-m/",
           "used": "商品説明、度数、容量、原料の原産地"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "saburomaru-8",
@@ -5965,7 +6871,20 @@ window.WDATA = {
           "url": "https://www.wakatsuru.co.jp/saburomaru/single-malt/シングルモルト「三郎丸ⅷ-the-strength」/",
           "used": "商品説明、香り・味、度数、容量、蒸留年、麦芽"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 2,
+        "smokiness": 5,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "sunshine",
@@ -6039,7 +6958,21 @@ window.WDATA = {
           "url": "https://www.wakatsuru.co.jp/saburomaru/sunshine/sunshine-whisky/",
           "used": "商品説明、度数、容量、原酒の構成、発売年"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 2,
+        "drinkability": 5
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "akashi-single-malt",
@@ -6067,7 +7000,7 @@ window.WDATA = {
       "taste": {
         "line": "甘くウッディ、ほのかにスパイス",
         "x": 0.05,
-        "y": 0.0
+        "y": 0
       },
       "serve": {
         "straight": 3,
@@ -6109,7 +7042,21 @@ window.WDATA = {
           "url": "https://www.ei-sake.jp/smakashi.html",
           "used": "商品説明、度数、容量、樽、リニューアル"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "yamazakura-black",
@@ -6181,7 +7128,21 @@ window.WDATA = {
           "url": "https://www.sasanokawa.co.jp/asaka-distillery/contents/productsDetail/currentProducts.html",
           "used": "商品説明、度数、容量、原酒の構成、限定"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 2,
+        "drinkability": 4
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "yamazakura-precious",
@@ -6254,7 +7215,19 @@ window.WDATA = {
           "url": "https://www.sasanokawa.co.jp/asaka-distillery/contents/productsDetail/currentProducts.html",
           "used": "商品説明、度数、容量、原酒の構成、限定"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 3,
+        "smokiness": 2,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "特別な日"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "yamazakura-asaka-and-4",
@@ -6288,7 +7261,7 @@ window.WDATA = {
       "originNote": "輸入原酒の産地は公表されていません。",
       "taste": {
         "line": "複雑で奥行きがある",
-        "x": 0.0,
+        "x": 0,
         "y": 0.35
       },
       "serve": {
@@ -6321,7 +7294,19 @@ window.WDATA = {
           "url": "https://www.sasanokawa.co.jp/asaka-distillery/contents/productsDetail/currentProducts.html",
           "used": "商品説明、度数、容量、原酒の構成、限定"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "特別な日"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "yamazakura-smoky",
@@ -6394,7 +7379,20 @@ window.WDATA = {
           "url": "https://www.sasanokawa.co.jp/asaka-distillery/contents/productsDetail/currentProducts.html",
           "used": "商品説明、度数、容量、原酒の構成、限定"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 2,
+        "smokiness": 4,
+        "richness": 3,
+        "drinkability": 2
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "特別な日",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "cherry-whisky-ex",
@@ -6463,7 +7461,21 @@ window.WDATA = {
           "url": "https://www.sasanokawa.co.jp/asaka-distillery/contents/productsDetail/currentProducts.html",
           "used": "商品説明、度数、容量、原酒の構成、限定"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 2,
+        "drinkability": 4
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "cherry-whisky",
@@ -6532,7 +7544,21 @@ window.WDATA = {
           "url": "https://www.sasanokawa.co.jp/asaka-distillery/contents/productsDetail/currentProducts.html",
           "used": "商品説明、度数、容量、原酒の構成、限定"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 2,
+        "drinkability": 5
+      },
+      "finish": "短め",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "yamazakura-pure-malt",
@@ -6604,7 +7630,19 @@ window.WDATA = {
           "url": "https://www.sasanokawa.co.jp/asaka-distillery/contents/productsDetail/currentProducts.html",
           "used": "商品説明、度数、容量、原酒の構成、限定"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "yuza-2026",
@@ -6678,7 +7716,20 @@ window.WDATA = {
           "url": "https://yuza-disty.jp/product/",
           "used": "商品説明、香り・味、度数、容量、樽、限定、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 5,
+        "smokiness": 2,
+        "richness": 3,
+        "drinkability": 3
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "yuza-signature",
@@ -6753,7 +7804,20 @@ window.WDATA = {
           "url": "https://yuza-disty.jp/product/",
           "used": "商品説明、香り・味、度数、容量、樽、限定、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 4,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 3
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "yuza-fairy",
@@ -6819,7 +7883,19 @@ window.WDATA = {
           "url": "https://yuza-disty.jp/product/",
           "used": "商品説明、香り・味、度数、容量、樽、限定、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 4,
+        "smokiness": 2,
+        "richness": 4,
+        "drinkability": 2
+      },
+      "finish": "長い",
+      "scenes": [
+        "特別な日"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "yuza-6",
@@ -6889,7 +7965,20 @@ window.WDATA = {
           "url": "https://yuza-disty.jp/product/",
           "used": "商品説明、香り・味、度数、容量、樽、限定、表示基準"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 5,
+        "smokiness": 2,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "プレゼント",
+        "特別な日"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kuju-green-dram",
@@ -6958,7 +8047,21 @@ window.WDATA = {
           "url": "https://kujudistillery.jp/products/",
           "used": "商品説明、度数、容量、樽・原酒、限定、所在地"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 3
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "普段飲み",
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kuju-michi",
@@ -7020,7 +8123,19 @@ window.WDATA = {
           "url": "https://kujudistillery.jp/products/",
           "used": "商品説明、度数、容量、樽・原酒、限定、所在地"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 4,
+        "smokiness": 2,
+        "richness": 3,
+        "drinkability": 2
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kuju-malt-grain",
@@ -7046,7 +8161,7 @@ window.WDATA = {
       ],
       "taste": {
         "line": "軽快ですっきり",
-        "x": 0.0,
+        "x": 0,
         "y": -0.5
       },
       "serve": {
@@ -7082,7 +8197,20 @@ window.WDATA = {
           "url": "https://kujudistillery.jp/products/",
           "used": "商品説明、度数、容量、樽・原酒、限定、所在地"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 2,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 2,
+        "drinkability": 4
+      },
+      "finish": "短め",
+      "scenes": [
+        "特別な日",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "matsui-kurayoshi-single-malt",
@@ -7152,7 +8280,21 @@ window.WDATA = {
           "url": "https://matsuiwhisky.com/item/singlemalt_kurayoshi/",
           "used": "商品説明、度数、容量、水"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 4,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "matsui-kurayoshi-pure-malt",
@@ -7220,7 +8362,21 @@ window.WDATA = {
           "url": "https://matsuiwhisky.com/item/kurayoshi/",
           "used": "商品説明、度数、容量、樽"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "食事と一緒に",
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kyoto-nishijin-aka",
@@ -7297,7 +8453,20 @@ window.WDATA = {
           "url": "https://kyotoshuzo.com/",
           "used": "京都みやこ蒸溜所の説明、西陣織ラベルは京都府限定販売"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 2,
+        "richness": 2,
+        "drinkability": 4
+      },
+      "finish": "短め",
+      "scenes": [
+        "特別な日",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kyoto-nishijin-kuro",
@@ -7331,7 +8500,7 @@ window.WDATA = {
       "taste": {
         "line": "洋ナシのようにフルーティ",
         "x": -0.5,
-        "y": 0.0
+        "y": 0
       },
       "serve": {
         "straight": 2,
@@ -7374,7 +8543,20 @@ window.WDATA = {
           "url": "https://kyotoshuzo.com/",
           "used": "京都みやこ蒸溜所の説明、西陣織ラベルは京都府限定販売"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 5,
+        "smokiness": 2,
+        "richness": 3,
+        "drinkability": 3
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "特別な日",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kyoto-nishijin-murasaki",
@@ -7446,7 +8628,19 @@ window.WDATA = {
           "url": "https://kyotoshuzo.com/",
           "used": "京都みやこ蒸溜所の説明、西陣織ラベルは京都府限定販売"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 4,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "特別な日"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kyoto-single-malt",
@@ -7512,7 +8706,19 @@ window.WDATA = {
           "url": "https://kyotoshuzo.com/",
           "used": "京都みやこ蒸溜所の説明、西陣織ラベルは京都府限定販売"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "特別な日"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "hekishu",
@@ -7588,7 +8794,21 @@ window.WDATA = {
           "url": "https://store.unibio.jp/products/whis0003",
           "used": "商品説明、度数、容量、原酒の構成"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 5
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kujira-inari",
@@ -7659,7 +8879,19 @@ window.WDATA = {
           "url": "https://kujirawhisky.com/craftsmanship_jp",
           "used": "原料（100%米）、製法"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 3
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kujira-5",
@@ -7687,7 +8919,7 @@ window.WDATA = {
       "casks": "ホワイトオークのバージンカスクで5年以上熟成（公式サイトより）。",
       "taste": {
         "line": "ウッディで、まろやか",
-        "x": 0.0,
+        "x": 0,
         "y": 0.3
       },
       "serve": {
@@ -7731,7 +8963,21 @@ window.WDATA = {
           "url": "https://kujirawhisky.com/craftsmanship_jp",
           "used": "原料（100%米）、製法"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 4,
+        "smokiness": 3,
+        "richness": 4,
+        "drinkability": 5
+      },
+      "finish": "長い",
+      "scenes": [
+        "初めての1本",
+        "プレゼント",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kujira-10",
@@ -7803,7 +9049,20 @@ window.WDATA = {
           "url": "https://kujirawhisky.com/craftsmanship_jp",
           "used": "原料（100%米）、製法"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 5,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 4,
+        "drinkability": 4
+      },
+      "finish": "長い",
+      "scenes": [
+        "初めての1本",
+        "プレゼント"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kujira-15",
@@ -7875,7 +9134,21 @@ window.WDATA = {
           "url": "https://kujirawhisky.com/craftsmanship_jp",
           "used": "原料（100%米）、製法"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 4,
+        "smokiness": 3,
+        "richness": 4,
+        "drinkability": 5
+      },
+      "finish": "長い",
+      "scenes": [
+        "初めての1本",
+        "プレゼント",
+        "特別な日"
+      ],
+      "addedAt": "2026-09-19"
     },
     {
       "id": "kujira-25",
@@ -7947,7 +9220,21 @@ window.WDATA = {
           "url": "https://kujirawhisky.com/craftsmanship_jp",
           "used": "原料（100%米）、製法"
         }
-      ]
+      ],
+      "profile": {
+        "sweetness": 3,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 5,
+        "drinkability": 4
+      },
+      "finish": "長い",
+      "scenes": [
+        "初めての1本",
+        "プレゼント",
+        "特別な日"
+      ],
+      "addedAt": "2026-09-19"
     }
   ]
 };
