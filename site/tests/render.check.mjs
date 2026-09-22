@@ -332,6 +332,16 @@ test('診断：場面を選ぶと、そのシーンの銘柄が上位に来る',
   }
 });
 
+test('診断：同点が多いときは、編集部が選ぶ定番から上位に出る', async () => {
+  const env = await load('#/find?q3=' + encodeURIComponent('食事と一緒に'));
+  const ids = [...env.document.querySelectorAll('#find-result a.card')].map((a) => a.getAttribute('href').replace('#/whisky/', ''));
+  assert.equal(ids.length, 3);
+  const staples = ['hibiki-jh', 'yamazaki', 'hakushu', 'chita', 'yoichi', 'miyagikyo', 'fuji-single-blended', 'kakubin'];
+  assert.ok(ids.every((id) => staples.includes(id)), `定番以外が出ている: ${ids.join('/')}`);
+  // 該当する銘柄がそろって同点になる場面なので、読みの順（碧Ao など）に落ちていないことも確かめる
+  assert.ok(!ids.includes('ao'), '読みの順に戻っている');
+});
+
 test('診断：1問だけ選んでも結果が出る', async () => {
   const env = await load('#/find?q2=smoky');
   assert.equal(env.document.querySelectorAll('#find-result a.card').length, 3);
