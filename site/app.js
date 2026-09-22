@@ -627,6 +627,16 @@
     const multi = w.components.length > 1;
     const std = DATA.standards[w.standard];
     const opinion = '<span class="opinion">編集部の見立て</span>';
+    // この銘柄が入っている定番の組み合わせ。無ければ「次の1本」の1本目と比べる
+    const pairs = COMPARE_PRESETS.filter((p) => p.a === w.id || p.b === w.id);
+    const fallback = nextOf(w)[0];
+    const links = (pairs.length
+      ? pairs.map((p) => ({ a: p.a, b: p.b }))
+      : fallback ? [{ a: w.id, b: fallback.id }] : []
+    ).map(({ a, b }) => `<a class="opt" href="${compareHref(a, b)}">${esc(W.get(a).name)} と ${esc(W.get(b).name)}</a>`).join('');
+    const relatedCompare = links
+      ? `<section id="related-compare" aria-labelledby="related-compare-h"><h2 id="related-compare-h">関連する比較</h2><div class="opts">${links}</div></section>`
+      : '';
     // 香り・味・余韻（公式の要約＋余韻の長さ）。finish は全銘柄に入っているので、この節は必ず出る
     const notes = (w.official || []).length || w.finish
       ? `<section id="notes" aria-labelledby="notes-h"><h2 class="label" id="notes-h">香り・味・余韻</h2>
@@ -674,6 +684,7 @@ ${(w.official || []).map((o) => `<p class="note-row"><span class="note-k">${esc(
     <ul class="next-row">${nextOf(w).map((n) => `<li>${nextCard(n)}</li>`).join('')}</ul>
   </section>
 </div>
+${relatedCompare}
 <section id="deep" class="deep">
   <p class="deep-intro">もっと知る</p>
   <section id="casks" aria-labelledby="casks-h">
@@ -759,6 +770,90 @@ ${(w.official || []).map((o) => `<p class="note-row"><span class="note-k">${esc(
     };
   }
 
+  // ===== 画面：比較 =====
+  const COMPARE_PRESETS = [
+    { a: 'yamazaki', b: 'hakushu' },
+    { a: 'yoichi', b: 'miyagikyo' },
+    { a: 'yamazaki', b: 'hibiki-jh' },
+    { a: 'hakushu', b: 'chita' },
+    { a: 'taketsuru', b: 'miyagikyo' },
+    { a: 'fuji-single-blended', b: 'chita' },
+  ];
+  const compareHref = (a, b) => `#/compare?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`;
+
+  // 差が大きい項目を2つまで文にする（順位は付けない）
+  function compareDiff(a, b) {
+    const diffs = PROFILE_KEYS
+      .map(([k, label]) => ({ label, d: a.profile[k] - b.profile[k] }))
+      .filter((x) => x.d !== 0)
+      .sort((x, y) => Math.abs(y.d) - Math.abs(x.d))
+      .slice(0, 2);
+    if (!diffs.length) return `${a.name}と${b.name}は、味わいの5段階では同じ目安です。産地や飲み方で選んでみてください。`;
+    return diffs.map((x) => `${x.label}は${x.d > 0 ? a.name : b.name}のほうが${Math.abs(x.d)}段階強い`).join('。') + '。';
+  }
+
+  // 比較の1行
+  function cmpRow(label, av, bv) {
+    return `<li class="cmp-row"><span class="cmp-k">${esc(label)}</span><span class="cmp-v">${av}</span><span class="cmp-v">${bv}</span></li>`;
+  }
+
+  function serveText(w) {
+    return SERVES.filter(([k]) => w.serve[k] === 3).map(([, label]) => label).join('・') || '好みが分かれます';
+  }
+
+  function viewCompare(r) {
+    const a = W.get(r.a || 'yamazaki');
+    const b = W.get(r.b || 'hakushu');
+    if (!a || !b) return viewNotFound();
+
+    const options = (cur) => sortList(DATA.whiskies, 'name')
+      .map((w) => `<option value="${esc(w.id)}"${w.id === cur ? ' selected' : ''}>${esc(w.name)}</option>`).join('');
+    const spec = (w, k) => (w.specs || []).find((s) => s.k === k)?.v || '記載なし';
+
+    const rows = [
+      cmpRow('タイプ', esc(a.type), esc(b.type)),
+      cmpRow('度数', esc(spec(a, 'アルコール度数')), esc(spec(b, 'アルコール度数'))),
+      cmpRow('容量', esc(spec(a, '容量')), esc(spec(b, '容量'))),
+      cmpRow('産地', esc(originText(a)), esc(originText(b))),
+      cmpRow('区分', badge(a.standard, true), badge(b.standard, true)),
+      cmpRow('向いている飲み方', esc(serveText(a)), esc(serveText(b))),
+      cmpRow('余韻', esc(a.finish), esc(b.finish)),
+      cmpRow('限定', a.limited ? esc(a.limited) : 'なし', b.limited ? esc(b.limited) : 'なし'),
+    ].join('');
+
+    const presets = COMPARE_PRESETS
+      .map((p) => `<a class="opt" href="${compareHref(p.a, p.b)}">${esc(W.get(p.a).name)} と ${esc(W.get(p.b).name)}</a>`)
+      .join('');
+
+    return {
+      title: `${a.name} と ${b.name} を比べる｜${SITE}`,
+      html: `<section class="hero hero--sm"><h1>2本を比べる</h1></section>
+<section class="cmp">
+  <div class="cmp-heads">
+    <div class="cmp-col"><label class="filter"><span class="visually-hidden">左の銘柄</span><select name="a">${options(a.id)}</select></label>
+      ${bottle(a, 'sm')}<p class="cmp-name">${esc(a.name)}</p><p class="cmp-meta">${esc(a.maker)}</p>${profileBars(a)}</div>
+    <div class="cmp-col"><label class="filter"><span class="visually-hidden">右の銘柄</span><select name="b">${options(b.id)}</select></label>
+      ${bottle(b, 'sm')}<p class="cmp-name">${esc(b.name)}</p><p class="cmp-meta">${esc(b.maker)}</p>${profileBars(b)}</div>
+  </div>
+  <ul class="cmp-rows">${rows}</ul>
+  <p id="cmp-diff" class="cmp-diff"><strong>こんな違いがあります。</strong>${esc(compareDiff(a, b))}<span class="note">味わいの5段階と、この文はサイト独自の目安です。どちらが良いという意味ではありません。</span></p>
+  <div class="cmp-presets"><h2>よくある組み合わせ</h2><div class="opts">${presets}</div></div>
+  <p><a class="btn btn--ghost" href="#/list">ほかの銘柄を探す</a></p>
+</section>`,
+    };
+  }
+
+  function bindCompare() {
+    const sels = [...document.querySelectorAll('.cmp select')];
+    for (const sel of sels) {
+      sel.addEventListener('change', () => {
+        const a = document.querySelector('select[name="a"]').value;
+        const b = document.querySelector('select[name="b"]').value;
+        location.hash = compareHref(a, b);
+      });
+    }
+  }
+
   // ===== ルーター =====
   // 旧トップの味の絞り込み（象限）を、新しい味わいの絞り込みに読み替える
   const LEGACY_TASTE = { 'floral-light': 'fresh', 'floral-rich': 'rich', 'smoky-light': 'smoky', 'smoky-rich': 'smoky' };
@@ -790,6 +885,9 @@ ${(w.official || []).map((o) => `<p class="note-row"><span class="note-k">${esc(
       return { view: 'find', q1: params.get('q1') || 'any', q2: params.get('q2') || 'any', q3: params.get('q3') || 'any' };
     }
     if (parts.length === 1 && parts[0] === 'standard') return { view: 'standard' };
+    if (parts.length === 1 && parts[0] === 'compare') {
+      return { view: 'compare', a: params.get('a') || '', b: params.get('b') || '' };
+    }
     return { view: 'notfound' };
   }
 
@@ -801,11 +899,13 @@ ${(w.official || []).map((o) => `<p class="note-row"><span class="note-k">${esc(
           : r.view === 'whisky' ? viewWhisky(r.id)
             : r.view === 'distillery' ? viewDistillery(r.id)
               : r.view === 'standard' ? viewStandard()
-                : viewNotFound();
+                : r.view === 'compare' ? viewCompare(r)
+                  : viewNotFound();
     app.innerHTML = v.html;
     document.title = v.title;
     if (r.view === 'top') bindTop();
     if (r.view === 'list') bindList();
+    if (r.view === 'compare') bindCompare();
     return r;
   }
 

@@ -459,3 +459,58 @@ test('一覧：旧URL（トップの検索・味の絞り込み）は一覧に�
   const b = await load('#/?taste=smoky-rich');
   assert.equal(b.document.querySelector('select[name="taste"]').value, 'smoky');
 });
+
+// ===== 比較 =====
+test('比較：2本が並び、項目がそろう', async () => {
+  const env = await load('#/compare?a=yamazaki&b=hakushu');
+  const d = env.document;
+  assert.deepEqual([...d.querySelectorAll('.cmp-name')].map((e) => e.textContent), ['山崎', '白州']);
+  const keys = [...d.querySelectorAll('.cmp-row .cmp-k')].map((e) => e.textContent);
+  for (const k of ['タイプ', '度数', '容量', '産地', '区分', '飲み方', '余韻']) {
+    assert.ok(keys.some((x) => x.includes(k)), `${k} が無い`);
+  }
+  assert.equal(d.querySelectorAll('.cmp-col .bars').length, 2, '味わい5段階が2本ぶん出る');
+  assert.deepEqual(env.errors, []);
+});
+
+test('比較：差が大きい項目を2つ取り上げた文が出る（順位は付けない）', async () => {
+  const env = await load('#/compare?a=yoichi&b=chita');
+  const s = env.document.querySelector('#cmp-diff').textContent;
+  assert.match(s, /こんな違いがあります/);
+  assert.ok(!/おすすめ|勝|優れ/.test(s), '順位付けの言葉を使わない');
+  assert.match(env.document.querySelector('#cmp-diff').textContent, /目安|見立て/);
+});
+
+test('比較：定番の6組へ1タップで行ける', async () => {
+  const env = await load('#/compare?a=yamazaki&b=hakushu');
+  const hrefs = [...env.document.querySelectorAll('.cmp-presets a')].map((a) => a.getAttribute('href'));
+  assert.equal(hrefs.length, 6);
+  assert.ok(hrefs.includes('#/compare?a=yoichi&b=miyagikyo'));
+  assert.ok(hrefs.includes('#/compare?a=taketsuru&b=miyagikyo'));
+});
+
+test('比較：銘柄を選び替えると URL が変わる', async () => {
+  const env = await load('#/compare?a=yamazaki&b=hakushu');
+  const sel = env.document.querySelector('select[name="b"]');
+  sel.value = 'chita';
+  sel.dispatchEvent(new env.window.Event('change', { bubbles: true }));
+  assert.match(env.window.location.hash, /a=yamazaki&b=chita/);
+});
+
+test('比較：指定がないときは山崎と白州を出す', async () => {
+  const env = await load('#/compare');
+  assert.deepEqual([...env.document.querySelectorAll('.cmp-name')].map((e) => e.textContent), ['山崎', '白州']);
+});
+
+test('比較：知らない id は見つからない表示', async () => {
+  const env = await load('#/compare?a=nope&b=hakushu');
+  assert.match(env.document.querySelector('h1').textContent, /見つかりません/);
+});
+
+test('銘柄ページ：関連する比較へのリンクがある', async () => {
+  const env = await load('#/whisky/yamazaki');
+  const hrefs = [...env.document.querySelectorAll('#related-compare a')].map((a) => a.getAttribute('href'));
+  assert.ok(hrefs.length >= 1);
+  for (const h of hrefs) assert.match(h, /^#\/compare\?a=.+&b=.+/);
+  assert.ok(hrefs.some((h) => h.includes('yamazaki')), '自分が入っている組が出る');
+});
