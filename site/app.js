@@ -6,17 +6,9 @@
   const W = new Map(DATA.whiskies.map((w) => [w.id, w]));
   const D = new Map(DATA.distilleries.map((d) => [d.id, d]));
   const SITE = 'Japanese Whisky Guide';
-  const PREF_ORDER = ['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県'];
   const SERVES = [['straight', 'ストレート'], ['rock', 'ロック'], ['highball', 'ハイボール'], ['mizuwari', '水割り']];
   const MARK = { 3: '◎', 2: '○', 1: '△' };
   const MARK_TEXT = { 3: 'とても合う', 2: '合う', 1: '好みが分かれる' };
-  // 味の地図の4象限（横：華やか←→スモーキー、縦：やわらか←→濃厚）。並びは地図の見た目どおり
-  const QUADS = [
-    { key: 'floral-rich', label: '華やか × 濃厚', test: (t) => t.x < 0 && t.y >= 0 },
-    { key: 'smoky-rich', label: 'スモーキー × 濃厚', test: (t) => t.x >= 0 && t.y >= 0 },
-    { key: 'floral-light', label: '華やか × やわらか', test: (t) => t.x < 0 && t.y < 0 },
-    { key: 'smoky-light', label: 'スモーキー × やわらか', test: (t) => t.x >= 0 && t.y < 0 },
-  ];
 
   // 地方（仕様書 §4.3）。蒸溜所の都道府県をまとめる
   const REGIONS = [
@@ -139,7 +131,6 @@
     return `${y}年${m}月${d}日`;
   };
   const distName = (d) => d.name.replace(/蒸[溜留]所$/, '');
-  const quadOf = (t) => QUADS.find((q) => q.test(t));
   const STD_KEYS = Object.keys(DATA.standards);
 
   // ボトル図の色。個別の指定がなければ種類で液色を変え、ラベルの字は short の1文字目
@@ -206,31 +197,6 @@
     return `<span class="bottle bottle--${size}" style="--liquid:${esc(l.liquid)};--label:${esc(l.label)};--mark:${esc(l.mark)}" aria-hidden="true"><span class="bottle-neck"></span><span class="bottle-body"></span><span class="bottle-label">${esc(l.char)}</span></span>`;
   }
 
-  // 味の地図。focus を渡すとその銘柄だけを強調する小さい版、渡さないと全銘柄のラベル付きの大きい版
-  function tasteMap(opts) {
-    const S = 200;
-    const P = 14;
-    const I = S - P * 2;
-    const at = (t) => [P + ((t.x + 1) / 2) * I, P + (1 - (t.y + 1) / 2) * I];
-    // 銘柄が多いとラベルが重なるので、点だけにする（点に触れると名前が出る）
-    const labels = DATA.whiskies.length <= 12;
-    const dots = DATA.whiskies.map((w) => {
-      const [cx, cy] = at(w.taste);
-      if (opts.focus) {
-        const on = w.id === opts.focus;
-        return { on, svg: `<circle class="dot${on ? ' dot--focus' : ''}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${on ? 7 : 4}"><title>${esc(w.name)}</title></circle>` };
-      }
-      const right = w.taste.x > 0.45;
-      const label = labels ? `<text class="dot-label" x="${(right ? cx - 10 : cx + 10).toFixed(1)}" y="${(cy + 4).toFixed(1)}" text-anchor="${right ? 'end' : 'start'}">${esc(w.short)}</text>` : '';
-      return { on: false, svg: `<a href="#/whisky/${esc(w.id)}"><circle class="dot dot--all" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${labels ? 6 : 3.5}"><title>${esc(w.name)}</title></circle>${label}</a>` };
-    });
-    // 強調する点を最後に描いて前面に出す
-    dots.sort((a, b) => Number(a.on) - Number(b.on));
-    const f = opts.focus ? W.get(opts.focus) : null;
-    const aria = f ? `味の地図。${f.name}は${quadOf(f.taste).label}の位置` : '味の地図。掲載銘柄の位置';
-    return `<div class="tmap tmap--${f ? 'sm' : 'lg'}"><span class="tmap-top">濃厚</span><span class="tmap-left">華やか</span><svg viewBox="0 0 ${S} ${S}" role="img" aria-label="${esc(aria)}"><rect class="tmap-frame" x="${P}" y="${P}" width="${I}" height="${I}" rx="10"/><line class="tmap-axis" x1="${S / 2}" y1="${P}" x2="${S / 2}" y2="${S - P}"/><line class="tmap-axis" x1="${P}" y1="${S / 2}" x2="${S - P}" y2="${S / 2}"/>${dots.map((d) => d.svg).join('')}</svg><span class="tmap-right">スモーキー</span><span class="tmap-bottom">やわらか</span></div>`;
-  }
-
   // 出典の一覧（各ページの最後に置く）
   function sourcesHtml(list) {
     return `<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">出典</h2><ol class="sources">${list.map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a><span class="source-used">${esc(s.used)}</span></li>`).join('')}</ol><p class="note">確認日：${esc(fmtDate(DATA.checkedAt))}</p></section>`;
@@ -275,91 +241,81 @@
   }
 
   // ===== 画面：トップ =====
-  function resultsHtml(r) {
-    let head;
-    let items;
-    let clear = '';
-    let emptyText = '';
-    if (r.q) {
-      head = `「${esc(r.q)}」の検索結果`;
-      items = search(r.q);
-      emptyText = `見つかりませんでした。ひらがな・カタカナ・英字の読みでも探せます（例：よいち、yoichi）。いま掲載しているのは${DATA.whiskies.length}銘柄で、順次増やしていきます。`;
-    } else if (QUADS.some((q) => q.key === r.taste)) {
-      const q = QUADS.find((x) => x.key === r.taste);
-      head = `味：${esc(q.label)}`;
-      items = DATA.whiskies.filter((w) => q.test(w.taste)).map((item) => ({ kind: 'whisky', item }));
-      clear = '<a class="clear" href="#/">すべて表示</a>';
-      emptyText = 'この味の銘柄は、まだ掲載していません。';
-    } else {
-      const makers = [...new Set(DATA.whiskies.map((w) => w.maker))];
-      return `<div class="sec-head"><h2 id="results-h">掲載中の銘柄</h2><span class="count">${DATA.whiskies.length}本</span></div>${makers.map((m, i) => {
-        const ws = DATA.whiskies.filter((w) => w.maker === m);
-        return `<details class="maker-group"${i === 0 ? ' open' : ''}><summary><span class="maker-name">${esc(m)}</span><span class="maker-count">${ws.length}本</span></summary><ul class="cards">${ws.map((w) => whiskyCard(w)).join('')}</ul></details>`;
-      }).join('')}`;
-    }
-    const list = items.length
-      ? `<ul class="cards">${items.map((x) => (x.kind === 'whisky' ? whiskyCard(x.item) : distilleryCard(x.item))).join('')}</ul>`
-      : `<p class="empty">${emptyText}</p>`;
-    return `<div class="sec-head"><h2 id="results-h">${head}</h2><span class="count">${items.length}件</span>${clear}</div>${list}`;
-  }
+  // 6つの入口（味わい・タイプ・飲み方とシーン・味わいMAP・蒸溜所・診断）。どれも #/list か既存のページへの入口
+  const ENTRIES = [
+    { href: `#/list?taste=fruity`, title: '味わいから', desc: '甘い・フルーティ・爽やか・濃厚・スモーキー' },
+    { href: `#/list?type=single-malt`, title: 'タイプから', desc: 'シングルモルト・ブレンデッド・グレーン' },
+    { href: `#/list?serve=highball`, title: '飲み方・シーンから', desc: 'ハイボール・初めての1本・プレゼントなど' },
+    { href: '#/map', title: '味わいMAPから', desc: '横は軽やかから濃厚、縦はフルーティからスモーキー' },
+    { href: '#/distilleries', title: '蒸溜所から', desc: '北海道から沖縄まで、地方別に見る' },
+    { href: '#/find', title: '3問で診断', desc: '普段のお酒・好きな味・場面から探す' },
+  ];
 
-  function viewTop(r) {
-    const byPref = new Map();
-    for (const d of DATA.distilleries) {
-      if (!byPref.has(d.pref)) byPref.set(d.pref, []);
-      byPref.get(d.pref).push(d);
-    }
-    const prefs = [...byPref.keys()].sort((a, b) => PREF_ORDER.indexOf(a) - PREF_ORDER.indexOf(b));
-    const rule = DATA.standardRule;
+  function viewTop() {
+    const staples = STAPLES.map((id) => W.get(id)).filter(Boolean);
+    const todayW = todayPick(todayIndex());
+    const news = sortList(DATA.whiskies, 'new').slice(0, 6);
+    const regionCounts = REGIONS
+      .map((reg) => ({ reg, n: DATA.distilleries.filter((d) => regionOf(d.pref)?.key === reg.key).length }))
+      .filter((x) => x.n > 0);
+
     return {
       title: SITE,
       html: `
 <section class="hero">
-  <p class="eyebrow">JAPANESE WHISKY GUIDE</p>
-  <h1>その一本を、<br>ちゃんと知る。</h1>
-  <p class="hero-lead">ジャパニーズウイスキーを1本ずつ。どこの県の、どの原酒で、どんな味で、どう飲むとうまいか。</p>
-  <a class="search" href="#/list">
-    <span class="sr-only">銘柄名・蒸溜所名で探す</span>
-    <input type="text" placeholder="例：ひびき / hibiki / 山崎" readonly tabindex="-1">
-    <button type="button" tabindex="-1">探す</button>
-  </a>
-  <p class="search-hint">ひらがな・カタカナ・英字でも引けます。棚のラベルの読みでどうぞ。</p>
-  <p class="hero-find"><a class="btn" href="#/find">好みから探す（3タップ）</a></p>
+  <h1>あなたに合うジャパニーズウイスキーを見つける。</h1>
+  <p class="hero-lead">味わい・タイプ・飲み方・シーンから、あなたにぴったりの1本を探せます。いま${DATA.whiskies.length}銘柄・${DATA.distilleries.length}蒸溜所。</p>
+  <p class="hero-btns"><a class="btn" href="#/list">ウイスキーを探す</a><a class="btn btn--ghost" href="#/find">3問で診断する</a></p>
+  <label class="search"><span class="visually-hidden">銘柄名・蒸溜所名で検索</span>
+    <input id="q" type="search" placeholder="銘柄名・蒸溜所名（例：よいち、yoichi）" autocomplete="off"></label>
 </section>
-<section class="sec" aria-labelledby="results-h">
-  <div id="results">${resultsHtml(r)}</div>
+
+<section class="entries-sec"><h2>何から探しますか？</h2>
+  <div class="entries">${ENTRIES.map((e) => `<a class="entry" href="${e.href}"><span class="entry-t">${esc(e.title)}</span><span class="entry-d">${esc(e.desc)}</span></a>`).join('')}</div>
 </section>
-<section class="sec" id="by-pref" aria-labelledby="pref-h">
-  <div class="sec-head"><h2 id="pref-h">都道府県から探す</h2><span class="count">${DATA.distilleries.length}蒸溜所</span></div>
-  <ul class="prefs">${prefs.map((p) => `<li class="pref"><p class="pref-name">${esc(p)}</p><ul>${byPref.get(p).map((d) => `<li><a href="#/distillery/${esc(d.id)}">${esc(d.name)}</a></li>`).join('')}</ul></li>`).join('')}</ul>
+
+<section id="staples"><div class="sec-head"><h2>まずはここから</h2><span class="count">編集部が選ぶ定番8本</span></div>
+  <ul class="cards">${staples.map((w) => whiskyCard(w)).join('')}</ul>
+  <p class="note">売れている順ではなく、はじめの1本に選びやすい銘柄を編集部で選びました。</p>
 </section>
-<section class="sec" id="by-find">
-  <a class="std-card" href="#/find">
-    <h2>迷ったら、好みから探す</h2>
-    <p>飲み方と味の好みを3タップ選ぶと、合いそうな3本を出します。</p>
-    <span class="badges"><span class="badge badge--jw">3タップ</span><span class="opinion">編集部の見立て</span></span>
-  </a>
+
+<section class="cta"><h2>あなたに合う1本を探してみませんか？</h2>
+  <p>普段のお酒・好きな味・飲む場面の3問だけです。</p>
+  <p><a class="btn" href="#/find">3問で診断する</a></p>
 </section>
-<section class="sec" id="by-taste" aria-labelledby="taste-top-h">
-  <div class="sec-head"><h2 id="taste-top-h">味から探す</h2><span class="opinion">編集部の見立て</span></div>
-  ${tasteMap({})}
-  <div class="quads">${QUADS.map((q) => {
-    const n = DATA.whiskies.filter((w) => q.test(w.taste)).length;
-    return `<a class="quad" href="${listHref({ taste: LEGACY_TASTE[q.key] })}"><span class="quad-name">${esc(q.label)}</span><span class="quad-count">${n}本</span></a>`;
-  }).join('')}</div>
+
+<section id="top-map"><div class="sec-head"><h2>味わいMAP</h2><a class="clear" href="#/map">もっと見る</a></div>
+  ${mapSvg(DATA.whiskies, { small: true })}
+  <p class="note">横は軽やかから濃厚、縦はフルーティからスモーキー。位置はサイト独自の目安です。</p>
 </section>
-<section class="sec">
-  <a class="std-card" href="#/standard">
-    <h2>${esc(rule.title)}</h2>
-    <p>${esc(rule.summary)} このサイトでは全銘柄に、${STD_KEYS.length}つの区分のどれかを付けています。</p>
-    <span class="badges">${STD_KEYS.map((k) => badge(k, false)).join('')}</span>
-  </a>
+
+<section id="top-regions"><div class="sec-head"><h2>蒸溜所から探す</h2></div>
+  <div class="opts">${regionCounts.map(({ reg, n }) => `<a class="opt" href="#/distilleries?region=${reg.key}">${esc(reg.label)}<span class="count">${n}</span></a>`).join('')}</div>
+</section>
+
+<section id="top-today"><div class="sec-head"><h2>今日の1本</h2><a class="clear" href="#/today">ページで見る</a></div>
+  <ul class="cards">${whiskyCard(todayW, todayW.taste.line)}</ul>
+</section>
+
+<section id="top-new"><div class="sec-head"><h2>新しく載せた銘柄</h2></div>
+  <ul class="cards">${news.map((w) => whiskyCard(w)).join('')}</ul>
+</section>
+
+<section class="std-entry"><div class="sec-head"><h2>ジャパニーズウイスキーの表示基準</h2><a class="clear" href="#/standard">くわしく見る</a></div>
+  <div class="opts">${STD_KEYS.map((k) => `<a class="opt" href="#/list?standard=${k}">${esc(DATA.standards[k].label)}</a>`).join('')}</div>
 </section>`,
     };
   }
 
-  // トップの検索窓・味の入口は #/list へのリンクになったので、束ねる対象がない（Task 10 でトップを作り直す）
-  function bindTop() {}
+  // トップの検索窓は、打ったらそのまま一覧へ移る
+  function bindTop() {
+    const q = document.getElementById('q');
+    if (!q) return;
+    q.addEventListener('input', () => {
+      const v = q.value.trim();
+      if (v) location.hash = listHref({ q: v });
+    });
+  }
 
   // ===== 画面：銘柄一覧 =====
 

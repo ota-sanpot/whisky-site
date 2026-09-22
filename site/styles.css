@@ -61,22 +61,6 @@ a.badge::after{content:"›";margin-left:2px;opacity:.7}
 .bottle--sm .bottle-body{top:17px;border-radius:10px 10px 6px 6px}
 .bottle--sm .bottle-label{left:5px;right:5px;top:32px;height:26px;font-size:13px}
 
-/* 味の地図 */
-.tmap{display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:auto auto auto;grid-template-areas:". top ." "left map right" ". bottom .";align-items:center;justify-items:center;gap:3px;color:var(--text-3);font-size:10px;line-height:1}
-.tmap svg{grid-area:map;display:block;width:100%;height:auto}
-.tmap-top{grid-area:top}
-.tmap-bottom{grid-area:bottom}
-.tmap-left{grid-area:left;writing-mode:vertical-rl;letter-spacing:.12em}
-.tmap-right{grid-area:right;writing-mode:vertical-rl;letter-spacing:.12em}
-.tmap--sm{width:148px}
-.tmap--lg{width:100%;max-width:420px;margin:0 auto;font-size:12px}
-.tmap-frame{fill:var(--bg-2);stroke:var(--line-2)}
-.tmap-axis{stroke:var(--line-2);stroke-dasharray:2 3}
-.dot{fill:var(--text-3);opacity:.5}
-.dot--focus{fill:var(--amber-2);opacity:1;stroke:rgba(242,189,102,.3);stroke-width:8}
-.dot--all{fill:var(--amber);opacity:1}
-.dot-label{fill:var(--text-2);font-size:11px;font-weight:700;font-family:var(--font)}
-
 /* ===== トップ ===== */
 .hero{margin:0 calc(var(--gutter) * -1);padding:28px var(--gutter) 18px;background:radial-gradient(120% 90% at 50% 0%,rgba(220,157,66,.16),transparent 70%)}
 .eyebrow{margin:0 0 8px;font-size:11px;letter-spacing:.28em;color:var(--amber-2)}
@@ -86,8 +70,6 @@ a.badge::after{content:"›";margin-left:2px;opacity:.7}
 .search:focus-within{border-color:var(--amber);box-shadow:0 0 0 3px var(--amber-dim)}
 .search input{flex:1;min-width:0;padding:10px 0;border:0;outline:0;background:transparent;color:var(--text);font:inherit;font-size:16px;-webkit-appearance:none;appearance:none}
 .search input::placeholder{color:var(--text-3)}
-.search button{flex:none;padding:10px 18px;border:0;border-radius:999px;background:var(--amber);color:var(--amber-ink);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
-.search-hint{margin:8px 0 0;font-size:12px;color:var(--text-3)}
 .sec{margin-top:30px}
 #results{scroll-margin-top:calc(var(--header-h) + 12px)}
 .sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;margin-bottom:10px}
@@ -110,16 +92,17 @@ a.badge::after{content:"›";margin-left:2px;opacity:.7}
 .maker-group[open] > summary::after{content:"－"}
 .maker-count{font-size:12px;font-weight:500;color:var(--text-3)}
 .maker-group .cards{padding:0 8px 8px}
-.prefs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.pref{padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
-.pref-name{margin:0 0 2px;font-size:12px;letter-spacing:.08em;color:var(--text-3)}
-.pref ul{list-style:none;margin:0;padding:0}
-.pref a{font-weight:700;text-decoration:underline;text-decoration-color:rgba(220,157,66,.55);text-underline-offset:3px}
-.pref .soon{font-size:14px;color:var(--text-2)}
-.pref .soon small{margin-left:6px;font-size:10px;color:var(--text-3)}
-.hero-find{margin:14px 0 0}
 .card-why{margin-top:4px;font-size:12.5px;line-height:1.6;color:var(--amber-2)}
 #find-result{scroll-margin-top:calc(var(--header-h) + 12px)}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 14px}
+.entries-sec{margin:26px 0}
+.entries{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.entry{display:flex;flex-direction:column;gap:4px;min-height:84px;padding:12px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);color:var(--text);text-decoration:none}
+.entry-t{font-weight:700}
+.entry-d{font-size:12px;color:var(--text-2);word-break:auto-phrase}
+.cta{margin:26px 0;padding:18px 16px;border-radius:var(--radius);background:var(--surface-2);text-align:center}
+.cta h2{margin:0 0 6px;word-break:auto-phrase}
+#top-map .wmap{max-width:320px}
 
 /* ===== ここから使う共通の部品 ===== */
 .btn--ghost{background:transparent;border:1px solid var(--line-2);color:var(--text)}
@@ -134,14 +117,6 @@ a.badge::after{content:"›";margin-left:2px;opacity:.7}
 .opt--on{background:var(--amber);border-color:var(--amber);color:var(--amber-ink);font-weight:700}
 .find-type{margin:0 0 12px;font-size:17px}
 .find-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.quads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px}
-.quad{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);text-decoration:none}
-.quad[aria-current="true"]{border-color:var(--amber);background:var(--amber-dim)}
-.quad-name{font-size:14px;font-weight:700}
-.quad-count{font-size:11.5px;color:var(--text-3)}
-.std-card{display:block;padding:16px;border-radius:var(--radius);background:linear-gradient(135deg,var(--surface-2),var(--surface));border:1px solid var(--line-2);text-decoration:none}
-.std-card h2{margin:0 0 6px;font-size:16px;line-height:1.5}
-.std-card p{margin:0 0 12px;font-size:13px;color:var(--text-2)}
 
 /* ===== 銘柄ページ：最初の一画面 ===== */
 .w-head{display:flex;align-items:flex-end;gap:14px;padding:6px 0 14px}
@@ -163,7 +138,7 @@ a.chip .chip-name{text-decoration:underline;text-decoration-color:rgba(220,157,6
 .w-line{margin:0;font-size:16px;font-weight:700;line-height:1.6}
 .w-line .ph{display:inline-block}
 /* 名前・短いラベルは空白と句読点のところでだけ改行する（収まらない時は body の overflow-wrap で折る） */
-.card-name,.card-meta,.next-name,.quad-name,.chip,.pref li,.maker-serve{word-break:keep-all}
+.card-name,.card-meta,.next-name,.chip,.maker-serve{word-break:keep-all}
 .serve{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
 .serve-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:12px;color:var(--text-2)}
 .serve-mark{font-size:19px;font-weight:700;line-height:1.2}
@@ -294,17 +269,12 @@ a.next{border-color:rgba(220,157,66,.5)}
 @media (min-width:600px){.filter-grid{grid-template-columns:1fr 1fr}}
 
 /* ===== 広い画面 ===== */
-@media (min-width:600px){
-  .prefs{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .quads{grid-template-columns:repeat(4,minmax(0,1fr))}
-}
 @media (min-width:768px){
   body{font-size:16px}
   .hero{padding-top:44px}
   .hero h1{font-size:38px}
   .w-name{font-size:30px}
   .w-line{font-size:18px}
-  .tmap--sm{width:176px}
   .next-row{margin:0;padding:0 0 4px}
   .next-row > li{flex-basis:calc((100% - 16px) / 3)}
 }

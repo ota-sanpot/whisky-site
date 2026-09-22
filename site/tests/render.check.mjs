@@ -14,39 +14,57 @@ const abvOf = (w) => {
   return m ? Number(m[1]) : null;
 };
 
-// ===== トップ・検索 =====
-
-test('トップ：全銘柄がメーカー別にまとまって並び、エラーが出ない', async () => {
+// ===== トップ =====
+test('トップ：最初の画面に、探すボタンと診断ボタンと検索窓がある', async () => {
   const env = await load('');
   const d = env.document;
-  assert.equal(d.querySelectorAll('#results a.card[href^="#/whisky/"]').length, DATA.whiskies.length);
-  const makers = [...new Set(DATA.whiskies.map((w) => w.maker))];
-  const groups = [...d.querySelectorAll('#results details.maker-group')];
-  assert.equal(groups.length, makers.length);
-  for (const g of groups) {
-    const name = g.querySelector('.maker-name').textContent;
-    const n = DATA.whiskies.filter((w) => w.maker === name).length;
-    assert.equal(g.querySelectorAll('a.card').length, n, name);
-    assert.match(g.querySelector('.maker-count').textContent, new RegExp(`${n}本`));
-  }
-  assert.equal(d.getElementById('checked-at').textContent, '2026年9月18日');
+  assert.match(d.querySelector('h1').textContent, /あなたに合う/);
+  assert.equal(d.querySelector('.hero a.btn[href="#/list"]').textContent, 'ウイスキーを探す');
+  assert.equal(d.querySelector('.hero a.btn[href="#/find"]').textContent, '3問で診断する');
+  assert.ok(d.querySelector('.hero input#q'), '検索窓がある');
   assert.deepEqual(env.errors, []);
 });
 
-test('都道府県から探す：北から順に並び、全蒸溜所がリンク', async () => {
+test('トップ：何から探すかの入口が6つある', async () => {
   const env = await load('');
-  const prefs = [...env.document.querySelectorAll('#by-pref .pref-name')].map((p) => p.textContent);
-  assert.equal(prefs[0], '北海道');
-  assert.equal(new Set(prefs).size, prefs.length);
-  const links = hrefs(env.document.querySelectorAll('#by-pref a'));
-  assert.equal(links.length, DATA.distilleries.length);
+  const hrefs = [...env.document.querySelectorAll('.entries a')].map((a) => a.getAttribute('href'));
+  assert.equal(hrefs.length, 6);
+  for (const h of ['#/map', '#/find', '#/distilleries']) assert.ok(hrefs.includes(h), h);
+  assert.ok(hrefs.some((h) => h.startsWith('#/list?taste=')), '味わいから探す');
+  assert.ok(hrefs.some((h) => h.startsWith('#/list?type=')), 'タイプから探す');
+  assert.ok(hrefs.some((h) => h.startsWith('#/list?scene=') || h.startsWith('#/list?serve=')), '飲み方・シーンから探す');
 });
 
-test('トップ：表示基準の説明への入口に5区分が並ぶ', async () => {
+test('トップ：まずはここからは編集部が選ぶ定番8本', async () => {
   const env = await load('');
-  const card = env.document.querySelector('a.std-card[href="#/standard"]');
-  assert.ok(card);
-  assert.equal(card.querySelectorAll('.badge').length, 5);
+  const sec = env.document.querySelector('#staples');
+  const hrefs = [...sec.querySelectorAll('a.card')].map((a) => a.getAttribute('href'));
+  assert.deepEqual(hrefs, [
+    '#/whisky/hibiki-jh', '#/whisky/yamazaki', '#/whisky/hakushu', '#/whisky/chita',
+    '#/whisky/yoichi', '#/whisky/miyagikyo', '#/whisky/fuji-single-blended', '#/whisky/kakubin',
+  ]);
+  assert.match(sec.textContent, /編集部が選ぶ定番/);
+  assert.ok(!/人気/.test(sec.textContent), '人気順とは書かない');
+});
+
+test('トップ：味わいMAPの簡易版・蒸溜所・今日の1本・新着がある', async () => {
+  const env = await load('');
+  const d = env.document;
+  assert.equal(d.querySelectorAll('#top-map svg .pt').length, DATA.whiskies.length);
+  assert.ok(d.querySelector('#top-map a[href="#/map"]'), 'MAPへの導線');
+  const regions = [...d.querySelectorAll('#top-regions a')].map((a) => a.getAttribute('href'));
+  assert.ok(regions.every((h) => h.startsWith('#/distilleries?region=')));
+  assert.ok(d.querySelector('#top-today a[href^="#/whisky/"]'), '今日の1本');
+  const news = [...d.querySelectorAll('#top-new a.card')];
+  assert.equal(news.length, 6);
+});
+
+test('トップ：検索窓に打つと一覧へ移る', async () => {
+  const env = await load('');
+  const q = env.document.getElementById('q');
+  q.value = 'よいち';
+  q.dispatchEvent(new env.window.Event('input', { bubbles: true }));
+  assert.match(env.window.location.hash, /^#\/list\?q=/);
 });
 
 test('知らない URL は見つからない表示', async () => {
@@ -198,7 +216,8 @@ test('銘柄ページ：米だけでつくる銘柄は表示基準の対象外',
 test('銘柄ページ：限定品には限定の表示が出る', async () => {
   const d = (await load('#/whisky/date')).document;
   assert.equal(d.querySelector('.w-head .limited').textContent, '宮城県限定');
-  assert.ok((await load('')).document.querySelector('a.card[href="#/whisky/date"] .limited'));
+  // トップは「探すページ」になり全銘柄を並べないので、全銘柄が出る一覧側で確認する
+  assert.ok((await load('#/list')).document.querySelector('a.card[href="#/whisky/date"] .limited'));
   assert.equal((await load('#/whisky/hibiki-jh')).document.querySelector('.w-head .limited'), null);
 });
 
