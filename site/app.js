@@ -865,12 +865,14 @@ ${relatedCompare}
     return { cx: Math.round(cx * 10) / 10, cy: Math.round(cy * 10) / 10 };
   }
 
+  // 味わいの判定は一覧（TASTE_FILTERS）と同じものを使う。地図では呼び名だけ変える
+  const tasteTest = (key) => TASTE_FILTERS.find((x) => x.key === key).test;
   const MAP_FILTERS = [
     { key: '', label: 'すべて', test: () => true },
-    { key: 'fruity', label: 'フルーティ系', test: (p) => p.fruitiness >= 4 },
-    { key: 'smoky', label: 'スモーキー系', test: (p) => p.smokiness >= 4 },
-    { key: 'sweet', label: '甘い系', test: (p) => p.sweetness >= 4 },
-    { key: 'fresh', label: '軽やか系', test: (p) => p.drinkability >= 4 && p.richness <= 2 },
+    { key: 'fruity', label: 'フルーティ系', test: tasteTest('fruity') },
+    { key: 'smoky', label: 'スモーキー系', test: tasteTest('smoky') },
+    { key: 'sweet', label: '甘い系', test: tasteTest('sweet') },
+    { key: 'fresh', label: '軽やか系', test: tasteTest('fresh') },
   ];
 
   function mapSvg(list, opts = {}) {
@@ -878,7 +880,7 @@ ${relatedCompare}
     const pts = list.map((w) => {
       const { cx, cy } = mapPos(w);
       const on = opts.focus === w.id;
-      return `<a class="pt${on ? ' pt--on' : ''}" href="#/whisky/${esc(w.id)}" data-id="${esc(w.id)}"><title>${esc(w.name)}：${esc(w.taste.line)}</title><circle cx="${cx}" cy="${cy}" r="${on ? 6 : 4}"></circle></a>`;
+      return `<a class="pt${on ? ' pt--on' : ''}" href="#/whisky/${esc(w.id)}" data-id="${esc(w.id)}"><title>${esc(w.name)}：${esc(w.taste.line)}</title><circle class="pt-hit" cx="${cx}" cy="${cy}" r="10"></circle><circle cx="${cx}" cy="${cy}" r="${on ? 6 : 4}"></circle></a>`;
     }).join('');
     const labels = opts.small ? '' : `
   <text class="ax" x="${half}" y="10" text-anchor="middle">スモーキー</text>

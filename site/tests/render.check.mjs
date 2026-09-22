@@ -557,3 +557,21 @@ test('MAP：点の一覧が文字でも出る（スマホで押しやすいよ�
   const n = DATA.whiskies.filter((w) => w.profile.fruitiness >= 4).length;
   assert.equal(env.document.querySelectorAll('#map-list a.card').length, n);
 });
+
+test('MAP：絞り込みの判定は一覧（TASTE_FILTERS）と同じもの', async () => {
+  const mapEnv = await load('#/map?filter=smoky');
+  const listEnv = await load('#/list?taste=smoky');
+  assert.equal(
+    mapEnv.document.querySelectorAll('#tastemap a.pt').length,
+    listEnv.document.querySelectorAll('#results a.card').length,
+  );
+});
+
+test('MAP：点の当たり判定は見えない大きめの円で広げてある', async () => {
+  const env = await load('#/map');
+  for (const a of [...env.document.querySelectorAll('#tastemap a.pt')]) {
+    const hit = a.querySelector('circle.pt-hit');
+    assert.ok(hit, '当たり判定の円がない');
+    assert.ok(Number(hit.getAttribute('r')) >= 10, '当たり判定が10未満');
+  }
+});

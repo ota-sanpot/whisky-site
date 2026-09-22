@@ -258,6 +258,9 @@ a.next{border-color:rgba(220,157,66,.5)}
 .wmap .pt circle{fill:var(--amber);opacity:.75}
 .wmap .pt:hover circle,.wmap .pt:focus circle{opacity:1;stroke:var(--text);stroke-width:1.5}
 .wmap .pt--on circle{fill:var(--amber-2);opacity:1}
+/* 当たり判定だけ広げる透明な円。見た目には出さない（fill:none だと当たり判定にならない） */
+.wmap .pt circle.pt-hit{fill:transparent}
+.wmap .pt:hover circle.pt-hit,.wmap .pt:focus circle.pt-hit{stroke:none}
 .map-filters{margin:0 0 6px}
 
 /* ===== 一覧の絞り込み ===== */
