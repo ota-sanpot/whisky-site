@@ -1,6 +1,6 @@
 #!/bin/bash
-# モックの全画面を、スマホ・タブレット・PCの幅で撮る（目視確認用）
-# 使い方: bash mock/tests/shots.sh <出力先ディレクトリ>
+# 全画面を、スマホ・タブレット・PCの幅で撮る（目視確認用）
+# 使い方: bash site/tests/shots.sh <出力先ディレクトリ>
 # ヘッドレス Chrome は幅500px未満を描けないので、frame.html の iframe に指定幅で入れて撮る
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -8,7 +8,7 @@ CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 OUT="${1:?出力先ディレクトリを指定してください}"
 mkdir -p "$OUT"
 FRAME="file://$PWD/tests/frame.html"
-ROUTES=("top|" "search|#/?q=hibiki" "hibiki|#/whisky/hibiki-jh" "yoichi|#/whisky/yoichi" "ao|#/whisky/ao" "yamazaki|#/distillery/yamazaki" "standard|#/standard")
+ROUTES=("top|" "list|#/list" "list_smoky|#/list?taste=smoky" "whisky_hibiki|#/whisky/hibiki-jh" "find|#/find?q1=none&q2=fresh" "compare|#/compare?a=yamazaki&b=hakushu" "map|#/map" "today|#/today?n=3" "distilleries|#/distilleries")
 SIZES=("375,812" "375,2800" "768,1800" "1280,1800")
 for entry in "${ROUTES[@]}"; do
   name="${entry%%|*}"

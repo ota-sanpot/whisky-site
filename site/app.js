@@ -183,12 +183,16 @@
   }
 
   // 表示基準の区分バッジ。銘柄ページでは説明ページへのリンクにする
+  // 「ジャパニーズウイスキー」は2語の複合語なので、狭い幅で折り返すときに単語の途中
+  // （例：「ウ」と「イスキー」の間）で割れないよう、語の境目に <wbr> を入れておく
+  // （textContent には影響しないので、他の表示・テストへの副作用はない）
   function badge(std, asLink) {
     const s = DATA.standards[std];
     const cls = `badge badge--${esc(std)}`;
+    const label = esc(s.label).replace('ジャパニーズウイスキー', 'ジャパニーズ<wbr>ウイスキー');
     return asLink
-      ? `<a class="${cls}" href="#/standard" title="${esc(s.desc)}">${esc(s.label)}</a>`
-      : `<span class="${cls}">${esc(s.label)}</span>`;
+      ? `<a class="${cls}" href="#/standard" title="${esc(s.desc)}">${label}</a>`
+      : `<span class="${cls}">${label}</span>`;
   }
 
   // 写真の代わりの簡易なボトル図
@@ -301,7 +305,7 @@
   <ul class="cards">${news.map((w) => whiskyCard(w)).join('')}</ul>
 </section>
 
-<section class="std-entry"><div class="sec-head"><h2>ジャパニーズウイスキーの表示基準</h2><a class="clear" href="#/standard">くわしく見る</a></div>
+<section class="std-entry"><div class="sec-head"><h2>表示基準</h2><a class="clear" href="#/standard">くわしく見る</a></div>
   <div class="opts">${STD_KEYS.map((k) => `<a class="opt" href="#/list?standard=${k}">${esc(DATA.standards[k].label)}</a>`).join('')}</div>
 </section>`,
     };

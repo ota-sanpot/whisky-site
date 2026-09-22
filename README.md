@@ -4,6 +4,23 @@
 
 公開URL: https://ota-sanpot.github.io/whisky-site/
 
+## 画面一覧
+
+| URL | 画面 |
+|-----|------|
+| `#/` | トップ |
+| `#/list?q=&type=&region=&distillery=&taste=&serve=&scene=&standard=&sort=` | 銘柄一覧 |
+| `#/whisky/<id>` | 銘柄詳細 |
+| `#/find?q1=&q2=&q3=` | 診断 |
+| `#/compare?a=&b=` | 比較 |
+| `#/map?filter=` | 味わいMAP |
+| `#/today?n=` | 今日の1本 |
+| `#/distilleries?region=` | 蒸溜所一覧 |
+| `#/distillery/<id>` | 蒸溜所詳細 |
+| `#/standard` | 表示基準 |
+
+旧URL `#/?q=`・`#/?taste=` は `#/list` に引き継ぐ。知らないURLは「見つかりません」。
+
 ## 構成
 
 | パス | 役割 |
