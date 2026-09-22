@@ -517,3 +517,43 @@ test('銘柄ページ：関連する比較へのリンクがある', async () =>
   for (const h of hrefs) assert.match(h, /^#\/compare\?a=.+&b=.+/);
   assert.ok(hrefs.some((h) => h.includes('yamazaki')), '自分が入っている組が出る');
 });
+
+// ===== 味わいMAP =====
+test('MAP：全銘柄が点で出て、銘柄ページへ行ける', async () => {
+  const env = await load('#/map');
+  const pts = [...env.document.querySelectorAll('#tastemap a.pt')];
+  assert.equal(pts.length, DATA.whiskies.length);
+  assert.equal(pts[0].getAttribute('href'), '#/whisky/' + pts[0].getAttribute('data-id'));
+  assert.ok(pts[0].querySelector('title').textContent.includes(DATA.whiskies.find((w) => w.id === pts[0].getAttribute('data-id')).name));
+  assert.deepEqual(env.errors, []);
+});
+
+test('MAP：軸は 横が軽やか↔濃厚、縦がフルーティ↔スモーキー', async () => {
+  const env = await load('#/map');
+  const s = text(env.document.querySelector('#tastemap'));
+  assert.ok(s.includes('軽やか') && s.includes('濃厚') && s.includes('フルーティ') && s.includes('スモーキー'));
+  // 濃厚な銘柄ほど右に、スモーキーな銘柄ほど上に来る
+  const pos = (id) => {
+    const a = env.document.querySelector(`#tastemap a.pt[data-id="${id}"] circle`);
+    return { cx: Number(a.getAttribute('cx')), cy: Number(a.getAttribute('cy')) };
+  };
+  const rich = DATA.whiskies.reduce((m, w) => (w.taste.y > m.taste.y ? w : m));
+  const light = DATA.whiskies.reduce((m, w) => (w.taste.y < m.taste.y ? w : m));
+  assert.ok(pos(rich.id).cx > pos(light.id).cx, '濃厚が右');
+  const smoky = DATA.whiskies.reduce((m, w) => (w.taste.x > m.taste.x ? w : m));
+  const floral = DATA.whiskies.reduce((m, w) => (w.taste.x < m.taste.x ? w : m));
+  assert.ok(pos(smoky.id).cy < pos(floral.id).cy, 'スモーキーが上');
+});
+
+test('MAP：絞り込みで点が減る', async () => {
+  const env = await load('#/map?filter=smoky');
+  const n = DATA.whiskies.filter((w) => w.profile.smokiness >= 4).length;
+  assert.equal(env.document.querySelectorAll('#tastemap a.pt').length, n);
+  assert.equal(env.document.querySelector('.map-filters [aria-current="true"]').textContent, 'スモーキー系');
+});
+
+test('MAP：点の一覧が文字でも出る（スマホで押しやすいように）', async () => {
+  const env = await load('#/map?filter=fruity');
+  const n = DATA.whiskies.filter((w) => w.profile.fruitiness >= 4).length;
+  assert.equal(env.document.querySelectorAll('#map-list a.card').length, n);
+});

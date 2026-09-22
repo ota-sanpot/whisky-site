@@ -854,6 +854,61 @@ ${relatedCompare}
     }
   }
 
+  // ===== 画面：味わいMAP =====
+  // 横＝軽やか(左)↔濃厚(右)は taste.y、縦＝フルーティ(下)↔スモーキー(上)は taste.x を使う
+  const MAP_SIZE = 200;
+  const MAP_PAD = 16;
+  function mapPos(w) {
+    const inner = MAP_SIZE - MAP_PAD * 2;
+    const cx = MAP_PAD + ((w.taste.y + 1) / 2) * inner;
+    const cy = MAP_PAD + (1 - (w.taste.x + 1) / 2) * inner;
+    return { cx: Math.round(cx * 10) / 10, cy: Math.round(cy * 10) / 10 };
+  }
+
+  const MAP_FILTERS = [
+    { key: '', label: 'すべて', test: () => true },
+    { key: 'fruity', label: 'フルーティ系', test: (p) => p.fruitiness >= 4 },
+    { key: 'smoky', label: 'スモーキー系', test: (p) => p.smokiness >= 4 },
+    { key: 'sweet', label: '甘い系', test: (p) => p.sweetness >= 4 },
+    { key: 'fresh', label: '軽やか系', test: (p) => p.drinkability >= 4 && p.richness <= 2 },
+  ];
+
+  function mapSvg(list, opts = {}) {
+    const half = MAP_SIZE / 2;
+    const pts = list.map((w) => {
+      const { cx, cy } = mapPos(w);
+      const on = opts.focus === w.id;
+      return `<a class="pt${on ? ' pt--on' : ''}" href="#/whisky/${esc(w.id)}" data-id="${esc(w.id)}"><title>${esc(w.name)}：${esc(w.taste.line)}</title><circle cx="${cx}" cy="${cy}" r="${on ? 6 : 4}"></circle></a>`;
+    }).join('');
+    const labels = opts.small ? '' : `
+  <text class="ax" x="${half}" y="10" text-anchor="middle">スモーキー</text>
+  <text class="ax" x="${half}" y="${MAP_SIZE - 3}" text-anchor="middle">フルーティ</text>
+  <text class="ax" x="3" y="${half}" text-anchor="start">軽やか</text>
+  <text class="ax" x="${MAP_SIZE - 3}" y="${half}" text-anchor="end">濃厚</text>`;
+    return `<svg class="wmap" viewBox="0 0 ${MAP_SIZE} ${MAP_SIZE}" role="img" aria-label="味わいの地図。横が軽やかから濃厚、縦がフルーティからスモーキー">
+  <rect x="0" y="0" width="${MAP_SIZE}" height="${MAP_SIZE}" rx="12" class="wmap-bg"></rect>
+  <line x1="${half}" y1="${MAP_PAD}" x2="${half}" y2="${MAP_SIZE - MAP_PAD}" class="wmap-axis"></line>
+  <line x1="${MAP_PAD}" y1="${half}" x2="${MAP_SIZE - MAP_PAD}" y2="${half}" class="wmap-axis"></line>${labels}
+  ${pts}
+</svg>`;
+  }
+
+  function viewMap(r) {
+    const f = MAP_FILTERS.find((x) => x.key === (r.filter || '')) || MAP_FILTERS[0];
+    const list = DATA.whiskies.filter((w) => f.test(w.profile));
+    const chips = MAP_FILTERS.map((x) => {
+      const on = x.key === f.key;
+      return `<a class="opt${on ? ' opt--on' : ''}" href="${x.key ? `#/map?filter=${x.key}` : '#/map'}"${on ? ' aria-current="true"' : ''}>${esc(x.label)}</a>`;
+    }).join('');
+    return {
+      title: `味わいMAP｜${SITE}`,
+      html: `<section class="hero hero--sm"><h1>味わいMAP</h1><p class="hero-lead">横は軽やかから濃厚、縦はフルーティからスモーキー。位置はサイト独自の目安です。</p></section>
+<div class="map-filters chips">${chips}</div>
+<div id="tastemap" class="wmap-wrap">${mapSvg(list)}</div>
+<section id="map-list"><div class="sec-head"><h2>この範囲の銘柄</h2><span class="count">${list.length}本</span></div><ul class="cards">${sortList(list, 'recommend').map((w) => whiskyCard(w)).join('')}</ul></section>`,
+    };
+  }
+
   // ===== ルーター =====
   // 旧トップの味の絞り込み（象限）を、新しい味わいの絞り込みに読み替える
   const LEGACY_TASTE = { 'floral-light': 'fresh', 'floral-rich': 'rich', 'smoky-light': 'smoky', 'smoky-rich': 'smoky' };
@@ -888,6 +943,7 @@ ${relatedCompare}
     if (parts.length === 1 && parts[0] === 'compare') {
       return { view: 'compare', a: params.get('a') || '', b: params.get('b') || '' };
     }
+    if (parts.length === 1 && parts[0] === 'map') return { view: 'map', filter: params.get('filter') || '' };
     return { view: 'notfound' };
   }
 
@@ -900,7 +956,8 @@ ${relatedCompare}
             : r.view === 'distillery' ? viewDistillery(r.id)
               : r.view === 'standard' ? viewStandard()
                 : r.view === 'compare' ? viewCompare(r)
-                  : viewNotFound();
+                  : r.view === 'map' ? viewMap(r)
+                    : viewNotFound();
     app.innerHTML = v.html;
     document.title = v.title;
     if (r.view === 'top') bindTop();

@@ -249,6 +249,17 @@ a.next{border-color:rgba(220,157,66,.5)}
 .cmp-diff .note{display:block;margin-top:6px}
 .cmp-presets{margin-top:22px}
 
+/* ===== 味わいMAP ===== */
+.wmap-wrap{margin:14px 0 22px}
+.wmap{width:100%;max-width:420px;margin:0 auto;display:block}
+.wmap-bg{fill:var(--surface)}
+.wmap-axis{stroke:var(--line-2);stroke-width:1}
+.wmap .ax{fill:var(--text-3);font-size:9px;font-family:var(--font)}
+.wmap .pt circle{fill:var(--amber);opacity:.75}
+.wmap .pt:hover circle,.wmap .pt:focus circle{opacity:1;stroke:var(--text);stroke-width:1.5}
+.wmap .pt--on circle{fill:var(--amber-2);opacity:1}
+.map-filters{margin:0 0 6px}
+
 /* ===== 一覧の絞り込み ===== */
 .list-head{margin:0 0 20px}
 .filters{margin:12px 0;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
