@@ -912,12 +912,13 @@ ${relatedCompare}
   }
 
   // ===== 画面：今日の1本 =====
-  // 日付の文字列から番号を作る（同じ日なら同じ番号）
+  // 今日の通算日数を種に、日ごとに大きく動く番号を作る（同じ日なら必ず同じ値）
   function todayIndex(date = new Date()) {
-    const key = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-    let h = 0;
-    for (const ch of key) h = (h * 31 + ch.charCodeAt(0)) % 100000;
-    return h;
+    const days = Math.floor(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86400000);
+    let x = days + 1;
+    x = Math.imul(x ^ (x >>> 16), 2246822507);
+    x = Math.imul(x ^ (x >>> 13), 3266489909);
+    return (x ^ (x >>> 16)) >>> 0;
   }
   function todayPick(n) {
     const len = DATA.whiskies.length;
@@ -926,7 +927,7 @@ ${relatedCompare}
 
   function viewToday(r) {
     const n = r.n === '' ? todayIndex() : Number(r.n);
-    const num = Number.isFinite(n) ? n : todayIndex();
+    const num = Number.isInteger(n) ? n : todayIndex();
     const w = todayPick(num);
     return {
       title: `今日の1本：${w.name}｜${SITE}`,

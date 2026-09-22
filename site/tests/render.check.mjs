@@ -612,3 +612,9 @@ test('今日の1本：飲み方と銘柄ページへの導線がある', async (
   assert.ok(sec.querySelector('.serve-list'), '飲み方が出る');
   assert.match(sec.querySelector('a.btn').getAttribute('href'), /^#\/whisky\//);
 });
+
+test('今日の1本：nに小数が来ても固まらず、今日の1本にフォールバックする', async () => {
+  const env = await load('#/today?n=5.5');
+  assert.ok(env.document.querySelector('#today .today-name'), '今日の1本が出る');
+  assert.deepEqual(env.errors, []);
+});
