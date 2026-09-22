@@ -29,10 +29,11 @@ test('トップ：何から探すかの入口が6つある', async () => {
   const env = await load('');
   const hrefs = [...env.document.querySelectorAll('.entries a')].map((a) => a.getAttribute('href'));
   assert.equal(hrefs.length, 6);
-  for (const h of ['#/map', '#/find', '#/distilleries']) assert.ok(hrefs.includes(h), h);
+  for (const h of ['#/find', '#/distilleries']) assert.ok(hrefs.includes(h), h);
   assert.ok(hrefs.some((h) => h.startsWith('#/list?taste=')), '味わいから探す');
   assert.ok(hrefs.some((h) => h.startsWith('#/list?type=')), 'タイプから探す');
-  assert.ok(hrefs.some((h) => h.startsWith('#/list?scene=') || h.startsWith('#/list?serve=')), '飲み方・シーンから探す');
+  assert.ok(hrefs.some((h) => h.startsWith('#/list?serve=')), '飲み方から探す');
+  assert.ok(hrefs.some((h) => h.startsWith('#/list?scene=')), 'シーンから探す');
 });
 
 test('トップ：まずはここからは編集部が選ぶ定番8本', async () => {
@@ -52,8 +53,10 @@ test('トップ：味わいMAPの簡易版・蒸溜所・今日の1本・新着�
   const d = env.document;
   assert.equal(d.querySelectorAll('#top-map svg .pt').length, DATA.whiskies.length);
   assert.ok(d.querySelector('#top-map a[href="#/map"]'), 'MAPへの導線');
-  const regions = [...d.querySelectorAll('#top-regions a')].map((a) => a.getAttribute('href'));
+  const regions = [...d.querySelectorAll('#top-regions .opts a')].map((a) => a.getAttribute('href'));
+  assert.ok(regions.length >= 1, '地方のチップがある');
   assert.ok(regions.every((h) => h.startsWith('#/distilleries?region=')));
+  assert.ok(d.querySelector('#top-regions a[href="#/distilleries"]'), 'すべて見るの導線がある');
   assert.ok(d.querySelector('#top-today a[href^="#/whisky/"]'), '今日の1本');
   const news = [...d.querySelectorAll('#top-new a.card')];
   assert.equal(news.length, 6);

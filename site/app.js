@@ -241,12 +241,12 @@
   }
 
   // ===== 画面：トップ =====
-  // 6つの入口（味わい・タイプ・飲み方とシーン・味わいMAP・蒸溜所・診断）。どれも #/list か既存のページへの入口
+  // 仕様書 §5.1 の6枚（味わい・タイプ・飲み方・シーン・蒸溜所・診断）。味わいMAPは #top-map の節に別にあるのでここには入れない
   const ENTRIES = [
     { href: `#/list?taste=fruity`, title: '味わいから', desc: '甘い・フルーティ・爽やか・濃厚・スモーキー' },
     { href: `#/list?type=single-malt`, title: 'タイプから', desc: 'シングルモルト・ブレンデッド・グレーン' },
-    { href: `#/list?serve=highball`, title: '飲み方・シーンから', desc: 'ハイボール・初めての1本・プレゼントなど' },
-    { href: '#/map', title: '味わいMAPから', desc: '横は軽やかから濃厚、縦はフルーティからスモーキー' },
+    { href: `#/list?serve=highball`, title: '飲み方から', desc: 'ハイボール・ロック・ストレート・水割り' },
+    { href: `#/list?scene=${encodeURIComponent('初めての1本')}`, title: 'シーンから', desc: '初めての1本・普段飲み・プレゼント' },
     { href: '#/distilleries', title: '蒸溜所から', desc: '北海道から沖縄まで、地方別に見る' },
     { href: '#/find', title: '3問で診断', desc: '普段のお酒・好きな味・場面から探す' },
   ];
@@ -289,7 +289,7 @@
   <p class="note">横は軽やかから濃厚、縦はフルーティからスモーキー。位置はサイト独自の目安です。</p>
 </section>
 
-<section id="top-regions"><div class="sec-head"><h2>蒸溜所から探す</h2></div>
+<section id="top-regions"><div class="sec-head"><h2>蒸溜所から探す</h2><a class="clear" href="#/distilleries">すべて見る</a></div>
   <div class="opts">${regionCounts.map(({ reg, n }) => `<a class="opt" href="#/distilleries?region=${reg.key}">${esc(reg.label)}<span class="count">${n}</span></a>`).join('')}</div>
 </section>
 
