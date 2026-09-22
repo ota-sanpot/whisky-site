@@ -33,6 +33,7 @@
 | `site/favicon.svg`, `site/apple-touch-icon.png` | アイコン |
 | `site/SOURCES.md` | 事実の裏取りの記録（出典と確認日） |
 | `site/tests/` | テストとスクショ確認用のスクリプト |
+| `site/tools/` | データを整える道具（`enrich_profile.mjs` など） |
 
 ## 公開の仕組み
 
@@ -51,8 +52,9 @@ bash site/tests/shots.sh /tmp/whisky-shots
 
 1. メーカー公式などの一次情報で裏取りし、`site/SOURCES.md` に出典と確認日を書く
 2. `site/data.js`（`window.WDATA`）に銘柄を足す
-3. 味の地図・飲み方の◎○△・次の1本は「編集部の見立て」として書き、事実と混ぜない
-4. テストを通してから main に push する
+3. `node site/tools/enrich_profile.mjs` を実行して、味わい5段階・余韻・シーン・掲載日（`profile`・`finish`・`scenes`・`addedAt`）を付ける（`app.js` はこれらが無いと `TypeError` でトップが白画面になる）
+4. 味の地図・飲み方の◎○△・次の1本は「編集部の見立て」として書き、事実と混ぜない
+5. テストを通してから main に push する
 
 ## 旧版
 

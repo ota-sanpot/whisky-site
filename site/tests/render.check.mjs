@@ -70,6 +70,17 @@ test('トップ：検索窓に打つと一覧へ移る', async () => {
   assert.match(env.window.location.hash, /^#\/list\?q=/);
 });
 
+test('トップ：検索窓はIME変換中は一覧へ移らず、確定後に移る', async () => {
+  const env = await load('');
+  const q = env.document.getElementById('q');
+  q.value = 'よいち';
+  q.dispatchEvent(new env.window.InputEvent('input', { bubbles: true, isComposing: true }));
+  assert.equal(env.window.location.hash, '', '変換中は移らない');
+
+  q.dispatchEvent(new env.window.Event('compositionend', { bubbles: true }));
+  assert.match(env.window.location.hash, /^#\/list\?q=/, '確定後は一覧へ移る');
+});
+
 test('知らない URL は見つからない表示', async () => {
   const env = await load('#/nope');
   assert.equal(text(env.document.querySelector('h1')), 'ページが見つかりません');
@@ -532,6 +543,64 @@ test('一覧：絞り込みを選ぶと URL に残る', async () => {
   sel.value = 'smoky';
   sel.dispatchEvent(new env.window.Event('change', { bubbles: true }));
   assert.match(env.window.location.hash, /taste=smoky/);
+});
+
+// ===== 一覧の検索窓（回帰防止：Important 1） =====
+// 打つたびに location.hash を書き換えて全体を描き直すと、履歴が積まれ、
+// 打っている input 自身が作り直され、IME変換も壊れる。history.replaceState と
+// #results/#results-count だけの差し替えで直したことをここで固定する。
+test('一覧：検索窓に打っても履歴が増えず、input要素も壊れない', async () => {
+  const env = await load('#/list');
+  const before = env.window.history.length;
+  const firstNode = env.document.getElementById('q');
+
+  for (const v of ['y', 'yo', 'yoi']) {
+    const q = env.document.getElementById('q');
+    q.value = v;
+    q.dispatchEvent(new env.window.Event('input', { bubbles: true }));
+  }
+
+  assert.equal(env.window.history.length, before, '3文字打っても履歴が増えない');
+  assert.equal(env.document.getElementById('q'), firstNode, 'input要素は作り直されない（同じDOMノード）');
+  assert.match(env.window.location.hash, /q=yoi/, 'URLは最後の入力まで反映される（replaceStateで）');
+});
+
+test('一覧：検索窓に打つと #results と件数表示だけが更新される', async () => {
+  const env = await load('#/list');
+  const beforeCount = env.document.getElementById('results-count').textContent;
+  const q = env.document.getElementById('q');
+  q.value = 'よいち';
+  q.dispatchEvent(new env.window.Event('input', { bubbles: true }));
+
+  const names = [...env.document.querySelectorAll('#results .card-name')].map((e) => e.textContent);
+  assert.ok(names.some((n) => n.includes('余市')), '余市が結果に出る');
+  const afterCount = env.document.getElementById('results-count').textContent;
+  assert.notEqual(afterCount, beforeCount, '件数表示が変わる');
+  assert.match(afterCount, /^\d+本$/);
+});
+
+test('一覧：検索窓はIME変換中は反応せず、確定後に1回だけ反映する', async () => {
+  const env = await load('#/list');
+  const q = env.document.getElementById('q');
+  const before = env.document.getElementById('results-count').textContent;
+
+  q.value = 'よいち';
+  q.dispatchEvent(new env.window.InputEvent('input', { bubbles: true, isComposing: true }));
+  assert.equal(env.document.getElementById('results-count').textContent, before, '変換中は結果が変わらない');
+  assert.equal(env.window.location.hash, '#/list', '変換中はURLも変わらない');
+
+  q.dispatchEvent(new env.window.Event('compositionend', { bubbles: true }));
+  const after = env.document.getElementById('results-count').textContent;
+  assert.notEqual(after, before, '変換の確定後に1回だけ反映される');
+  assert.match(env.window.location.hash, /q=/, '確定後はURLにも反映される');
+});
+
+test('一覧：検索語があるときだけ検索窓にフォーカスする（Minor 1）', async () => {
+  const withQ = await load('#/list?q=' + encodeURIComponent('よいち'));
+  assert.equal(withQ.document.activeElement, withQ.document.getElementById('q'), '検索語があるときはフォーカスする');
+
+  const withoutQ = await load('#/list?taste=fruity');
+  assert.notEqual(withoutQ.document.activeElement, withoutQ.document.getElementById('q'), '絞り込みだけで来たときはフォーカスを奪わない');
 });
 
 test('一覧：旧URL（トップの検索・味の絞り込み）は一覧に引き継ぐ', async () => {

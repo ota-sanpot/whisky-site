@@ -2,9 +2,28 @@
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { JSDOM, VirtualConsole } from 'jsdom';
+import { JSDOM, VirtualConsole, ResourceLoader } from 'jsdom';
 
 const here = dirname(fileURLToPath(import.meta.url));
+
+// テストで使う疑似オリジン（公開URLと同じ形）。history.replaceState は file: 文書だと
+// jsdom の実装上つねに拒否される（同一パスでも SecurityError）ため、実際の公開先と同じ
+// https オリジンを使う。ただし実際の通信は一切発生させず、下の LocalFilesOnly がこの
+// オリジン宛のリクエストをディスク上の同名ファイルへ差し替える
+const SITE_ORIGIN = 'https://ota-sanpot.github.io/whisky-site/';
+
+// テストではサイト自身のファイル（styles.css・data.js・app.js等）だけをディスクから読み、
+// それ以外（Googleフォント等の外部）へは一切リクエストしない。DNS不通やCI側の一時的な
+// 詰まりが無関係な理由でテストを落とすのを防ぐため
+class LocalFilesOnly extends ResourceLoader {
+  fetch(url, options) {
+    if (url.startsWith(SITE_ORIGIN)) {
+      const rel = url.slice(SITE_ORIGIN.length).split(/[?#]/)[0];
+      return super.fetch(pathToFileURL(join(SITE_DIR, rel)).href, options);
+    }
+    return null;
+  }
+}
 export const SITE_DIR = join(here, '..');
 export const HTML_PATH = join(SITE_DIR, 'index.html');
 
@@ -34,9 +53,9 @@ export async function load(hash = '') {
   });
   virtualConsole.on('error', (...args) => errors.push(args.join(' ')));
   const dom = new JSDOM(html(), {
-    url: pathToFileURL(HTML_PATH).href + hash,
+    url: `${SITE_ORIGIN}index.html${hash}`,
     runScripts: 'dangerously',
-    resources: 'usable',
+    resources: new LocalFilesOnly(),
     pretendToBeVisual: true,
     virtualConsole,
   });

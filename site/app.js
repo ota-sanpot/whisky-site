@@ -299,6 +299,7 @@
 
 <section id="top-today"><div class="sec-head"><h2>今日の1本</h2><a class="clear" href="#/today">ページで見る</a></div>
   <ul class="cards">${whiskyCard(todayW, todayW.taste.line)}</ul>
+  <p class="note">味の一言と飲み方は編集部の見立てです。</p>
 </section>
 
 <section id="top-new"><div class="sec-head"><h2>新しく載せた銘柄</h2></div>
@@ -315,10 +316,16 @@
   function bindTop() {
     const q = document.getElementById('q');
     if (!q) return;
-    q.addEventListener('input', () => {
+    const go = () => {
       const v = q.value.trim();
       if (v) location.hash = listHref({ q: v });
+    };
+    // IME変換中の input では動かさず、変換確定（compositionend）で1回だけ移動する
+    q.addEventListener('input', (e) => {
+      if (e.isComposing) return;
+      go();
     });
+    q.addEventListener('compositionend', go);
   }
 
   // ===== 画面：銘柄一覧 =====
@@ -377,22 +384,59 @@
     };
   }
 
+  // 検索窓に打った結果だけを描き直す（#results と件数表示だけ差し替え、input 自体は壊さない）
+  function updateResults(r) {
+    const results = document.getElementById('results');
+    if (!results) return;
+    const hits = sortList(DATA.whiskies.filter((w) => listMatch(w, r)), r.sort || 'recommend');
+    results.innerHTML = hits.length
+      ? `<ul class="cards">${hits.map((w) => whiskyCard(w)).join('')}</ul>`
+      : `<p class="empty">条件に合う銘柄は見つかりませんでした。条件をひとつ減らすか、<a href="#/list">すべての銘柄</a>から探してみてください。</p>`;
+    const countEl = document.getElementById('results-count');
+    if (countEl) countEl.textContent = `${hits.length}本`;
+  }
+
   // 入力・選択を URL に反映する
   function bindList() {
     const current = parseHash(location.hash);
-    const update = (name, value) => {
-      const next = { ...current, [name]: value };
+    const q = document.getElementById('q');
+    // 検索語のいまの値（input があればそちら、無ければ URL の値）
+    const currentQ = () => (q ? q.value.trim() : current.q || '');
+
+    // 絞り込み・並び替えの select は今までどおり location.hash を変えて全体を描き直す
+    // （1回の操作で1件の履歴が増えるのは妥当なので、ここは変えない）
+    const updateSelect = (name, value) => {
+      const next = { ...current, q: currentQ(), [name]: value };
       location.hash = listHref(next);
     };
-    const q = document.getElementById('q');
+
     if (q) {
-      q.addEventListener('input', () => update('q', q.value.trim()));
-      const end = q.value.length;
-      q.focus();
-      if (q.setSelectionRange) q.setSelectionRange(end, end);
+      // 検索語があるとき（この一覧に検索から来たとき）だけフォーカスする。
+      // 「味わいから」等の入口から来ただけでフォーカスを奪わないようにする
+      if (current.q) {
+        const end = q.value.length;
+        q.focus();
+        if (q.setSelectionRange) q.setSelectionRange(end, end);
+      }
+
+      // 検索窓は location.hash を変えて全体を描き直すのをやめ、URL は history.replaceState
+      // で置き換えたうえで #results と件数表示だけを差し替える。
+      // （location.hash の書き換え→app.innerHTML の丸ごと差し替えでは、打っている input
+      //   自身が毎回作り直され、1打鍵ごとに履歴も積まれ、IME変換も壊れてしまうため）
+      const apply = () => {
+        const next = { ...current, q: q.value.trim() };
+        history.replaceState(null, '', listHref(next));
+        updateResults(next);
+      };
+      q.addEventListener('input', (e) => {
+        if (e.isComposing) return; // IME変換中は確定まで待つ
+        apply();
+      });
+      q.addEventListener('compositionend', apply);
     }
+
     for (const sel of document.querySelectorAll('.list-head select')) {
-      sel.addEventListener('change', () => update(sel.name, sel.value));
+      sel.addEventListener('change', () => updateSelect(sel.name, sel.value));
     }
   }
 
