@@ -544,7 +544,7 @@
       result = `<p id="find-type" class="find-type">あなたのタイプ：<strong>${esc(type.label)}</strong></p>
 <ul class="cards">${list.map((w) => whiskyCard(w, findWhy(w, a))).join('')}</ul>
 <p class="note">この結果はサイト独自の目安です。味の感じ方には個人差があります。</p>
-<p class="find-links"><a class="btn btn--ghost" href="#/list">別の条件で探す</a></p>`;
+<p class="find-links"><a class="btn btn--ghost" href="#/list">別の条件で探す</a><a class="btn btn--ghost" href="${compareHref(list[0].id, list[1].id)}">上位2本を比べる</a><a class="btn btn--ghost" href="#/map">味わいMAPを見る</a><a class="btn btn--ghost" href="#/today">今日の1本を見る</a></p>`;
     }
 
     return {
@@ -911,6 +911,39 @@ ${relatedCompare}
     };
   }
 
+  // ===== 画面：今日の1本 =====
+  // 日付の文字列から番号を作る（同じ日なら同じ番号）
+  function todayIndex(date = new Date()) {
+    const key = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    let h = 0;
+    for (const ch of key) h = (h * 31 + ch.charCodeAt(0)) % 100000;
+    return h;
+  }
+  function todayPick(n) {
+    const len = DATA.whiskies.length;
+    return DATA.whiskies[((n % len) + len) % len];
+  }
+
+  function viewToday(r) {
+    const n = r.n === '' ? todayIndex() : Number(r.n);
+    const num = Number.isFinite(n) ? n : todayIndex();
+    const w = todayPick(num);
+    return {
+      title: `今日の1本：${w.name}｜${SITE}`,
+      html: `<section id="today" class="today">
+  <p class="today-kicker">今日の1本</p>
+  ${bottle(w, 'lg')}
+  <h1 class="today-name">${esc(w.name)}</h1>
+  <p class="today-meta">${esc(w.maker)}・${esc(w.type)}・${esc(originText(w))}</p>
+  <p class="today-line">${esc(w.taste.line)}</p>
+  <ul class="serve-list">${SERVES.map(([k, label]) => `<li><span class="serve-mark">${MARK[w.serve[k]]}</span><span>${esc(label)}</span></li>`).join('')}</ul>
+  <p class="note">味の一言と飲み方は編集部の見立てです。</p>
+  <p class="today-links"><a class="btn" href="#/whisky/${esc(w.id)}">この銘柄を見る</a>
+  <a id="today-again" class="btn btn--ghost" href="#/today?n=${num + 1}">もう一度選ぶ</a></p>
+</section>`,
+    };
+  }
+
   // ===== ルーター =====
   // 旧トップの味の絞り込み（象限）を、新しい味わいの絞り込みに読み替える
   const LEGACY_TASTE = { 'floral-light': 'fresh', 'floral-rich': 'rich', 'smoky-light': 'smoky', 'smoky-rich': 'smoky' };
@@ -946,6 +979,7 @@ ${relatedCompare}
       return { view: 'compare', a: params.get('a') || '', b: params.get('b') || '' };
     }
     if (parts.length === 1 && parts[0] === 'map') return { view: 'map', filter: params.get('filter') || '' };
+    if (parts.length === 1 && parts[0] === 'today') return { view: 'today', n: params.get('n') || '' };
     return { view: 'notfound' };
   }
 
@@ -959,7 +993,8 @@ ${relatedCompare}
               : r.view === 'standard' ? viewStandard()
                 : r.view === 'compare' ? viewCompare(r)
                   : r.view === 'map' ? viewMap(r)
-                    : viewNotFound();
+                    : r.view === 'today' ? viewToday(r)
+                      : viewNotFound();
     app.innerHTML = v.html;
     document.title = v.title;
     if (r.view === 'top') bindTop();
@@ -978,5 +1013,5 @@ ${relatedCompare}
 
   document.getElementById('checked-at').textContent = fmtDate(DATA.checkedAt);
   render();
-  window.__app = { search, norm, parseHash, render, listMatch, sortList, regionOf, typeGroupOf };
+  window.__app = { search, norm, parseHash, render, listMatch, sortList, regionOf, typeGroupOf, todayIndex, todayPick };
 })();

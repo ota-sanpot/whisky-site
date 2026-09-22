@@ -363,6 +363,14 @@ test('診断：結果から別の条件で探しにいける', async () => {
   assert.ok(env.document.querySelector('#find-result a[href^="#/list"]'), '一覧への導線がある');
 });
 
+test('診断：結果から比較・MAP・今日の1本へ行ける', async () => {
+  const env = await load('#/find?q2=smoky');
+  const hrefs = [...env.document.querySelectorAll('#find-result a')].map((a) => a.getAttribute('href'));
+  assert.ok(hrefs.some((h) => h.startsWith('#/compare?')));
+  assert.ok(hrefs.includes('#/map'));
+  assert.ok(hrefs.includes('#/today'));
+});
+
 // ===== 銘柄一覧 =====
 
 test('一覧：最初は全銘柄が出て、件数が出る', async () => {
@@ -574,4 +582,33 @@ test('MAP：点の当たり判定は見えない大きめの円で広げてあ�
     assert.ok(hit, '当たり判定の円がない');
     assert.ok(Number(hit.getAttribute('r')) >= 10, '当たり判定が10未満');
   }
+});
+
+// ===== 今日の1本 =====
+test('今日の1本：同じ日なら何度開いても同じ銘柄', async () => {
+  const a = await load('#/today');
+  const b = await load('#/today');
+  const id = (env) => env.document.querySelector('#today a.btn').getAttribute('href');
+  assert.equal(id(a), id(b));
+  assert.equal(a.window.__app.todayIndex(new Date('2026-09-21T10:00:00')), a.window.__app.todayIndex(new Date('2026-09-21T23:00:00')));
+  assert.notEqual(a.window.__app.todayIndex(new Date('2026-09-21T10:00:00')), a.window.__app.todayIndex(new Date('2026-09-22T10:00:00')));
+});
+
+test('今日の1本：番号を指定すると、その銘柄が出る', async () => {
+  const env = await load('#/today?n=5');
+  const w = env.window.__app.todayPick(5);
+  assert.equal(env.document.querySelector('#today .today-name').textContent, w.name);
+  assert.match(env.document.querySelector('#today').textContent, new RegExp(w.taste.line.slice(0, 6)));
+});
+
+test('今日の1本：もう一度選ぶと次の番号になる', async () => {
+  const env = await load('#/today?n=5');
+  assert.equal(env.document.querySelector('#today-again').getAttribute('href'), '#/today?n=6');
+});
+
+test('今日の1本：飲み方と銘柄ページへの導線がある', async () => {
+  const env = await load('#/today?n=0');
+  const sec = env.document.querySelector('#today');
+  assert.ok(sec.querySelector('.serve-list'), '飲み方が出る');
+  assert.match(sec.querySelector('a.btn').getAttribute('href'), /^#\/whisky\//);
 });
