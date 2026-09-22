@@ -436,76 +436,120 @@
     }
   }
 
-  // ===== 画面：好みから探す =====
-  // 3つの質問。answers は { serve, flavor, body }（'any' は「こだわらない」）
+  // ===== 画面：診断 =====
+  // 質問はすべて「こだわらない」を既定にする（選ばなくても結果が出る）
   const FIND_QUESTIONS = [
-    { key: 'serve', label: 'どう飲む？', options: [['straight', 'ストレート'], ['rock', 'ロック'], ['highball', 'ハイボール'], ['mizuwari', '水割り'], ['any', 'こだわらない']] },
-    { key: 'flavor', label: 'どんな香り？', options: [['floral', '華やか・フルーティ'], ['any', 'こだわらない'], ['smoky', 'スモーキー']] },
-    { key: 'body', label: '濃さは？', options: [['light', '軽やか'], ['any', 'こだわらない'], ['rich', '濃厚']] },
+    { key: 'q1', label: '普段どんなお酒を飲みますか？', options: [
+      ['any', 'こだわらない'], ['beer', 'ビール'], ['wine', 'ワイン'], ['sake', '日本酒'],
+      ['shochu', '焼酎'], ['highball', 'ハイボール'], ['none', 'あまり飲まない'],
+    ] },
+    { key: 'q2', label: 'どんな味が好きですか？', options: [
+      ['any', 'よくわからない'], ['sweet', '甘め'], ['fresh', '爽やか'], ['rich', '濃厚'],
+      ['smoky', 'スモーキー'], ['fruity', 'フルーティ'],
+    ] },
+    { key: 'q3', label: 'どんなときに飲みますか？', options: [['any', 'こだわらない']].concat(SCENES.map((s) => [s, s])) },
   ];
-  const SERVE_NAME = Object.fromEntries(SERVES);
 
-  // 飲み方は◎+2・○+1・△-2、香りと濃さは味の地図の位置で点を付ける。限定品は店で会いにくいので少し下げる
+  // 点の付け方（すべてサイト独自の目安）
   function findScore(w, a) {
+    const p = w.profile;
     let s = 0;
-    if (a.serve !== 'any') s += { 3: 2, 2: 1, 1: -2 }[w.serve[a.serve]];
-    if (a.flavor === 'floral') s += -w.taste.x * 2;
-    if (a.flavor === 'smoky') s += w.taste.x * 2;
-    if (a.body === 'light') s += -w.taste.y * 2;
-    if (a.body === 'rich') s += w.taste.y * 2;
-    if (w.limited) s -= 0.3;
+    if (a.q1 === 'beer') s += p.drinkability * 0.4 + (w.serve.highball === 3 ? 1.5 : 0);
+    if (a.q1 === 'wine') s += p.fruitiness * 0.5 + p.sweetness * 0.3;
+    if (a.q1 === 'sake') s += p.drinkability * 0.4 + (6 - p.richness) * 0.3;
+    if (a.q1 === 'shochu') s += p.richness * 0.5 + (w.finish === '長い' ? 0.5 : 0);
+    if (a.q1 === 'highball') s += (w.serve.highball === 3 ? 2 : w.serve.highball === 2 ? 1 : 0);
+    if (a.q1 === 'none') s += p.drinkability * 0.8 - p.smokiness * 0.5;
+
+    if (a.q2 === 'sweet') s += p.sweetness * 0.8;
+    if (a.q2 === 'fruity') s += p.fruitiness * 0.8;
+    if (a.q2 === 'smoky') s += p.smokiness * 0.8;
+    if (a.q2 === 'rich') s += p.richness * 0.8;
+    if (a.q2 === 'fresh') s += (p.drinkability + (6 - p.richness)) * 0.4;
+
+    if (a.q3 && a.q3 !== 'any') s += w.scenes.includes(a.q3) ? 2.5 : -1.5;
+    if (w.limited) s -= 0.3; // 手に入りにくい銘柄は少し下げる
     return s;
   }
 
   function recommend(a) {
-    return DATA.whiskies
+    return [...DATA.whiskies]
       .map((w) => ({ w, s: findScore(w, a) }))
-      .sort((x, y) => y.s - x.s || x.w.id.localeCompare(y.w.id))
-      .slice(0, 3);
+      .sort((x, y) => y.s - x.s || x.w.kana.localeCompare(y.w.kana, 'ja'))
+      .slice(0, 3)
+      .map((x) => x.w);
   }
 
-  // 「なぜ合うか」の1行（飲み方の◎○△と、味の地図の位置から）
+  // 結果カードに出す1行の理由
   function findWhy(w, a) {
-    const parts = [];
-    if (a.serve !== 'any') parts.push(`${SERVE_NAME[a.serve]}が${MARK_TEXT[w.serve[a.serve]]}`);
-    parts.push(quadOf(w.taste).label.replace(' × ', 'で'));
-    return parts.join('・');
+    const p = w.profile;
+    const bits = [];
+    if (a.q3 && a.q3 !== 'any' && w.scenes.includes(a.q3)) bits.push(`${a.q3}に向く`);
+    if (a.q2 === 'sweet' && p.sweetness >= 4) bits.push('甘みがしっかりある');
+    if (a.q2 === 'fruity' && p.fruitiness >= 4) bits.push('果実のような香りがある');
+    if (a.q2 === 'smoky' && p.smokiness >= 4) bits.push('煙っぽさがはっきりある');
+    if (a.q2 === 'rich' && p.richness >= 4) bits.push('飲みごたえがある');
+    if (a.q2 === 'fresh' && p.drinkability >= 4) bits.push('軽やかで飲みやすい');
+    if (a.q1 === 'none' && p.drinkability >= 4) bits.push('ウイスキーに慣れていなくても飲みやすい');
+    if (a.q1 === 'highball' && w.serve.highball === 3) bits.push('ハイボールがとても合う');
+    if (a.q1 === 'beer' && w.serve.highball === 3) bits.push('炭酸で割るとよく合う');
+    if (a.q1 === 'wine' && p.fruitiness >= 4) bits.push('果実味があってワイン好きに向く');
+    if (a.q1 === 'sake' && p.drinkability >= 4) bits.push('やわらかく、食中でも飲みやすい');
+    if (a.q1 === 'shochu' && p.richness >= 4) bits.push('コクがあり、ロックで映える');
+    if (!bits.length) bits.push(w.taste.line);
+    return bits.slice(0, 2).join('。');
   }
 
-  const findHref = (a, key, value) => {
-    const next = { ...a, [key]: value };
-    const qs = FIND_QUESTIONS.map((q) => q.key).filter((k) => next[k] !== 'any').map((k) => `${k}=${next[k]}`).join('&');
-    return qs ? `#/find?${qs}` : '#/find';
-  };
+  // あなたのタイプ（上位3本の平均で決める）
+  const FIND_TYPES = [
+    { key: 'smoky', label: 'スモーキー系', test: (p) => p.smokiness >= 4 },
+    { key: 'floral', label: '華やか・フルーティ系', test: (p) => p.fruitiness >= 3.5 },
+    { key: 'light', label: 'やさしい軽快系', test: (p) => p.drinkability >= 3.5 && p.richness <= 3 },
+    { key: 'rich', label: '濃厚・熟成系', test: () => true },
+  ];
+  function findType(list) {
+    const avg = (k) => list.reduce((a, w) => a + w.profile[k], 0) / list.length;
+    const p = { sweetness: avg('sweetness'), fruitiness: avg('fruitiness'), smokiness: avg('smokiness'), richness: avg('richness'), drinkability: avg('drinkability') };
+    return FIND_TYPES.find((t) => t.test(p));
+  }
 
-  function findResultHtml(a) {
-    const chosen = FIND_QUESTIONS.some((q) => a[q.key] !== 'any');
-    if (!chosen) {
-      return `<p class="find-hint">上の3つから選ぶと、合う順に3本出します。1つだけ選んでも大丈夫です。</p>`;
-    }
-    const hits = recommend(a);
-    return `<div class="sec-head"><h2 id="find-result-h">あなたに合いそうな3本</h2><span class="opinion">編集部の見立て</span></div>
-<ul class="cards">${hits.map(({ w }) => whiskyCard(w, findWhy(w, a))).join('')}</ul>
-<p class="note">飲み方の◎○△と味の地図をもとにした、編集部の見立てです。</p>`;
+  // 選択肢のリンク（選ぶと URL が変わる）
+  function findHref(a, key, value) {
+    const next = { ...a, [key]: value };
+    const p = new URLSearchParams();
+    for (const q of FIND_QUESTIONS) if (next[q.key] && next[q.key] !== 'any') p.set(q.key, next[q.key]);
+    const qs = p.toString();
+    return qs ? `#/find?${qs}` : '#/find';
   }
 
   function viewFind(a) {
+    const answered = FIND_QUESTIONS.some((q) => a[q.key] && a[q.key] !== 'any');
+    const questions = FIND_QUESTIONS.map((q) => {
+      const cur = a[q.key] || 'any';
+      const opts = q.options.map(([v, label]) => {
+        const on = v === cur;
+        return `<a class="opt${on ? ' opt--on' : ''}" href="${findHref(a, q.key, v)}"${on ? ' aria-current="true"' : ''}>${esc(label)}</a>`;
+      }).join('');
+      return `<fieldset class="q" data-key="${esc(q.key)}"><legend class="q-label">${esc(q.label)}</legend><div class="opts">${opts}</div></fieldset>`;
+    }).join('');
+
+    let result;
+    if (!answered) {
+      result = '<p class="empty">上の質問を選ぶと、合いそうな3本をここに出します。ひとつだけ選んでも大丈夫です。</p>';
+    } else {
+      const list = recommend(a);
+      const type = findType(list);
+      result = `<p id="find-type" class="find-type">あなたのタイプ：<strong>${esc(type.label)}</strong></p>
+<ul class="cards">${list.map((w) => whiskyCard(w, findWhy(w, a))).join('')}</ul>
+<p class="note">この結果はサイト独自の目安です。味の感じ方には個人差があります。</p>
+<p class="find-links"><a class="btn btn--ghost" href="#/list">別の条件で探す</a></p>`;
+    }
+
     return {
-      title: `好みから探す｜${SITE}`,
-      html: `
-<nav class="crumb" aria-label="現在地"><a href="#/">トップ</a> / 好みから探す</nav>
-<header class="d-head">
-  <p class="w-maker">3タップで選ぶ</p>
-  <h1 class="d-name">好みから探す</h1>
-  <p class="d-lead">飲み方と味の好みを選ぶと、合いそうな3本を出します。</p>
-</header>
-<div id="find-form">
-  ${FIND_QUESTIONS.map((q) => `<section class="find-q" aria-labelledby="find-${q.key}">
-    <h2 class="label" id="find-${q.key}">${q.label}</h2>
-    <ul class="find-opts">${q.options.map(([v, label]) => `<li><a class="find-opt" href="${findHref(a, q.key, v)}"${a[q.key] === v ? ' aria-current="true"' : ''}>${label}</a></li>`).join('')}</ul>
-  </section>`).join('')}
-</div>
-<section class="sec" id="find-result" aria-labelledby="find-result-h">${findResultHtml(a)}</section>`,
+      title: `3問で診断｜${SITE}`,
+      html: `<section class="hero hero--sm"><h1>3問であなたに合う1本</h1><p class="hero-lead">選ぶたびに結果が変わります。答えは URL に残るので、そのまま共有できます。</p></section>
+<section class="find">${questions}</section>
+<section id="find-result">${result}</section>`,
     };
   }
 
@@ -741,7 +785,7 @@ ${(w.official || []).map((o) => `<p class="note-row"><span class="note-k">${esc(
     if (parts.length === 2 && parts[0] === 'whisky') return { view: 'whisky', id: decodeURIComponent(parts[1]) };
     if (parts.length === 2 && parts[0] === 'distillery') return { view: 'distillery', id: decodeURIComponent(parts[1]) };
     if (parts.length === 1 && parts[0] === 'find') {
-      return { view: 'find', serve: params.get('serve') || 'any', flavor: params.get('flavor') || 'any', body: params.get('body') || 'any' };
+      return { view: 'find', q1: params.get('q1') || 'any', q2: params.get('q2') || 'any', q3: params.get('q3') || 'any' };
     }
     if (parts.length === 1 && parts[0] === 'standard') return { view: 'standard' };
     return { view: 'notfound' };

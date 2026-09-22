@@ -117,14 +117,22 @@ a.badge::after{content:"›";margin-left:2px;opacity:.7}
 .pref .soon{font-size:14px;color:var(--text-2)}
 .pref .soon small{margin-left:6px;font-size:10px;color:var(--text-3)}
 .hero-find{margin:14px 0 0}
-.find-q{margin-bottom:18px}
-.find-opts{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.find-opt{display:inline-block;padding:9px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--line-2);font-size:14px;font-weight:700;text-decoration:none;word-break:keep-all}
-.find-opt:hover{border-color:var(--amber)}
-.find-opt[aria-current="true"]{background:var(--amber);border-color:var(--amber);color:var(--amber-ink)}
-.find-hint{margin:0;padding:14px 16px;border:1px dashed var(--line-2);border-radius:var(--radius);color:var(--text-2);font-size:14px}
 .card-why{margin-top:4px;font-size:12.5px;line-height:1.6;color:var(--amber-2)}
 #find-result{scroll-margin-top:calc(var(--header-h) + 12px)}
+
+/* ===== ここから使う共通の部品 ===== */
+.btn--ghost{background:transparent;border:1px solid var(--line-2);color:var(--text)}
+.hero--sm{padding-top:18px;padding-bottom:10px}
+.hero--sm h1{font-size:22px}
+
+/* ===== 診断 ===== */
+.q{border:0;margin:0 0 18px;padding:0}
+.q-label{padding:0;margin:0 0 8px;font-weight:700;word-break:auto-phrase}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);color:var(--text);text-decoration:none;font-size:15px;word-break:keep-all}
+.opt--on{background:var(--amber);border-color:var(--amber);color:var(--amber-ink);font-weight:700}
+.find-type{margin:0 0 12px;font-size:17px}
+.find-links{margin-top:14px}
 .quads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px}
 .quad{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);text-decoration:none}
 .quad[aria-current="true"]{border-color:var(--amber);background:var(--amber-dim)}

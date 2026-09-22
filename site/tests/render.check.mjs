@@ -293,69 +293,64 @@ test('銘柄ページのバッジから表示基準ページへ行ける', async
   assert.match(env.document.querySelector('h1').textContent, /名乗れる条件/);
 });
 
-// ===== 好みから探す =====
-
-test('好みから探す：3つの質問があり、選ぶ前は案内を出す', async () => {
+// ===== 診断 =====
+test('診断：3つの質問が並び、選ぶ前は案内を出す', async () => {
   const env = await load('#/find');
-  const d = env.document;
-  assert.equal(d.querySelectorAll('#find-form .find-q').length, 3);
-  assert.deepEqual([...d.querySelectorAll('#find-form .find-q > .label')].map((e) => e.firstChild.textContent), ['どう飲む？', 'どんな香り？', '濃さは？']);
-  assert.ok(d.querySelector('#find-result .find-hint'));
-  assert.equal(d.querySelectorAll('#find-result a.card').length, 0);
-  assert.match(d.title, /^好みから探す｜/);
+  const qs = [...env.document.querySelectorAll('.q')];
+  assert.equal(qs.length, 3);
+  assert.deepEqual(qs.map((q) => q.querySelector('.q-label').textContent), [
+    '普段どんなお酒を飲みますか？', 'どんな味が好きですか？', 'どんなときに飲みますか？',
+  ]);
+  assert.match(env.document.querySelector('#find-result').textContent, /選ぶと/);
   assert.deepEqual(env.errors, []);
 });
 
-test('好みから探す：選ぶと合う順に3本出る', async () => {
-  const d = (await load('#/find?serve=highball&flavor=smoky&body=rich')).document;
-  const cards = d.querySelectorAll('#find-result a.card');
+test('診断：選ぶと上位3本が理由つきで出て、あなたのタイプが出る', async () => {
+  const env = await load('#/find?q1=none&q2=fresh&q3=' + encodeURIComponent('初めての1本'));
+  const cards = [...env.document.querySelectorAll('#find-result a.card')];
   assert.equal(cards.length, 3);
-  const ids = hrefs(cards).map((h) => h.replace('#/whisky/', ''));
+  for (const c of cards) assert.ok(c.querySelector('.card-why').textContent.trim().length >= 4);
+  assert.match(env.document.querySelector('#find-type').textContent, /あなたのタイプ/);
+  assert.match(env.document.querySelector('#find-result').textContent, /サイト独自の目安|編集部の見立て/);
+});
+
+test('診断：あまり飲まない人には、飲みやすくて煙っぽくない銘柄が出る', async () => {
+  const env = await load('#/find?q1=none');
+  const ids = [...env.document.querySelectorAll('#find-result a.card')].map((a) => a.getAttribute('href').replace('#/whisky/', ''));
   for (const id of ids) {
     const w = DATA.whiskies.find((x) => x.id === id);
-    assert.equal(w.serve.highball, 3, `${id}: ハイボールが◎でない`);
-    assert.ok(w.taste.x > 0 && w.taste.y > 0, `${id}: スモーキー×濃厚でない`);
+    assert.ok(w.profile.drinkability >= 4, `${id}: 飲みやすさ ${w.profile.drinkability}`);
+    assert.ok(w.profile.smokiness <= 3, `${id}: スモーキー ${w.profile.smokiness}`);
   }
 });
 
-test('好みから探す：1つだけ選んでも結果が出る', async () => {
-  const d = (await load('#/find?serve=straight')).document;
-  const cards = d.querySelectorAll('#find-result a.card');
-  assert.equal(cards.length, 3);
-  for (const h of hrefs(cards)) {
-    const w = DATA.whiskies.find((x) => x.id === h.replace('#/whisky/', ''));
-    assert.notEqual(w.serve.straight, 1, `${w.id}: ストレートが△なのに上位`);
+test('診断：場面を選ぶと、そのシーンの銘柄が上位に来る', async () => {
+  const env = await load('#/find?q3=' + encodeURIComponent('食事と一緒に'));
+  const ids = [...env.document.querySelectorAll('#find-result a.card')].map((a) => a.getAttribute('href').replace('#/whisky/', ''));
+  for (const id of ids) {
+    assert.ok(DATA.whiskies.find((x) => x.id === id).scenes.includes('食事と一緒に'), id);
   }
 });
 
-test('好みから探す：結果には合う理由と見立ての表示がある', async () => {
-  const d = (await load('#/find?serve=highball&flavor=floral&body=light')).document;
-  const why = [...d.querySelectorAll('#find-result .card-why')].map((e) => e.textContent);
-  assert.equal(why.length, 3);
-  assert.match(why[0], /ハイボール/);
-  assert.equal(d.querySelector('#find-result .opinion').textContent, '編集部の見立て');
+test('診断：1問だけ選んでも結果が出る', async () => {
+  const env = await load('#/find?q2=smoky');
+  assert.equal(env.document.querySelectorAll('#find-result a.card').length, 3);
 });
 
-test('好みから探す：選ぶと URL に残り、選んだものに印が付く', async () => {
+test('診断：選ぶと URL に残り、選んだものに印が付く', async () => {
   const env = await load('#/find');
-  // 選ぶ前は、どの質問も「こだわらない」が選ばれている
-  assert.deepEqual([...env.document.querySelectorAll('.find-opt[aria-current="true"]')].map((e) => e.textContent), ['こだわらない', 'こだわらない', 'こだわらない']);
-  go(env, env.document.querySelector('.find-opt[href*="serve=rock"]').getAttribute('href'));
-  assert.equal(env.window.location.hash, '#/find?serve=rock');
-  const sel = [...env.document.querySelectorAll('.find-opt[aria-current="true"]')].map((e) => e.textContent);
-  assert.equal(sel.length, 3, '質問ごとに1つずつ選ばれている');
-  assert.equal(sel[0], 'ロック');
-  // ほかの質問を選ぶと、前の答えは残る
-  go(env, env.document.querySelector('.find-opt[href*="body=rich"]').getAttribute('href'));
-  assert.match(env.window.location.hash, /serve=rock/);
-  assert.match(env.window.location.hash, /body=rich/);
-  assert.deepEqual(env.errors, []);
+  const btn = env.document.querySelector('.q[data-key="q2"] a[href*="q2=smoky"]');
+  assert.ok(btn, 'スモーキーの選択肢がある');
+  go(env, btn.getAttribute('href').replace(/^#/, '#'));
+  assert.match(env.window.location.hash, /q2=smoky/);
+  const on = [...env.document.querySelectorAll('.q[data-key="q2"] [aria-current="true"]')];
+  assert.equal(on.length, 1);
+  assert.equal(on[0].textContent, 'スモーキー');
 });
 
-test('好みから探す：トップに入口がある', async () => {
-  const d = (await load('')).document;
-  assert.ok(d.querySelector('.hero a[href="#/find"]'));
-  assert.ok(d.querySelector('#by-find a[href="#/find"]'));
+test('診断：結果から別の条件で探しにいける', async () => {
+  const env = await load('#/find?q2=smoky');
+  assert.ok(env.document.querySelector('#find-result a[href^="#/list"]'), '一覧への導線がある');
 });
 
 // ===== 銘柄一覧 =====
