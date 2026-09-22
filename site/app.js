@@ -473,9 +473,11 @@
   }
 
   function recommend(a) {
+    // 同点のときは、一覧の「おすすめ」と同じ並び（定番→飲みやすさ→読み）で決める
+    const order = new Map(sortList(DATA.whiskies, 'recommend').map((w, i) => [w.id, i]));
     return [...DATA.whiskies]
       .map((w) => ({ w, s: findScore(w, a) }))
-      .sort((x, y) => y.s - x.s || x.w.kana.localeCompare(y.w.kana, 'ja'))
+      .sort((x, y) => y.s - x.s || order.get(x.w.id) - order.get(y.w.id))
       .slice(0, 3)
       .map((x) => x.w);
   }
