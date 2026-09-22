@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { html, allSource, readData, HTML_PATH } from './helpers.mjs';
+import { html, css, allSource, readData, HTML_PATH } from './helpers.mjs';
 
 const data = readData();
 const distilleryIds = new Set(data.distilleries.map((d) => d.id));
@@ -142,4 +142,11 @@ test('4つのファイルに分かれていて、index.html から読み込ん�
   assert.ok(!/<style>/.test(s), 'index.html に <style> が残っている');
   assert.ok(!/id="wdata"/.test(s), 'index.html にデータが残っている');
   assert.ok(s.length < 4000, `index.html が大きすぎる（${s.length}文字）`);
+});
+
+test('押せるリンクの高さが44px以上になっている', () => {
+  const s = css();
+  const rule = s.match(/\.clear\{[^}]*\}/);
+  assert.ok(rule, '.clear の指定が見つからない');
+  assert.match(rule[0], /min-height:44px/);
 });
