@@ -308,10 +308,27 @@ test('蒸溜所一覧：地方で絞り込める', async () => {
   assert.equal(env.document.querySelector('.region-filters [aria-current="true"]').textContent, '近畿');
 });
 
+test('蒸溜所一覧：代表銘柄はその蒸溜所だけで造る銘柄を優先する（山崎は響ではなく山崎）', async () => {
+  const env = await load('#/distilleries');
+  const card = env.document.querySelector('a.card--dist[href="#/distillery/yamazaki"]');
+  const s = text(card);
+  assert.ok(s.includes('代表銘柄'));
+  assert.ok(s.includes('山崎'));
+  assert.ok(!s.includes('響'));
+});
+
 test('蒸溜所ページ：その蒸溜所の銘柄を一覧で見る導線がある', async () => {
   const env = await load('#/distillery/yamazaki');
   const a = env.document.querySelector('a[href="#/list?distillery=yamazaki"]');
   assert.ok(a, '一覧への導線がある');
+});
+
+test('蒸溜所ページ：全蒸溜所で銘柄一覧への導線が1つ出る（自社銘柄が無い蒸溜所も含む）', async () => {
+  for (const dist of DATA.distilleries) {
+    const d = (await load(`#/distillery/${dist.id}`)).document;
+    const as = d.querySelectorAll(`a[href="#/list?distillery=${dist.id}"]`);
+    assert.equal(as.length, 1, dist.id);
+  }
 });
 
 test('表示基準ページ：要件5つと5区分と出典', async () => {

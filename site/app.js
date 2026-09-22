@@ -707,10 +707,12 @@ ${relatedCompare}
   }
 
   // ===== 画面：蒸溜所一覧 =====
-  // 代表銘柄：定番に入っているものを優先し、無ければその蒸溜所の銘柄の1本目
+  // 代表銘柄（編集部が選ぶ）：その蒸溜所だけで造る銘柄を優先し、その中では定番を先に
   function flagship(d) {
-    const ws = DATA.whiskies.filter((w) => w.components.some((c) => c.distillery === d.id));
-    return ws.find((w) => STAPLES.includes(w.id)) || ws.find((w) => w.maker === d.maker) || ws[0] || null;
+    const uses = DATA.whiskies.filter((w) => w.components.some((c) => c.distillery === d.id));
+    const own = uses.filter((w) => w.components.every((c) => c.distillery === d.id));
+    const pick = (list) => list.find((w) => STAPLES.includes(w.id)) || list[0] || null;
+    return pick(own) || pick(uses.filter((w) => w.maker === d.maker)) || pick(uses);
   }
 
   function distilleryCardFull(d) {
@@ -718,7 +720,7 @@ ${relatedCompare}
     return `<li><a class="card card--dist" href="#/distillery/${esc(d.id)}"><span class="card-body">
 <span class="card-name">${esc(d.name)}</span>
 <span class="card-meta">${esc(d.pref)}・${esc(d.maker)}</span>
-${f ? `<span class="card-meta">代表銘柄：${esc(f.name)}</span>` : ''}</span></a></li>`;
+${f ? `<span class="card-meta">代表銘柄（編集部が選ぶ）：${esc(f.name)}</span>` : ''}</span></a></li>`;
   }
 
   function viewDistilleries(r) {
@@ -774,13 +776,13 @@ ${groups || '<p class="empty">この地方の蒸溜所は、まだ掲載して�
   ${own.length ? `<section id="single" aria-labelledby="single-h">
     <h2 id="single-h">この蒸溜所の銘柄</h2>
     <ul class="cards">${own.map((w) => whiskyCard(w)).join('')}</ul>
-    <p><a class="btn btn--ghost" href="#/list?distillery=${esc(d.id)}">この蒸溜所の原酒を使う銘柄を一覧で見る</a></p>
   </section>` : ''}
   ${used.length ? `<section id="used" aria-labelledby="used-h">
     <h2 id="used-h">この蒸溜所の原酒が使われている銘柄</h2>
     <ul class="cards">${used.map(({ w, c }) => `<li><a class="card" href="#/whisky/${esc(w.id)}">${bottle(w, 'sm')}<span class="card-body"><span class="used-role">${esc(c.kind)}として使用</span><span class="card-name">${esc(w.name)}</span><span class="card-meta">${esc(w.maker)}・${esc(w.type)}</span><span class="card-tags">${badge(w.standard, false)}${limitedTag(w)}</span></span></a></li>`).join('')}</ul>
     <p class="note">原酒の使用を公表で確認できた銘柄だけを載せています。</p>
   </section>` : ''}
+  <p><a class="btn btn--ghost" href="#/list?distillery=${esc(d.id)}">この蒸溜所の原酒を使う銘柄を一覧で見る</a></p>
   ${sourcesHtml(d.sources)}
 </div>`,
     };
