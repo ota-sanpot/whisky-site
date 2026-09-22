@@ -815,9 +815,9 @@ ${relatedCompare}
       cmpRow('度数', esc(spec(a, 'アルコール度数')), esc(spec(b, 'アルコール度数'))),
       cmpRow('容量', esc(spec(a, '容量')), esc(spec(b, '容量'))),
       cmpRow('産地', esc(originText(a)), esc(originText(b))),
-      cmpRow('区分', badge(a.standard, true), badge(b.standard, true)),
+      cmpRow('区分', badge(a.standard, false), badge(b.standard, false)),
       cmpRow('向いている飲み方', esc(serveText(a)), esc(serveText(b))),
-      cmpRow('余韻', esc(a.finish), esc(b.finish)),
+      cmpRow('余韻の長さ', esc(a.finish), esc(b.finish)),
       cmpRow('限定', a.limited ? esc(a.limited) : 'なし', b.limited ? esc(b.limited) : 'なし'),
     ].join('');
 
@@ -836,7 +836,7 @@ ${relatedCompare}
       ${bottle(b, 'sm')}<p class="cmp-name">${esc(b.name)}</p><p class="cmp-meta">${esc(b.maker)}</p>${profileBars(b)}</div>
   </div>
   <ul class="cmp-rows">${rows}</ul>
-  <p id="cmp-diff" class="cmp-diff"><strong>こんな違いがあります。</strong>${esc(compareDiff(a, b))}<span class="note">味わいの5段階と、この文はサイト独自の目安です。どちらが良いという意味ではありません。</span></p>
+  <p id="cmp-diff" class="cmp-diff"><strong>こんな違いがあります。</strong>${esc(compareDiff(a, b))}<span class="note">味わいの5段階・余韻の長さ・向いている飲み方と、この文はサイト独自の目安です。どちらが良いという意味ではありません。</span></p>
   <div class="cmp-presets"><h2>よくある組み合わせ</h2><div class="opts">${presets}</div></div>
   <p><a class="btn btn--ghost" href="#/list">ほかの銘柄を探す</a></p>
 </section>`,

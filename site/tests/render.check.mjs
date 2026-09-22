@@ -479,6 +479,9 @@ test('比較：差が大きい項目を2つ取り上げた文が出る（順位�
   assert.match(s, /こんな違いがあります/);
   assert.ok(!/おすすめ|勝|優れ/.test(s), '順位付けの言葉を使わない');
   assert.match(env.document.querySelector('#cmp-diff').textContent, /目安|見立て/);
+  // 余韻の長さ・向いている飲み方も見立てなので、注記にその断りが含まれること
+  assert.match(s, /サイト独自の目安/);
+  assert.match(s, /余韻の長さ/);
 });
 
 test('比較：定番の6組へ1タップで行ける', async () => {
