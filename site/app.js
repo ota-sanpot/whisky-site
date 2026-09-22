@@ -706,6 +706,44 @@ ${relatedCompare}
     };
   }
 
+  // ===== 画面：蒸溜所一覧 =====
+  // 代表銘柄：定番に入っているものを優先し、無ければその蒸溜所の銘柄の1本目
+  function flagship(d) {
+    const ws = DATA.whiskies.filter((w) => w.components.some((c) => c.distillery === d.id));
+    return ws.find((w) => STAPLES.includes(w.id)) || ws.find((w) => w.maker === d.maker) || ws[0] || null;
+  }
+
+  function distilleryCardFull(d) {
+    const f = flagship(d);
+    return `<li><a class="card card--dist" href="#/distillery/${esc(d.id)}"><span class="card-body">
+<span class="card-name">${esc(d.name)}</span>
+<span class="card-meta">${esc(d.pref)}・${esc(d.maker)}</span>
+${f ? `<span class="card-meta">代表銘柄：${esc(f.name)}</span>` : ''}</span></a></li>`;
+  }
+
+  function viewDistilleries(r) {
+    const chips = [['', 'すべて']].concat(
+      REGIONS.filter((x) => DATA.distilleries.some((d) => regionOf(d.pref)?.key === x.key)).map((x) => [x.key, x.label])
+    ).map(([k, label]) => {
+      const on = (r.region || '') === k;
+      return `<a class="opt${on ? ' opt--on' : ''}" href="${k ? `#/distilleries?region=${k}` : '#/distilleries'}"${on ? ' aria-current="true"' : ''}>${esc(label)}</a>`;
+    }).join('');
+
+    const groups = REGIONS.map((reg) => {
+      const ds = DATA.distilleries.filter((d) => regionOf(d.pref)?.key === reg.key);
+      if (!ds.length || (r.region && r.region !== reg.key)) return '';
+      return `<section class="region"><div class="sec-head"><h2 class="region-head">${esc(reg.label)}<span class="count">${ds.length}か所</span></h2></div>
+<ul class="cards">${ds.map(distilleryCardFull).join('')}</ul></section>`;
+    }).join('');
+
+    return {
+      title: `蒸溜所から探す｜${SITE}`,
+      html: `<section class="hero hero--sm"><h1>蒸溜所から探す</h1><p class="hero-lead">いま掲載しているのは${DATA.distilleries.length}か所です。所在地は各ページの出典で確認しています。</p></section>
+<div class="region-filters chips">${chips}</div>
+${groups || '<p class="empty">この地方の蒸溜所は、まだ掲載していません。</p>'}`,
+    };
+  }
+
   // ===== 画面：蒸溜所・表示基準 =====
   function viewDistillery(id) {
     const d = D.get(id);
@@ -736,6 +774,7 @@ ${relatedCompare}
   ${own.length ? `<section id="single" aria-labelledby="single-h">
     <h2 id="single-h">この蒸溜所の銘柄</h2>
     <ul class="cards">${own.map((w) => whiskyCard(w)).join('')}</ul>
+    <p><a class="btn btn--ghost" href="#/list?distillery=${esc(d.id)}">この蒸溜所の原酒を使う銘柄を一覧で見る</a></p>
   </section>` : ''}
   ${used.length ? `<section id="used" aria-labelledby="used-h">
     <h2 id="used-h">この蒸溜所の原酒が使われている銘柄</h2>
@@ -972,6 +1011,7 @@ ${relatedCompare}
     if (parts.length === 1 && parts[0] === 'list') return listParams(params);
     if (parts.length === 2 && parts[0] === 'whisky') return { view: 'whisky', id: decodeURIComponent(parts[1]) };
     if (parts.length === 2 && parts[0] === 'distillery') return { view: 'distillery', id: decodeURIComponent(parts[1]) };
+    if (parts.length === 1 && parts[0] === 'distilleries') return { view: 'distilleries', region: params.get('region') || '' };
     if (parts.length === 1 && parts[0] === 'find') {
       return { view: 'find', q1: params.get('q1') || 'any', q2: params.get('q2') || 'any', q3: params.get('q3') || 'any' };
     }
@@ -991,11 +1031,12 @@ ${relatedCompare}
         : r.view === 'find' ? viewFind(r)
           : r.view === 'whisky' ? viewWhisky(r.id)
             : r.view === 'distillery' ? viewDistillery(r.id)
-              : r.view === 'standard' ? viewStandard()
-                : r.view === 'compare' ? viewCompare(r)
-                  : r.view === 'map' ? viewMap(r)
-                    : r.view === 'today' ? viewToday(r)
-                      : viewNotFound();
+              : r.view === 'distilleries' ? viewDistilleries(r)
+                : r.view === 'standard' ? viewStandard()
+                  : r.view === 'compare' ? viewCompare(r)
+                    : r.view === 'map' ? viewMap(r)
+                      : r.view === 'today' ? viewToday(r)
+                        : viewNotFound();
     app.innerHTML = v.html;
     document.title = v.title;
     if (r.view === 'top') bindTop();

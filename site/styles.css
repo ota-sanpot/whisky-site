@@ -163,7 +163,7 @@ a.chip .chip-name{text-decoration:underline;text-decoration-color:rgba(220,157,6
 .w-line{margin:0;font-size:16px;font-weight:700;line-height:1.6}
 .w-line .ph{display:inline-block}
 /* 名前・短いラベルは空白と句読点のところでだけ改行する（収まらない時は body の overflow-wrap で折る） */
-.card-name,.next-name,.quad-name,.chip,.pref li,.maker-serve{word-break:keep-all}
+.card-name,.card-meta,.next-name,.quad-name,.chip,.pref li,.maker-serve{word-break:keep-all}
 .serve{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
 .serve-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:12px;color:var(--text-2)}
 .serve-mark{font-size:19px;font-weight:700;line-height:1.2}
@@ -196,6 +196,11 @@ a.next{border-color:rgba(220,157,66,.5)}
 .note-v{flex:1}
 /* 余韻の見立ての行は見出しが長いので、見出し・値とも1行ずつ縦に並べる */
 .note-finish .note-k{flex:0 0 100%}
+
+/* ===== 蒸溜所一覧 ===== */
+.region{margin:0 0 26px}
+.region-head{display:flex;align-items:baseline;gap:8px}
+.region-filters{margin:0 0 18px}
 
 /* ===== 丁寧に知る部分・蒸溜所・表示基準 ===== */
 .deep{display:grid;gap:26px;margin-top:30px}

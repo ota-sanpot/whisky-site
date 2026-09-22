@@ -279,6 +279,41 @@ test('銘柄と蒸溜所を行き来できる', async () => {
   assert.deepEqual(env.errors, []);
 });
 
+// ===== 蒸溜所一覧 =====
+test('蒸溜所一覧：地方ごとにまとまり、全蒸溜所が出る', async () => {
+  const env = await load('#/distilleries');
+  const cards = [...env.document.querySelectorAll('a.card--dist')];
+  assert.equal(cards.length, DATA.distilleries.length);
+  const heads = [...env.document.querySelectorAll('.region-head')].map((e) => e.textContent.replace(/\d+か所/, '').trim());
+  assert.ok(heads.includes('北海道'));
+  assert.ok(heads.includes('九州・沖縄'));
+  assert.ok(!heads.includes('四国'), '蒸溜所のない地方は出さない');
+  assert.deepEqual(env.errors, []);
+});
+
+test('蒸溜所一覧：カードに県・運営会社・代表銘柄が出る', async () => {
+  const env = await load('#/distilleries');
+  const card = env.document.querySelector('a.card--dist[href="#/distillery/yoichi"]');
+  const s = text(card);
+  assert.ok(s.includes('北海道'));
+  assert.ok(s.includes('ニッカウヰスキー'));
+  assert.ok(s.includes('シングルモルト余市'));
+});
+
+test('蒸溜所一覧：地方で絞り込める', async () => {
+  const env = await load('#/distilleries?region=kinki');
+  const cards = [...env.document.querySelectorAll('a.card--dist')];
+  const n = DATA.distilleries.filter((d) => ['滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県'].includes(d.pref)).length;
+  assert.equal(cards.length, n);
+  assert.equal(env.document.querySelector('.region-filters [aria-current="true"]').textContent, '近畿');
+});
+
+test('蒸溜所ページ：その蒸溜所の銘柄を一覧で見る導線がある', async () => {
+  const env = await load('#/distillery/yamazaki');
+  const a = env.document.querySelector('a[href="#/list?distillery=yamazaki"]');
+  assert.ok(a, '一覧への導線がある');
+});
+
 test('表示基準ページ：要件5つと5区分と出典', async () => {
   const d = (await load('#/standard')).document;
   assert.match(d.querySelector('h1').textContent, /ジャパニーズウイスキー/);
