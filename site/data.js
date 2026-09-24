@@ -657,6 +657,43 @@ window.WDATA = {
           "used": "発売時期"
         }
       ]
+    },
+    {
+      "id": "chichibu",
+      "name": "秩父蒸溜所",
+      "nameEn": "Chichibu Distillery",
+      "kana": "ちちぶ",
+      "maker": "ベンチャーウイスキー",
+      "pref": "埼玉県",
+      "address": "埼玉県秩父市みどりが丘49",
+      "founded": "2004年に設立、2008年に蒸溜を開始",
+      "lead": "羽生蒸溜所の血を引く肥土伊知郎さんが埼玉県秩父市に建てた蒸溜所で、「イチローズモルト」を造っています。",
+      "unverified": true,
+      "features": [
+        {
+          "k": "ポットスチル",
+          "v": "2基（フォーサイス社製のストレート型）"
+        },
+        {
+          "k": "発酵槽",
+          "v": "8基。ミズナラの木桶を使います"
+        },
+        {
+          "k": "糖化槽",
+          "v": "1基（2,400リットル）"
+        },
+        {
+          "k": "注意",
+          "v": "メーカーの公式サイトが確認できないため、この内容は業界団体のページによります"
+        }
+      ],
+      "sources": [
+        {
+          "title": "ウイスキー文化研究所「秩父蒸溜所」",
+          "url": "https://jwic.jp/distillery/chichibu/",
+          "used": "所在地、設立年と蒸溜開始年、創業者、ポットスチル・発酵槽などの設備"
+        }
+      ]
     }
   ],
   "whiskies": [
@@ -12528,6 +12565,485 @@ window.WDATA = {
       "finish": "中くらい",
       "scenes": [
         "特別な日"
+      ],
+      "addedAt": "2026-09-25"
+    },
+    {
+      "id": "ichiros-white-label",
+      "name": "イチローズモルト&グレーン ホワイトラベル",
+      "nameEn": "Ichiro's Malt & Grain White Label",
+      "short": "イチローズ ホワイト",
+      "kana": "いちろーずもると あんど ぐれーん ほわいとらべる",
+      "aliases": [
+        "イチローズ",
+        "いちろーず",
+        "ichiros",
+        "ホワイトラベル",
+        "白",
+        "秩父",
+        "ちちぶ"
+      ],
+      "maker": "ベンチャーウイスキー",
+      "type": "ブレンデッド",
+      "standard": "unknown",
+      "standardNote": "メーカーの公式サイトが確認できず、原酒の産地も表示基準の区分も確認できません",
+      "unverified": true,
+      "look": {
+        "liquid": "#c4832f",
+        "label": "#ece3d0",
+        "mark": "#2a1d10",
+        "char": "白"
+      },
+      "components": [
+        {
+          "distillery": "chichibu",
+          "country": "日本",
+          "kind": "モルト原酒",
+          "note": "配合は未確認です"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト・グレーン原酒",
+          "note": "産地は未確認です"
+        }
+      ],
+      "taste": {
+        "line": "バニラと蜂蜜、軽やかで飲みやすい",
+        "x": -0.3,
+        "y": -0.2
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "46%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "マツザキオンラインショップ（商品ページ）",
+          "url": "https://matsuzaki-shop.jp/shop/products/500007",
+          "used": "商品名、アルコール度数、容量"
+        },
+        {
+          "title": "マツザキオンラインショップ「株式会社ベンチャーウイスキー（秩父蒸留所）」",
+          "url": "https://matsuzaki-shop.jp/shop/product_categories/venture",
+          "used": "商品名、アルコール度数、容量"
+        },
+        {
+          "title": "ウイスキー文化研究所「秩父蒸溜所」",
+          "url": "https://jwic.jp/distillery/chichibu/",
+          "used": "所在地、設立年と蒸溜開始年、創業者、ポットスチル・発酵槽などの設備"
+        }
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 2,
+        "richness": 3,
+        "drinkability": 4
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "初めての1本",
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-25"
+    },
+    {
+      "id": "ichiros-classical",
+      "name": "イチローズモルト&グレーン クラシカルエディション",
+      "nameEn": "Ichiro's Malt & Grain Classical Edition",
+      "short": "イチローズ クラシカル",
+      "kana": "いちろーずもると あんど ぐれーん くらしかるえでぃしょん",
+      "aliases": [
+        "イチローズ",
+        "いちろーず",
+        "ichiros",
+        "クラシカル",
+        "秩父",
+        "ちちぶ"
+      ],
+      "maker": "ベンチャーウイスキー",
+      "type": "ブレンデッド",
+      "standard": "unknown",
+      "standardNote": "メーカーの公式サイトが確認できず、原酒の産地も表示基準の区分も確認できません",
+      "unverified": true,
+      "look": {
+        "liquid": "#c4832f",
+        "label": "#ece3d0",
+        "mark": "#2a1d10",
+        "char": "古"
+      },
+      "components": [
+        {
+          "distillery": "chichibu",
+          "country": "日本",
+          "kind": "モルト原酒",
+          "note": "配合は未確認です"
+        },
+        {
+          "distillery": null,
+          "country": "非公表",
+          "kind": "モルト・グレーン原酒",
+          "note": "産地は未確認です"
+        }
+      ],
+      "taste": {
+        "line": "蜂蜜とスパイス、ややしっかりした飲み口",
+        "x": -0.1,
+        "y": 0.2
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 3,
+        "mizuwari": 2
+      },
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ウイスキー"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        },
+        {
+          "k": "アルコール度数の記載",
+          "v": "確認できていません"
+        }
+      ],
+      "sources": [
+        {
+          "title": "マツザキオンラインショップ（商品ページ）",
+          "url": "https://matsuzaki-shop.jp/shop/products/500029",
+          "used": "商品名、アルコール度数、容量"
+        },
+        {
+          "title": "マツザキオンラインショップ「株式会社ベンチャーウイスキー（秩父蒸留所）」",
+          "url": "https://matsuzaki-shop.jp/shop/product_categories/venture",
+          "used": "商品名、アルコール度数、容量"
+        },
+        {
+          "title": "ウイスキー文化研究所「秩父蒸溜所」",
+          "url": "https://jwic.jp/distillery/chichibu/",
+          "used": "所在地、設立年と蒸溜開始年、創業者、ポットスチル・発酵槽などの設備"
+        }
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 3,
+        "drinkability": 3
+      },
+      "finish": "中くらい",
+      "scenes": [
+        "普段飲み",
+        "食事と一緒に"
+      ],
+      "addedAt": "2026-09-25"
+    },
+    {
+      "id": "ichiros-double-distilleries",
+      "name": "イチローズモルト ダブルディスティラリーズ 緑葉",
+      "nameEn": "Ichiro's Malt Double Distilleries",
+      "short": "イチローズ 緑葉",
+      "kana": "いちろーずもると だぶるでぃすてぃらりーず みどりは",
+      "aliases": [
+        "イチローズ",
+        "いちろーず",
+        "ichiros",
+        "緑葉",
+        "ダブルディスティラリーズ",
+        "秩父",
+        "ちちぶ"
+      ],
+      "maker": "ベンチャーウイスキー",
+      "type": "モルト",
+      "standard": "unknown",
+      "standardNote": "メーカーの公式サイトが確認できず、表示基準の区分を確認できません",
+      "unverified": true,
+      "look": {
+        "liquid": "#c4832f",
+        "label": "#ece3d0",
+        "mark": "#2a1d10",
+        "char": "緑"
+      },
+      "components": [
+        {
+          "distillery": "chichibu",
+          "country": "日本",
+          "kind": "モルト原酒",
+          "note": "「ダブルディスティラリーズ」の名のとおり2つの蒸溜所の原酒を使いますが、内訳は未確認です"
+        }
+      ],
+      "taste": {
+        "line": "麦の甘みとドライフルーツ",
+        "x": -0.1,
+        "y": 0.3
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 2
+      },
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "46%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "マツザキオンラインショップ（商品ページ）",
+          "url": "https://matsuzaki-shop.jp/shop/products/500001",
+          "used": "商品名、アルコール度数、容量"
+        },
+        {
+          "title": "マツザキオンラインショップ「株式会社ベンチャーウイスキー（秩父蒸留所）」",
+          "url": "https://matsuzaki-shop.jp/shop/product_categories/venture",
+          "used": "商品名、アルコール度数、容量"
+        },
+        {
+          "title": "ウイスキー文化研究所「秩父蒸溜所」",
+          "url": "https://jwic.jp/distillery/chichibu/",
+          "used": "所在地、設立年と蒸溜開始年、創業者、ポットスチル・発酵槽などの設備"
+        }
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 3,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-25"
+    },
+    {
+      "id": "ichiros-wine-wood",
+      "name": "イチローズモルト ワインウッドリザーブ 赤葉",
+      "nameEn": "Ichiro's Malt Wine Wood Reserve",
+      "short": "イチローズ 赤葉",
+      "kana": "いちろーずもると わいんうっどりざーぶ あかは",
+      "aliases": [
+        "イチローズ",
+        "いちろーず",
+        "ichiros",
+        "赤葉",
+        "ワインウッドリザーブ",
+        "秩父",
+        "ちちぶ"
+      ],
+      "maker": "ベンチャーウイスキー",
+      "type": "モルト",
+      "standard": "unknown",
+      "standardNote": "メーカーの公式サイトが確認できず、表示基準の区分を確認できません",
+      "unverified": true,
+      "look": {
+        "liquid": "#c4832f",
+        "label": "#ece3d0",
+        "mark": "#2a1d10",
+        "char": "赤"
+      },
+      "components": [
+        {
+          "distillery": "chichibu",
+          "country": "日本",
+          "kind": "モルト原酒",
+          "note": "配合は未確認です"
+        }
+      ],
+      "taste": {
+        "line": "ワイン樽由来の赤い果実の甘さ",
+        "x": -0.4,
+        "y": 0.3
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 2
+      },
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "46%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "マツザキオンラインショップ（商品ページ）",
+          "url": "https://matsuzaki-shop.jp/shop/products/500005",
+          "used": "商品名、アルコール度数、容量"
+        },
+        {
+          "title": "マツザキオンラインショップ「株式会社ベンチャーウイスキー（秩父蒸留所）」",
+          "url": "https://matsuzaki-shop.jp/shop/product_categories/venture",
+          "used": "商品名、アルコール度数、容量"
+        },
+        {
+          "title": "ウイスキー文化研究所「秩父蒸溜所」",
+          "url": "https://jwic.jp/distillery/chichibu/",
+          "used": "所在地、設立年と蒸溜開始年、創業者、ポットスチル・発酵槽などの設備"
+        }
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 5,
+        "smokiness": 2,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "バーで飲みたい"
+      ],
+      "addedAt": "2026-09-25"
+    },
+    {
+      "id": "ichiros-mizunara-wood",
+      "name": "イチローズモルト ミズナラウッドリザーブ 金葉",
+      "nameEn": "Ichiro's Malt Mizunara Wood Reserve",
+      "short": "イチローズ 金葉",
+      "kana": "いちろーずもると みずならうっどりざーぶ きんは",
+      "aliases": [
+        "イチローズ",
+        "いちろーず",
+        "ichiros",
+        "金葉",
+        "ミズナラウッドリザーブ",
+        "秩父",
+        "ちちぶ"
+      ],
+      "maker": "ベンチャーウイスキー",
+      "type": "モルト",
+      "standard": "unknown",
+      "standardNote": "メーカーの公式サイトが確認できず、表示基準の区分を確認できません",
+      "unverified": true,
+      "look": {
+        "liquid": "#c4832f",
+        "label": "#ece3d0",
+        "mark": "#2a1d10",
+        "char": "金"
+      },
+      "components": [
+        {
+          "distillery": "chichibu",
+          "country": "日本",
+          "kind": "モルト原酒",
+          "note": "配合は未確認です"
+        }
+      ],
+      "taste": {
+        "line": "ミズナラ樽の和の香木と蜂蜜",
+        "x": -0.3,
+        "y": 0.35
+      },
+      "serve": {
+        "straight": 3,
+        "rock": 3,
+        "highball": 2,
+        "mizuwari": 2
+      },
+      "specs": [
+        {
+          "k": "種類",
+          "v": "ウイスキー"
+        },
+        {
+          "k": "アルコール度数",
+          "v": "46%"
+        },
+        {
+          "k": "容量",
+          "v": "700ml"
+        },
+        {
+          "k": "熟成年数の表記",
+          "v": "なし"
+        }
+      ],
+      "sources": [
+        {
+          "title": "マツザキオンラインショップ（商品ページ）",
+          "url": "https://matsuzaki-shop.jp/shop/products/500003",
+          "used": "商品名、アルコール度数、容量"
+        },
+        {
+          "title": "マツザキオンラインショップ「株式会社ベンチャーウイスキー（秩父蒸留所）」",
+          "url": "https://matsuzaki-shop.jp/shop/product_categories/venture",
+          "used": "商品名、アルコール度数、容量"
+        },
+        {
+          "title": "ウイスキー文化研究所「秩父蒸溜所」",
+          "url": "https://jwic.jp/distillery/chichibu/",
+          "used": "所在地、設立年と蒸溜開始年、創業者、ポットスチル・発酵槽などの設備"
+        }
+      ],
+      "profile": {
+        "sweetness": 4,
+        "fruitiness": 3,
+        "smokiness": 2,
+        "richness": 4,
+        "drinkability": 3
+      },
+      "finish": "長い",
+      "scenes": [
+        "バーで飲みたい"
       ],
       "addedAt": "2026-09-25"
     }

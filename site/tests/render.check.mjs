@@ -298,6 +298,33 @@ test('蒸溜所ページ：全蒸溜所にページがある', async () => {
   }
 });
 
+test('公式の情報源が確認できない銘柄には、その断りが出る', async () => {
+  const env = await load('#/whisky/ichiros-white-label');
+  const note = env.document.querySelector('main .unverified');
+  assert.ok(note, '断りが出ていない');
+  assert.match(text(note), /公式の情報で裏取りできていません/);
+  assert.match(text(env.document.querySelector('#sources .src-caution')), /公式以外のページを出典にしています/);
+  assert.deepEqual(env.errors, []);
+});
+
+test('公式で裏取りした銘柄には、その断りは出ない', async () => {
+  const env = await load('#/whisky/akkeshi-shuubun');
+  assert.equal(env.document.querySelectorAll('main .unverified').length, 0);
+  assert.equal(env.document.querySelectorAll('#sources .src-caution').length, 0);
+});
+
+test('公式の説明が無い銘柄では、「公式の説明を要約」と書かない', async () => {
+  const env = await load('#/whisky/ichiros-white-label');
+  const notes = text(env.document.querySelector('#notes'));
+  assert.ok(!notes.includes('メーカー公式の説明を要約'), notes);
+  assert.ok(notes.includes('余韻の長さはサイト独自の目安です'), notes);
+});
+
+test('公式の情報源が確認できない蒸溜所にも、その断りが出る', async () => {
+  const env = await load('#/distillery/chichibu');
+  assert.match(text(env.document.querySelector('main .unverified')), /公式の情報で裏取りできていません/);
+});
+
 test('蒸溜所ページ：存在しない id は見つからない表示', async () => {
   const env = await load('#/distillery/nope');
   assert.equal(text(env.document.querySelector('h1')), 'ページが見つかりません');

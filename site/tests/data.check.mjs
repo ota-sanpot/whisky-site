@@ -150,3 +150,16 @@ test('押せるリンクの高さが44px以上になっている', () => {
   assert.ok(rule, '.clear の指定が見つからない');
   assert.match(rule[0], /min-height:44px/);
 });
+
+test('公式で裏取りできていない銘柄・蒸溜所は、その印と出典を持つ', () => {
+  for (const item of [...data.whiskies, ...data.distilleries]) {
+    if (!item.unverified) continue;
+    assert.equal(item.unverified, true, `${item.id}: unverified は true のみ`);
+    assert.ok(item.sources.length >= 1, `${item.id}: 出典が無い`);
+  }
+  // 裏取りできていない銘柄の区分は「未確認」にする（公式が示していないため）
+  for (const w of data.whiskies) {
+    if (w.unverified) assert.equal(w.standard, 'unknown', `${w.id}: 区分`);
+  }
+  assert.ok(data.whiskies.some((w) => w.unverified), '印の付いた銘柄が1つも無い');
+});

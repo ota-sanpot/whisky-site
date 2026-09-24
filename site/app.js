@@ -202,8 +202,11 @@
   }
 
   // 出典の一覧（各ページの最後に置く）
-  function sourcesHtml(list) {
-    return `<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">出典</h2><ol class="sources">${list.map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a><span class="source-used">${esc(s.used)}</span></li>`).join('')}</ol><p class="note">確認日：${esc(fmtDate(DATA.checkedAt))}</p></section>`;
+  function sourcesHtml(list, unverified) {
+    const head = unverified
+      ? '<p class="src-caution">メーカーの公式サイトが確認できないため、公式以外のページを出典にしています。</p>'
+      : '';
+    return `<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">出典</h2>${head}<ol class="sources">${list.map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a><span class="source-used">${esc(s.used)}</span></li>`).join('')}</ol><p class="note">確認日：${esc(fmtDate(DATA.checkedAt))}</p></section>`;
   }
 
   function whiskyCard(w, why) {
@@ -646,7 +649,7 @@
       ? `<section id="notes" aria-labelledby="notes-h"><h2 class="label" id="notes-h">香り・味・余韻</h2>
 ${(w.official || []).map((o) => `<p class="note-row"><span class="note-k">${esc(o.k)}</span><span class="note-v">${esc(o.v)}</span></p>`).join('')}
 <p class="note-row note-finish"><span class="note-k">余韻の長さ（サイト独自の目安）</span><span class="note-v">${esc(w.finish)}</span></p>
-<p class="note">「特長」「香り」「味」はメーカー公式の説明を要約したものです。余韻の長さはサイト独自の目安です。</p></section>`
+<p class="note">${(w.official || []).length ? '「特長」「香り」「味」はメーカー公式の説明を要約したものです。' : ''}余韻の長さはサイト独自の目安です。</p></section>`
       : '';
     return {
       title: `${w.name}｜${SITE}`,
@@ -661,6 +664,7 @@ ${(w.official || []).map((o) => `<p class="note-row"><span class="note-k">${esc(
     <p class="w-tags">${badge(w.standard, true)}${limitedTag(w)}</p>
   </div>
 </header>
+${w.unverified ? `<p class="unverified" role="note">この銘柄は、メーカーの公式サイトが確認できないため、<strong>公式の情報で裏取りできていません</strong>。産地・原酒の構成・表示基準の区分は未確認です。度数や容量は、下の出典（販売店・業界団体のページ）によります。</p>` : ''}
 <div class="w-first">
   <section id="taste" aria-labelledby="taste-h">
     <h2 class="label" id="taste-h">味の一言${opinion}</h2>
@@ -705,7 +709,7 @@ ${relatedCompare}
     <h2 id="specs-h">スペック</h2>
     <dl class="dl">${(w.specs || []).map((x) => `<dt>${esc(x.k)}</dt><dd>${esc(x.v)}</dd>`).join('')}<dt>表示基準</dt><dd>${esc(std.label)}。${esc(w.standardNote)}</dd></dl>
   </section>
-  ${sourcesHtml(w.sources)}
+  ${sourcesHtml(w.sources, w.unverified)}
 </section>`,
     };
   }
@@ -771,6 +775,7 @@ ${groups || '<p class="empty">この地方の蒸溜所は、まだ掲載して�
   ${d.nameEn ? `<p class="w-en">${esc(d.nameEn)}</p>` : ''}
   ${d.lead ? `<p class="d-lead">${esc(d.lead)}</p>` : ''}
 </header>
+${d.unverified ? `<p class="unverified" role="note">この蒸溜所は、メーカーの公式サイトが確認できないため、<strong>公式の情報で裏取りできていません</strong>。下の出典（業界団体のページ）によります。</p>` : ''}
 <dl class="dl d-meta">${meta.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
 <div class="deep">
   ${d.features ? `<section id="features" aria-labelledby="features-h">
@@ -787,7 +792,7 @@ ${groups || '<p class="empty">この地方の蒸溜所は、まだ掲載して�
     <p class="note">原酒の使用を公表で確認できた銘柄だけを載せています。</p>
   </section>` : ''}
   <p><a class="btn btn--ghost" href="#/list?distillery=${esc(d.id)}">この蒸溜所の原酒を使う銘柄を一覧で見る</a></p>
-  ${sourcesHtml(d.sources)}
+  ${sourcesHtml(d.sources, d.unverified)}
 </div>`,
     };
   }

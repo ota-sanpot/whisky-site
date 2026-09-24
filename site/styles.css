@@ -278,3 +278,9 @@ a.next{border-color:rgba(220,157,66,.5)}
   .next-row{margin:0;padding:0 0 4px}
   .next-row > li{flex-basis:calc((100% - 16px) / 3)}
 }
+
+/* 公式の情報源が確認できない銘柄の断り */
+.unverified{margin:0 0 18px;padding:12px 14px;border:1px solid var(--line-2);border-left:3px solid var(--unknown);border-radius:10px;background:var(--surface);color:var(--text-2);font-size:13px;line-height:1.8;word-break:auto-phrase}
+.unverified strong{color:var(--text)}
+/* 出典の欄で「公式ではない」と断る一行（確認日の .note とは別物） */
+.src-caution{margin:8px 0 0;font-size:12px;line-height:1.7;color:var(--text-3)}
