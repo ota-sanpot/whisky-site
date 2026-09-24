@@ -95,17 +95,25 @@ export function scenesOf(w, profile) {
   return out;
 }
 
-// 掲載日（最初の見本3本が2026-09-18、残りは2026-09-19に追加した）
+// 掲載日（最初の見本3本が2026-09-18、そのあとに足した銘柄は足した日）
 const FIRST_THREE = ['hibiki-jh', 'yoichi', 'ao'];
-export function addedAtOf(w) {
-  return FIRST_THREE.includes(w.id) ? '2026-09-18' : '2026-09-19';
+export function addedAtOf(w, today) {
+  if (w.addedAt) return w.addedAt; // すでに載っている銘柄の掲載日は動かさない
+  if (FIRST_THREE.includes(w.id)) return '2026-09-18';
+  return today;
 }
 
 // データ全体に項目を足す（元のデータは変えない）
-export function enrich(data) {
+// 掲載日はこの土地の日付で入れる（UTCにすると日本時間の朝までは前日になってしまう）
+const localToday = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
+
+export function enrich(data, today = localToday()) {
   const whiskies = data.whiskies.map((w) => {
     const profile = profileOf(w);
-    return { ...w, profile, finish: finishOf(w, profile), scenes: scenesOf(w, profile), addedAt: addedAtOf(w) };
+    return { ...w, profile, finish: finishOf(w, profile), scenes: scenesOf(w, profile), addedAt: addedAtOf(w, today) };
   });
   return { ...data, whiskies };
 }
