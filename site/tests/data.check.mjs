@@ -112,8 +112,9 @@ test('旧サイトの URL は新しいトップへ転送する（404.html）', (
 
 test('アイコンがある', () => {
   const dir = dirname(HTML_PATH);
-  for (const f of ['favicon.svg', 'apple-touch-icon.png']) assert.ok(existsSync(join(dir, f)), f);
-  assert.match(html(), /<link rel="icon" href="favicon\.svg" type="image\/svg\+xml">/);
+  for (const f of ['favicon.png', 'logo.png', 'apple-touch-icon.png']) assert.ok(existsSync(join(dir, f)), f);
+  assert.match(html(), /<link rel="icon" href="favicon\.png" type="image\/png">/);
+  assert.match(html(), /<img class="brand-logo" src="logo\.png"/);
   assert.match(html(), /<link rel="apple-touch-icon" href="apple-touch-icon\.png">/);
 });
 

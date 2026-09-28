@@ -22,8 +22,8 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 /* ===== ヘッダー・フッター ===== */
 .site-header{position:sticky;top:0;z-index:10;background:rgba(21,16,12,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .site-header-in{display:flex;align-items:center;justify-content:space-between;gap:10px;height:var(--header-h)}
-.brand{display:flex;align-items:center;gap:8px;min-width:0;text-decoration:none}
-.brand-dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 12px var(--amber)}
+.brand{display:flex;align-items:center;gap:10px;min-width:0;text-decoration:none}
+.brand-logo{flex:none;display:block;width:34px;height:34px;border-radius:50%}
 .brand-name{font-weight:700;font-size:15px;letter-spacing:.04em;white-space:nowrap}
 .header-search{flex:none;font-size:13px;color:var(--amber-2);text-decoration:none;border:1px solid var(--line-2);border-radius:999px;padding:4px 12px}
 #app{padding-bottom:48px}
