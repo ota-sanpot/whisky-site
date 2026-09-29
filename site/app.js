@@ -261,7 +261,6 @@
   function viewTop() {
     const staples = STAPLES.map((id) => W.get(id)).filter(Boolean);
     const todayW = todayPick(todayIndex());
-    const news = sortList(DATA.whiskies, 'new').slice(0, 6);
     const regionCounts = REGIONS
       .map((reg) => ({ reg, n: DATA.distilleries.filter((d) => regionOf(d.pref)?.key === reg.key).length }))
       .filter((x) => x.n > 0);
@@ -305,9 +304,6 @@
   <p class="note">味の一言と飲み方は編集部の見立てです。</p>
 </section>
 
-<section id="top-new"><div class="sec-head"><h2>新しく載せた銘柄</h2></div>
-  <ul class="cards">${news.map((w) => whiskyCard(w)).join('')}</ul>
-</section>
 
 <section class="std-entry"><div class="sec-head"><h2>表示基準</h2><a class="clear" href="#/standard">くわしく見る</a></div>
   <div class="opts">${STD_KEYS.map((k) => `<a class="opt" href="#/list?standard=${k}">${esc(DATA.standards[k].label)}</a>`).join('')}</div>

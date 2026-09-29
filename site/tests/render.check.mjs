@@ -48,7 +48,7 @@ test('トップ：まずはここからは編集部が選ぶ定番8本', async (
   assert.ok(!/人気/.test(sec.textContent), '人気順とは書かない');
 });
 
-test('トップ：味わいMAPの簡易版・蒸溜所・今日の1本・新着がある', async () => {
+test('トップ：味わいMAPの簡易版・蒸溜所・今日の1本があり、新着はない', async () => {
   const env = await load('');
   const d = env.document;
   assert.equal(d.querySelectorAll('#top-map svg .pt').length, DATA.whiskies.length);
@@ -58,8 +58,7 @@ test('トップ：味わいMAPの簡易版・蒸溜所・今日の1本・新着�
   assert.ok(regions.every((h) => h.startsWith('#/distilleries?region=')));
   assert.ok(d.querySelector('#top-regions a[href="#/distilleries"]'), 'すべて見るの導線がある');
   assert.ok(d.querySelector('#top-today a[href^="#/whisky/"]'), '今日の1本');
-  const news = [...d.querySelectorAll('#top-new a.card')];
-  assert.equal(news.length, 6);
+  assert.equal(d.querySelector('#top-new'), null, '新しく載せた銘柄の節は出さない');
 });
 
 test('トップ：検索窓に打つと一覧へ移る', async () => {
