@@ -61,6 +61,22 @@ test('トップ：味わいMAPの簡易版・蒸溜所・今日の1本があり�
   assert.equal(d.querySelector('#top-new'), null, '新しく載せた銘柄の節は出さない');
 });
 
+test('ウイスキーの基礎：種類・できるまで・定義・出典があり、例の銘柄はすべて実在する', async () => {
+  const top = await load('');
+  assert.ok(top.document.querySelector('#top-basics a[href="#/basics"]'), 'トップから基礎ページへの導線');
+  const env = await load('#/basics');
+  const d = env.document;
+  assert.equal(d.querySelectorAll('#b-kinds .b-kinds > li').length, DATA.basics.kinds.length);
+  assert.equal(d.querySelectorAll('#b-steps .b-steps > li').length, DATA.basics.steps.length);
+  assert.equal(d.querySelectorAll('#b-jw tbody tr').length, DATA.basics.jw.rows.length);
+  assert.ok(d.querySelector('#b-jw a[href="#/standard"]'), '表示基準ページへの導線');
+  assert.ok(d.querySelectorAll('#sources .sources li').length >= 1, '出典');
+  const ids = new Set(DATA.whiskies.map((w) => w.id));
+  for (const k of DATA.basics.kinds) for (const id of k.examples || []) assert.ok(ids.has(id), `例の銘柄 ${id}`);
+  const std = await load('#/standard');
+  assert.ok(std.document.querySelector('a[href="#/basics"]'), '表示基準から基礎ページへの導線');
+});
+
 test('トップ：検索窓に打つと一覧へ移る', async () => {
   const env = await load('');
   const q = env.document.getElementById('q');

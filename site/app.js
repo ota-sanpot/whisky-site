@@ -280,6 +280,8 @@
   <div class="entries">${ENTRIES.map((e) => `<a class="entry" href="${e.href}"><span class="entry-t">${esc(e.title)}</span><span class="entry-d">${esc(e.desc)}</span></a>`).join('')}</div>
 </section>
 
+<section id="top-basics"><a class="b-entry" href="#/basics"><span class="b-entry-k">はじめての方へ</span><span class="b-entry-t">ウイスキーの基礎</span><span class="b-entry-d">シングルモルトとブレンデッドの違い、できるまで、ジャパニーズウイスキーの定義</span></a></section>
+
 <section id="staples"><div class="sec-head"><h2>まずはここから</h2><span class="count">編集部が選ぶ定番8本</span></div>
   <ul class="cards">${staples.map((w) => whiskyCard(w)).join('')}</ul>
   <p class="note">売れている順ではなく、はじめの1本に選びやすい銘柄を編集部で選びました。</p>
@@ -810,10 +812,89 @@ ${d.unverified ? `<p class="unverified" role="note">この蒸溜所は、メー�
     <h2 id="kinds-h">このサイトの${STD_KEYS.length}つの区分</h2>
     <ul class="kinds">${STD_KEYS.map((k) => `<li>${badge(k, false)}<p>${esc(DATA.standards[k].desc)}</p></li>`).join('')}</ul>
     <p class="note">区分はメーカーの公表内容で決めています。この基準は業界団体の自主基準で、法律による決まりではありません。</p>
+    <p class="note"><a href="#/basics">法律の「ウイスキー」との違いや、ウイスキーの種類は「ウイスキーの基礎」へ</a></p>
   </section>
   ${sourcesHtml(rule.sources)}
 </div>`,
     };
+  }
+
+  // ===== 画面：ウイスキーの基礎 =====
+  function viewBasics() {
+    const b = DATA.basics;
+    const exampleLinks = (ids) => (ids || [])
+      .map((id) => W.get(id))
+      .filter(Boolean)
+      .map((w) => `<a href="#/whisky/${esc(w.id)}">${esc(w.name)}</a>`)
+      .join('、');
+    const kind = (k) => {
+      const ex = exampleLinks(k.examples);
+      return `<li><h3 class="b-kind-name">${esc(k.name)}</h3><p>${esc(k.def)}</p>${ex ? `<p class="b-ex">例：${ex}</p>` : ''}${k.list ? `<p class="b-ex"><a href="${listHref({ type: k.list })}">このタイプを一覧で見る</a></p>` : ''}</li>`;
+    };
+    return {
+      title: `${b.title}｜${SITE}`,
+      html: `
+<nav class="crumb" aria-label="現在地"><a href="#/">トップ</a> / ${esc(b.title)}</nav>
+<header class="d-head">
+  <p class="w-maker">はじめての方へ</p>
+  <h1 class="d-name">${esc(b.title)}</h1>
+  <p class="d-lead">${esc(b.lead)}</p>
+</header>
+<nav class="opts b-toc" aria-label="このページの目次">
+  <a class="opt" href="#/basics" data-jump="b-what">ウイスキーとは</a>
+  <a class="opt" href="#/basics" data-jump="b-kinds">種類の違い</a>
+  <a class="opt" href="#/basics" data-jump="b-steps">できるまで</a>
+  <a class="opt" href="#/basics" data-jump="b-jw">ジャパニーズの定義</a>
+  <a class="opt" href="#/basics" data-jump="b-terms">用語</a>
+</nav>
+<div class="deep">
+  <section id="b-what" aria-labelledby="b-what-h">
+    <h2 id="b-what-h">ウイスキーとは</h2>
+    <p class="b-text">${esc(b.what)}</p>
+  </section>
+
+  <section id="b-kinds" aria-labelledby="b-kinds-h">
+    <h2 id="b-kinds-h">種類の違い</h2>
+    <ul class="kinds b-kinds">${b.kinds.map(kind).join('')}</ul>
+    <p class="note">${esc(b.kindsNote)}</p>
+  </section>
+
+  <section id="b-steps" aria-labelledby="b-steps-h">
+    <h2 id="b-steps-h">ウイスキーができるまで</h2>
+    <ol class="b-steps">${b.steps.map((s, i) => `<li><span class="b-step-n" aria-hidden="true">${i + 1}</span><div><h3 class="b-step-name">${esc(s.name)}</h3><p>${esc(s.text)}</p></div></li>`).join('')}</ol>
+    <p class="note">${esc(b.stepsNote)}</p>
+  </section>
+
+  <section id="b-jw" aria-labelledby="b-jw-h">
+    <h2 id="b-jw-h">「ジャパニーズウイスキー」の定義</h2>
+    <p class="b-text">${esc(b.jw.lead)}</p>
+    <div class="b-table-wrap"><table class="b-table">
+      <thead><tr><th scope="col"></th><th scope="col">法律の「ウイスキー」</th><th scope="col">「ジャパニーズウイスキー」</th></tr></thead>
+      <tbody>${b.jw.rows.map((r) => `<tr><th scope="row">${esc(r.k)}</th><td>${esc(r.law)}</td><td>${esc(r.std)}</td></tr>`).join('')}</tbody>
+    </table></div>
+    <p class="note">${esc(b.jw.note)}</p>
+    <p><a class="btn btn--ghost" href="#/standard">表示基準とこのサイトの区分を見る</a></p>
+  </section>
+
+  <section id="b-terms" aria-labelledby="b-terms-h">
+    <h2 id="b-terms-h">ラベルでよく見る言葉</h2>
+    <dl class="dl">${b.terms.map((t) => `<dt>${esc(t.k)}</dt><dd>${esc(t.v)}</dd>`).join('')}</dl>
+  </section>
+
+  ${sourcesHtml(b.sources)}
+</div>`,
+    };
+  }
+
+  // ページ内の目次（ハッシュはルーターが使うので、スクロールだけで移動する）
+  function bindBasics() {
+    document.querySelectorAll('[data-jump]').forEach((a) => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const el = document.getElementById(a.dataset.jump);
+        if (el && el.scrollIntoView) el.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      });
+    });
   }
 
   // ===== 画面：比較 =====
@@ -1023,6 +1104,7 @@ ${d.unverified ? `<p class="unverified" role="note">この蒸溜所は、メー�
       return { view: 'find', q1: params.get('q1') || 'any', q2: params.get('q2') || 'any', q3: params.get('q3') || 'any' };
     }
     if (parts.length === 1 && parts[0] === 'standard') return { view: 'standard' };
+    if (parts.length === 1 && parts[0] === 'basics') return { view: 'basics' };
     if (parts.length === 1 && parts[0] === 'compare') {
       return { view: 'compare', a: params.get('a') || '', b: params.get('b') || '' };
     }
@@ -1040,6 +1122,7 @@ ${d.unverified ? `<p class="unverified" role="note">この蒸溜所は、メー�
             : r.view === 'distillery' ? viewDistillery(r.id)
               : r.view === 'distilleries' ? viewDistilleries(r)
                 : r.view === 'standard' ? viewStandard()
+                : r.view === 'basics' ? viewBasics()
                   : r.view === 'compare' ? viewCompare(r)
                     : r.view === 'map' ? viewMap(r)
                       : r.view === 'today' ? viewToday(r)
@@ -1049,6 +1132,7 @@ ${d.unverified ? `<p class="unverified" role="note">この蒸溜所は、メー�
     if (r.view === 'top') bindTop();
     if (r.view === 'list') bindList();
     if (r.view === 'compare') bindCompare();
+    if (r.view === 'basics') bindBasics();
     return r;
   }
 
