@@ -803,3 +803,27 @@ test('今日の1本：nに小数が来ても固まらず、今日の1本にフ�
   assert.ok(env.document.querySelector('#today .today-name'), '今日の1本が出る');
   assert.deepEqual(env.errors, []);
 });
+
+test('トップ：飲み方から選ぶ（4つのタブ、定番8本以外の◎を4本ずつ、切り替えできる）', async () => {
+  const env = await load('');
+  const d = env.document;
+  const tabs = [...d.querySelectorAll('#top-serve [role="tab"]')];
+  assert.deepEqual(tabs.map((t) => t.dataset.serve), ['highball', 'rock', 'straight', 'mizuwari']);
+  const staples = new Set(['hibiki-jh', 'yamazaki', 'hakushu', 'chita', 'yoichi', 'miyagikyo', 'fuji-single-blended', 'kakubin']);
+  for (const t of tabs) {
+    const panel = d.getElementById(`serve-panel-${t.dataset.serve}`);
+    const ids = [...panel.querySelectorAll('a.card')].map((a) => a.getAttribute('href').replace('#/whisky/', ''));
+    assert.equal(ids.length, 4, t.dataset.serve);
+    for (const id of ids) {
+      assert.ok(!staples.has(id), `定番は出さない ${id}`);
+      assert.equal(DATA.whiskies.find((w) => w.id === id).serve[t.dataset.serve], 3, `${id} は ${t.dataset.serve} が◎`);
+    }
+    assert.ok(panel.querySelector(`a[href="#/list?serve=${t.dataset.serve}"]`), '一覧への導線');
+  }
+  assert.equal(d.getElementById('serve-panel-highball').hidden, false);
+  assert.equal(d.getElementById('serve-panel-rock').hidden, true);
+  tabs[1].dispatchEvent(new env.window.Event('click', { bubbles: true }));
+  assert.equal(d.getElementById('serve-panel-highball').hidden, true);
+  assert.equal(d.getElementById('serve-panel-rock').hidden, false);
+  assert.equal(tabs[1].getAttribute('aria-selected'), 'true');
+});

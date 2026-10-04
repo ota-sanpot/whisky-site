@@ -115,6 +115,11 @@ a.badge::after{content:"›";margin-left:2px;opacity:.7}
 .opts{display:flex;flex-wrap:wrap;gap:8px}
 .opt{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);color:var(--text);text-decoration:none;font-size:15px;word-break:keep-all}
 .opt--on{background:var(--amber);border-color:var(--amber);color:var(--amber-ink);font-weight:700}
+button.opt{font-family:inherit;cursor:pointer}
+#top-serve{margin-top:26px}
+.serve-tabs{margin-bottom:12px}
+.serve-how{margin:0 0 10px;font-size:14px;color:var(--text-2)}
+.serve-panel .btn{margin-top:4px}
 .find-type{margin:0 0 12px;font-size:17px}
 .find-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 

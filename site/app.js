@@ -258,6 +258,58 @@
     { href: '#/find', title: '3問で診断', desc: '普段のお酒・好きな味・場面から探す' },
   ];
 
+  // トップの「飲み方から選ぶ」。バーで頼まれやすい順に並べる
+  const SERVE_PICKS = [
+    { key: 'highball', label: 'ハイボール', how: '炭酸水で割って飲む。' },
+    { key: 'rock', label: 'ロック', how: '氷を入れたグラスに注いで飲む。' },
+    { key: 'straight', label: 'ストレート', how: '何も加えず、そのまま飲む。' },
+    { key: 'mizuwari', label: '水割り', how: '水で割って飲む。' },
+  ];
+
+  // 飲み方ごとに◎の銘柄を4本。すぐ上の「まずはここから」と重ならないよう定番8本は除き、
+  // ジャパニーズウイスキー（表示基準に合う銘柄）を先に選ぶ。同じ蒸溜所ばかりにならないよう1蒸溜所1本まで
+  function servePicks(key, used) {
+    const all = DATA.whiskies.filter((w) => w.serve[key] === 3);
+    const pool = sortList(all.filter((w) => !STAPLES.includes(w.id)), 'recommend');
+    const ordered = [...pool.filter((w) => w.standard === 'jw'), ...pool.filter((w) => w.standard !== 'jw')];
+    const seen = new Set();
+    const picks = [];
+    for (const w of ordered) {
+      // 蒸溜所とブランド（名前の最初の語。響 21年・響 30年など）が同じものは1本まで
+      const dist = w.components[0]?.distillery || w.id;
+      const brand = w.name.split(/\s/)[0];
+      if (seen.has(dist) || seen.has(brand) || used.has(w.id)) continue;
+      seen.add(dist);
+      seen.add(brand);
+      picks.push(w);
+      used.add(w.id);
+      if (picks.length === 4) break;
+    }
+    return { all, picks };
+  }
+
+  function serveSection() {
+    const tabs = SERVE_PICKS.map((x, i) => `<button type="button" class="opt${i === 0 ? ' opt--on' : ''}" role="tab" id="serve-tab-${x.key}" aria-controls="serve-panel-${x.key}" aria-selected="${i === 0}" data-serve="${x.key}">${esc(x.label)}</button>`).join('');
+    // タブどうしで同じ銘柄が重ならないよう、候補の少ない飲み方から先に選ぶ（表示の順はそのまま）
+    const used = new Set();
+    const chosen = {};
+    const bySize = [...SERVE_PICKS].sort((a, b) => DATA.whiskies.filter((w) => w.serve[a.key] === 3).length - DATA.whiskies.filter((w) => w.serve[b.key] === 3).length);
+    for (const x of bySize) chosen[x.key] = servePicks(x.key, used);
+    const panels = SERVE_PICKS.map((x, i) => {
+      const { all, picks } = chosen[x.key];
+      return `<div class="serve-panel" role="tabpanel" id="serve-panel-${x.key}" aria-labelledby="serve-tab-${x.key}"${i === 0 ? '' : ' hidden'}>
+    <p class="serve-how">${esc(x.how)}</p>
+    <ul class="cards">${picks.map((w) => whiskyCard(w)).join('')}</ul>
+    <p><a class="btn btn--ghost" href="${listHref({ serve: x.key })}">${esc(x.label)}で◎の銘柄をすべて見る（${all.length}本）</a></p>
+  </div>`;
+    }).join('');
+    return `<section id="top-serve"><div class="sec-head"><h2>飲み方から選ぶ</h2></div>
+  <div class="opts serve-tabs" role="tablist" aria-label="飲み方">${tabs}</div>
+  ${panels}
+  <p class="note">飲み方の相性（◎）は編集部の見立てです。定番8本はのぞき、ジャパニーズウイスキーを優先して選んでいます。</p>
+</section>`;
+  }
+
   function viewTop() {
     const staples = STAPLES.map((id) => W.get(id)).filter(Boolean);
     const todayW = todayPick(todayIndex());
@@ -287,6 +339,8 @@
   <p class="note">売れている順ではなく、はじめの1本に選びやすい銘柄を編集部で選びました。</p>
 </section>
 
+${serveSection()}
+
 <section class="cta"><h2>あなたに合う1本を探してみませんか？</h2>
   <p>普段のお酒・好きな味・飲む場面の3問だけです。</p>
   <p><a class="btn" href="#/find">3問で診断する</a></p>
@@ -315,6 +369,7 @@
 
   // トップの検索窓は、打ったらそのまま一覧へ移る
   function bindTop() {
+    bindServeTabs();
     const q = document.getElementById('q');
     if (!q) return;
     const go = () => {
@@ -327,6 +382,20 @@
       go();
     });
     q.addEventListener('compositionend', go);
+  }
+
+  // 「飲み方から選ぶ」のタブ切り替え（URLは変えない）
+  function bindServeTabs() {
+    const tabs = [...document.querySelectorAll('#top-serve [data-serve]')];
+    const select = (tab) => {
+      for (const t of tabs) {
+        const on = t === tab;
+        t.classList.toggle('opt--on', on);
+        t.setAttribute('aria-selected', String(on));
+        document.getElementById(`serve-panel-${t.dataset.serve}`).hidden = !on;
+      }
+    };
+    for (const t of tabs) t.addEventListener('click', () => select(t));
   }
 
   // ===== 画面：銘柄一覧 =====
