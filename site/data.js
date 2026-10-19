@@ -1060,8 +1060,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「阿波乃蒸溜所」（2026年10月15日更新）",
           "url": "https://jwic.jp/distillery/awano/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "日新酒類 公式サイト",
+          "url": "https://www.nissin-shurui.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.nissin-shurui.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "biwako",
@@ -1080,8 +1087,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「琵琶湖蒸溜所」（2025年03月18日更新）",
           "url": "https://jwic.jp/distillery/biwako/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "川島酒造 公式サイト",
+          "url": "https://www.matsu87.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.matsu87.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "chichibu-daini",
@@ -1161,8 +1175,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「富士北麓蒸留所」（2026年04月07日更新）",
           "url": "https://jwic.jp/distillery/fujihokuroku/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "井出醸造店 公式サイト",
+          "url": "https://www.kainokaiun.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.kainokaiun.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "gakkogawa",
@@ -1181,8 +1202,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「月光川蒸留所」（2026年04月02日更新）",
           "url": "https://jwic.jp/distillery/gakkogawa/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "月光川蒸留所 公式サイト",
+          "url": "https://gakkogawa.com/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://gakkogawa.com/",
+      "urlKind": "distillery"
     },
     {
       "id": "genryu",
@@ -1202,8 +1230,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「Far Yeast 源流蒸溜所」（2025年08月21日更新）",
           "url": "https://jwic.jp/distillery/genryu/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "Far Yeast Brewing 公式サイト",
+          "url": "https://faryeast.com/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://faryeast.com/",
+      "urlKind": "maker"
     },
     {
       "id": "hanyu",
@@ -1223,8 +1258,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「羽生蒸溜所」（2026年04月02日更新）",
           "url": "https://jwic.jp/distillery/hanyu/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "羽生蒸溜所 公式サイト",
+          "url": "https://hanyu-distillery.jp/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://hanyu-distillery.jp/",
+      "urlKind": "distillery"
     },
     {
       "id": "hasami",
@@ -1284,8 +1326,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「飛騨高山蒸溜所」（2026年04月02日更新）",
           "url": "https://jwic.jp/distillery/hidatakayama/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "舩坂酒造店 公式サイト",
+          "url": "https://www.funasaka-shuzo.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.funasaka-shuzo.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "hinokami",
@@ -1305,8 +1354,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「火の神蒸溜所」（2026年09月10日更新）",
           "url": "https://jwic.jp/distillery/hinokami/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "薩摩酒造 公式サイト",
+          "url": "https://www.satsuma.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.satsuma.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "hishida",
@@ -1325,8 +1381,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「菱田蒸溜所」（2026年04月02日更新）",
           "url": "https://jwic.jp/distillery/hishida/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "天星酒造 公式サイト",
+          "url": "https://tensei-shuzo.com/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://tensei-shuzo.com/",
+      "urlKind": "maker"
     },
     {
       "id": "ikawa",
@@ -1409,8 +1472,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「軽井沢ウイスキー蒸留所」（2026年04月02日更新）",
           "url": "https://jwic.jp/distillery/karuizawa/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "軽井沢ウイスキー蒸留所 公式サイト",
+          "url": "https://www.karuizawa-whisky.co.jp/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://www.karuizawa-whisky.co.jp/",
+      "urlKind": "distillery"
     },
     {
       "id": "kitakaruizawa",
@@ -1474,8 +1544,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「神戸蒸溜所」（2026年04月02日更新）",
           "url": "https://jwic.jp/distillery/kobe/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "神戸蒸溜所 公式サイト",
+          "url": "https://kobe-distillery.com/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://kobe-distillery.com/",
+      "urlKind": "distillery"
     },
     {
       "id": "komaki",
@@ -1495,8 +1572,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「小牧蒸溜所」（2026年09月10日更新）",
           "url": "https://jwic.jp/distillery/komaki/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "小牧醸造 公式サイト",
+          "url": "https://komakijozo.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://komakijozo.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "komoro",
@@ -1515,8 +1599,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「小諸蒸留所」（2026年04月02日更新）",
           "url": "https://jwic.jp/distillery/komoro/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "小諸蒸留所 公式サイト",
+          "url": "https://komorodistillery.com/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://komorodistillery.com/",
+      "urlKind": "distillery"
     },
     {
       "id": "konosu",
@@ -1557,8 +1648,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「許田蒸留所」（2026年09月10日更新）",
           "url": "https://jwic.jp/distillery/kyoda/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "ヘリオス酒造 公式サイト",
+          "url": "https://www.helios-syuzo.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.helios-syuzo.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "maoi",
@@ -1579,8 +1677,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「馬追蒸溜所」（2026年09月09日更新）",
           "url": "https://jwic.jp/distillery/maoi/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "馬追蒸溜所 公式サイト",
+          "url": "https://maoidistillery.com/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://maoidistillery.com/",
+      "urlKind": "distillery"
     },
     {
       "id": "miyota",
@@ -1623,8 +1728,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「那覇蒸溜所」（2026年09月10日更新）",
           "url": "https://jwic.jp/distillery/naha/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "久米仙酒造 公式サイト",
+          "url": "https://kumesen.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://kumesen.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "niigata-kameda",
@@ -1645,8 +1757,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「新潟亀田蒸溜所」（2026年04月03日更新）",
           "url": "https://jwic.jp/distillery/niigata_kameda/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "新潟亀田蒸溜所 公式サイト",
+          "url": "https://kameda-distillery.com/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://kameda-distillery.com/",
+      "urlKind": "distillery"
     },
     {
       "id": "nikka-moji",
@@ -1666,8 +1785,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「ニッカウヰスキー 門司工場」（2025年03月12日更新）",
           "url": "https://jwic.jp/distillery/nikka_moji/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "ニッカウヰスキー 公式サイト",
+          "url": "https://www.nikka.com/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.nikka.com/",
+      "urlKind": "maker"
     },
     {
       "id": "nikko-kaido-oyama",
@@ -1709,8 +1835,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「ニセコ蒸溜所」（2026年04月03日更新）",
           "url": "https://jwic.jp/distillery/niseko/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "ニセコ蒸溜所 公式サイト",
+          "url": "https://niseko-distillery.com/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://niseko-distillery.com/",
+      "urlKind": "distillery"
     },
     {
       "id": "nozawa-onsen",
@@ -1730,8 +1863,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「野沢温泉蒸留所」（2025年09月10日更新）",
           "url": "https://jwic.jp/distillery/nozawa_onsen/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "野沢温泉蒸留所 公式サイト",
+          "url": "https://nozawaonsendistillery.jp/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://nozawaonsendistillery.jp/",
+      "urlKind": "distillery"
     },
     {
       "id": "okayama",
@@ -1752,8 +1892,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「岡山蒸溜所」（2026年10月15日更新）",
           "url": "https://jwic.jp/distillery/okayama/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "宮下酒造 公式サイト",
+          "url": "https://www.msb.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.msb.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "ontake",
@@ -1774,8 +1921,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「御岳蒸留所」（2026年09月10日更新）",
           "url": "https://jwic.jp/distillery/ontake/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "西酒造 公式サイト",
+          "url": "https://www.nishi-shuzo.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.nishi-shuzo.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "osumi",
@@ -1795,8 +1949,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「大隅酒造」（2026年04月06日更新）",
           "url": "https://jwic.jp/distillery/osumi/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "大隅酒造 公式サイト",
+          "url": "https://www.suntory.co.jp/osumidistillery/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://www.suntory.co.jp/osumidistillery/",
+      "urlKind": "distillery"
     },
     {
       "id": "osuzuyama",
@@ -1817,8 +1978,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「尾鈴山蒸留所」（2026年04月06日更新）",
           "url": "https://jwic.jp/distillery/osuzuyama/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "尾鈴山蒸留所 公式サイト",
+          "url": "https://osuzuyama.co.jp/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://osuzuyama.co.jp/",
+      "urlKind": "distillery"
     },
     {
       "id": "rishiri",
@@ -1837,8 +2005,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「利尻蒸留所」（2026年04月06日更新）",
           "url": "https://jwic.jp/distillery/rishiri/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "利尻蒸留所 公式サイト",
+          "url": "https://kamuiwhisky.com/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://kamuiwhisky.com/",
+      "urlKind": "distillery"
     },
     {
       "id": "rokkosan",
@@ -1858,8 +2033,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「六甲山蒸溜所」（2026年04月06日更新）",
           "url": "https://jwic.jp/distillery/rokkosan/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "六甲山蒸溜所 公式サイト",
+          "url": "https://rokkosan-distillery.com/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://rokkosan-distillery.com/",
+      "urlKind": "distillery"
     },
     {
       "id": "satsuma-tsukasa",
@@ -1879,8 +2061,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「ニッカウヰスキー さつま司蒸溜蔵」（2026年04月06日更新）",
           "url": "https://jwic.jp/distillery/satsuma_tsukasa/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "ニッカウヰスキー 公式サイト",
+          "url": "https://www.nikka.com/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.nikka.com/",
+      "urlKind": "maker"
     },
     {
       "id": "sawamachi",
@@ -1940,8 +2129,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「SETOUCHI DISTILLERY」（2026年10月15日更新）",
           "url": "https://jwic.jp/distillery/setouchi/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "三宅本店 公式サイト",
+          "url": "https://www.sempuku.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.sempuku.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "shindo",
@@ -1982,8 +2178,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「州崎蒸溜所」（2026年09月10日更新）",
           "url": "https://jwic.jp/distillery/suzaki/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "新里酒造 公式サイト",
+          "url": "https://shinzato-shuzo.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://shinzato-shuzo.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "takazo",
@@ -2045,8 +2248,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「丹波蒸溜所」（2026年04月06日更新）",
           "url": "https://jwic.jp/distillery/tamba/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "黄桜 公式サイト",
+          "url": "https://www.kizakura.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.kizakura.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "tano",
@@ -2065,8 +2275,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「田野蒸溜所」（2026年04月06日更新）",
           "url": "https://jwic.jp/distillery/tano/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "高橋酒造 公式サイト",
+          "url": "https://www.hakutake.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.hakutake.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "tenkyo",
@@ -2085,8 +2302,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「天鏡蒸溜所」（2026年04月06日更新）",
           "url": "https://jwic.jp/distillery/tenkyo/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "天鏡蒸溜所 公式サイト",
+          "url": "https://www.tenkyo.jp/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://www.tenkyo.jp/",
+      "urlKind": "distillery"
     },
     {
       "id": "tomakomai",
@@ -2127,8 +2351,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「梅美人酒造」（2025年09月09日更新）",
           "url": "https://jwic.jp/distillery/umebijin_shuzo/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "梅美人酒造 公式サイト",
+          "url": "https://www.umebijin.com/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.umebijin.com/",
+      "urlKind": "maker"
     },
     {
       "id": "umegae",
@@ -2210,8 +2441,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「山鹿蒸溜所」（2026年09月11日更新）",
           "url": "https://jwic.jp/distillery/yamaga/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "山鹿蒸溜所 公式サイト",
+          "url": "https://yamagadistillery.co.jp/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://yamagadistillery.co.jp/",
+      "urlKind": "distillery"
     },
     {
       "id": "yasato",
@@ -2232,8 +2470,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ「八郷蒸溜所」（2026年04月06日更新）",
           "url": "https://jwic.jp/distillery/yasato/",
           "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
+        },
+        {
+          "title": "木内酒造 公式サイト",
+          "url": "https://kodawari.cc/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://kodawari.cc/",
+      "urlKind": "maker"
     },
     {
       "id": "yoshidadenzai",
@@ -2275,8 +2520,15 @@ window.WDATA = {
           "title": "PR TIMES 丹丘蒸留所株式会社「丹丘蒸留所」開業のお知らせ",
           "url": "https://san-tatsu.jp/pressrelease/446126/",
           "used": "所在地、2025年8月27日の開業"
+        },
+        {
+          "title": "丹丘蒸留所 公式サイト",
+          "url": "https://tankyudistillery.jp/ja",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://tankyudistillery.jp/ja",
+      "urlKind": "distillery"
     },
     {
       "id": "taiki-cosmic-glen",
@@ -2305,6 +2557,7 @@ window.WDATA = {
       "maker": "南部美人",
       "pref": "岩手県",
       "city": "二戸市",
+      "address": "岩手県二戸市福岡字上町13",
       "basic": true,
       "sparse": true,
       "sources": [
@@ -2317,8 +2570,15 @@ window.WDATA = {
           "title": "岩手県 資料（株式会社南部美人）",
           "url": "https://www.pref.iwate.jp/_res/projects/default_project/_page_/001/017/052/r7nanbubijin.pdf",
           "used": "本社の所在地（二戸市）"
+        },
+        {
+          "title": "南部美人 公式サイト",
+          "url": "https://www.nanbubijin.co.jp/",
+          "used": "本社の所在地"
         }
-      ]
+      ],
+      "url": "https://www.nanbubijin.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "stork-valley",
@@ -2375,8 +2635,15 @@ window.WDATA = {
           "title": "Time Out Tokyo「mitosaya 薬草園蒸留所」",
           "url": "https://www.timeout.jp/tokyo/ja/things-to-do/mitosaya-薬草園蒸留所",
           "used": "所在地"
+        },
+        {
+          "title": "mitosaya薬草園蒸留所 公式サイト",
+          "url": "https://mitosaya.com/",
+          "used": "公式サイトへのリンク"
         }
-      ]
+      ],
+      "url": "https://mitosaya.com/",
+      "urlKind": "distillery"
     },
     {
       "id": "shonan",
@@ -2397,8 +2664,15 @@ window.WDATA = {
           "title": "Wikipedia「ジャパニーズ・ウイスキーの蒸留所一覧」",
           "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%83%A3%E3%83%91%E3%83%8B%E3%83%BC%E3%82%BA%E3%83%BB%E3%82%A6%E3%82%A4%E3%82%B9%E3%82%AD%E3%83%BC%E3%81%AE%E8%92%B8%E7%95%99%E6%89%80%E4%B8%80%E8%A6%A7",
           "used": "市町村、蒸溜開始年"
+        },
+        {
+          "title": "熊澤酒造 公式サイト",
+          "url": "https://kumazawa.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://kumazawa.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "tanzawa",
@@ -2448,8 +2722,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ 一覧",
           "url": "https://jwic.jp/distillery/",
           "used": "稼働中の蒸溜所としての掲載、都道府県、運営会社"
+        },
+        {
+          "title": "八海醸造 公式サイト",
+          "url": "https://www.hakkaisan.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.hakkaisan.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "oriental-kanazawa",
@@ -2470,8 +2751,15 @@ window.WDATA = {
           "title": "Wikipedia「ジャパニーズ・ウイスキーの蒸留所一覧」",
           "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%83%A3%E3%83%91%E3%83%8B%E3%83%BC%E3%82%BA%E3%83%BB%E3%82%A6%E3%82%A4%E3%82%B9%E3%82%AD%E3%83%BC%E3%81%AE%E8%92%B8%E7%95%99%E6%89%80%E4%B8%80%E8%A6%A7",
           "used": "市町村、蒸溜開始年"
+        },
+        {
+          "title": "オリエンタルブルーイング 公式サイト",
+          "url": "https://orientalbrewing.com/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://orientalbrewing.com/",
+      "urlKind": "maker"
     },
     {
       "id": "iiyama",
@@ -2492,8 +2780,15 @@ window.WDATA = {
           "title": "Wikipedia「ジャパニーズ・ウイスキーの蒸留所一覧」",
           "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%83%A3%E3%83%91%E3%83%8B%E3%83%BC%E3%82%BA%E3%83%BB%E3%82%A6%E3%82%A4%E3%82%B9%E3%82%AD%E3%83%BC%E3%81%AE%E8%92%B8%E7%95%99%E6%89%80%E4%B8%80%E8%A6%A7",
           "used": "市町村、蒸溜開始年"
+        },
+        {
+          "title": "きよかわ 公式サイト",
+          "url": "https://www.kiyokawa.co/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.kiyokawa.co/",
+      "urlKind": "maker"
     },
     {
       "id": "nishiyama",
@@ -2513,8 +2808,15 @@ window.WDATA = {
           "title": "神戸新聞「“古さ”生かし装い新たに 国文化財・西山酒造場の直売所」",
           "url": "https://www.kobe-np.co.jp/news/tanba/202107/sp/0014505298.shtml?pg=amp",
           "used": "丹波市の酒蔵で、焼酎やウイスキーも造ること"
+        },
+        {
+          "title": "西山酒造場 公式サイト",
+          "url": "https://kotsuzumi.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://kotsuzumi.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "kamiki-nara",
@@ -2534,8 +2836,15 @@ window.WDATA = {
           "title": "高島屋オンラインストア「神息 赤 ブレンデッドモルトウイスキー」",
           "url": "https://www.takashimaya.co.jp/shopping/gift/kekkonuchiiwai/1000004342/0400000035",
           "used": "曽爾村の蒸溜所であること"
+        },
+        {
+          "title": "神息酒造奈良蒸留所 公式サイト",
+          "url": "https://www.yoshinospirits.com/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.yoshinospirits.com/",
+      "urlKind": "maker"
     },
     {
       "id": "kishu-kumano",
@@ -2578,8 +2887,15 @@ window.WDATA = {
           "title": "PR TIMES 千代むすび酒造",
           "url": "https://prtimes.jp/main/html/rd/p/000000010.000066051.html",
           "used": "2021年春のウイスキー事業参入、所在地（境港市）"
+        },
+        {
+          "title": "千代むすび酒造 公式サイト",
+          "url": "https://www.chiyomusubi.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.chiyomusubi.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "drift-mark",
@@ -2600,14 +2916,22 @@ window.WDATA = {
           "title": "PR TIMES AMA Whiskey&Co.「Distillery Drift Mark」グランドオープン",
           "url": "https://prtimes.jp/main/html/rd/p/000000005.000164691.html",
           "used": "海士町の蒸留所、2026年6月13日のグランドオープン"
+        },
+        {
+          "title": "AMA Whiskey&Co. 公式サイト",
+          "url": "https://ama-whiskey.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://ama-whiskey.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "kibi",
       "name": "吉備蒸溜所",
       "maker": "ヨイキゲン",
       "pref": "岡山県",
+      "city": "総社市",
       "basic": true,
       "sparse": true,
       "sources": [
@@ -2615,8 +2939,15 @@ window.WDATA = {
           "title": "JWIC（ウイスキー文化研究所）蒸留所データ 一覧",
           "url": "https://jwic.jp/distillery/",
           "used": "稼働中の蒸溜所としての掲載、都道府県、運営会社"
+        },
+        {
+          "title": "ヨイキゲン 公式サイト",
+          "url": "https://www.yoikigen.com/",
+          "used": "本社の所在地（総社市）と、同じ敷地に日本酒醸造棟とウイスキー蒸溜所を併設していること"
         }
-      ]
+      ],
+      "url": "https://www.yoikigen.com/",
+      "urlKind": "maker"
     },
     {
       "id": "sakurao-forest",
@@ -2636,8 +2967,15 @@ window.WDATA = {
           "title": "農林水産省 中国四国農政局「輸出に取り組む事業者」",
           "url": "https://www.maff.go.jp/chushi/sesaku/export/r4t04.html",
           "used": "廿日市市吉和に新しい蒸溜所を建設中であること"
+        },
+        {
+          "title": "サクラオブルワリーアンドディスティラリー 公式サイト",
+          "url": "https://www.sakuraobd.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.sakuraobd.co.jp/",
+      "urlKind": "maker"
     },
     {
       "id": "niyodogawa",
@@ -2693,6 +3031,7 @@ window.WDATA = {
       "maker": "佐藤焼酎製造場",
       "pref": "宮崎県",
       "city": "延岡市",
+      "address": "宮崎県延岡市祝子町2388番地1",
       "basic": true,
       "sparse": true,
       "sources": [
@@ -2705,8 +3044,15 @@ window.WDATA = {
           "title": "のべおか観光「佐藤焼酎製造場」",
           "url": "https://en.nobekan.jp/grumet/index.php?p=721",
           "used": "延岡市の蔵であること"
+        },
+        {
+          "title": "佐藤焼酎製造場 公式サイト",
+          "url": "https://satoshochu.com/",
+          "used": "所在地、限定ウイスキーの発売"
         }
-      ]
+      ],
+      "url": "https://satoshochu.com/",
+      "urlKind": "maker"
     },
     {
       "id": "kurokabegura",
@@ -2726,8 +3072,15 @@ window.WDATA = {
           "title": "GetNavi web「焼酎のふるさと宮崎『黒壁蔵』へ」",
           "url": "https://getnavi.jp/cuisine/651687/",
           "used": "高鍋町にあること"
+        },
+        {
+          "title": "宝酒造 公式サイト",
+          "url": "https://www.takarashuzo.co.jp/",
+          "used": "公式サイトへのリンク（運営会社のサイト）"
         }
-      ]
+      ],
+      "url": "https://www.takarashuzo.co.jp/",
+      "urlKind": "maker"
     }
   ],
   "whiskies": [

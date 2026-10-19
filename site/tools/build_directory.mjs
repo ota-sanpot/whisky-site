@@ -90,6 +90,19 @@ for (const [id, o] of Object.entries(extra.overrides)) {
   if (d) d.city = o.city;
 }
 
+// 公式サイト（実際に開いて確かめたものだけ。tools/directory/official_urls.json）
+const official = JSON.parse(readFileSync(join(here, 'directory', 'official_urls.json'), 'utf8'));
+for (const b of basics) {
+  const o = official[b.id];
+  if (!o) continue;
+  b.url = o.url;
+  b.urlKind = o.kind;
+  if (!b.sources.some((s) => s.url === o.url)) {
+    const who = o.kind === 'distillery' ? b.name : b.maker.replace(/（.*?）/g, '');
+    b.sources.push({ title: `${who} 公式サイト`, url: o.url, used: o.kind === 'distillery' ? '公式サイトへのリンク' : '公式サイトへのリンク（運営会社のサイト）' });
+  }
+}
+
 // 重複チェック
 const ids = new Set(detailed.map((d) => d.id));
 for (const b of basics) {

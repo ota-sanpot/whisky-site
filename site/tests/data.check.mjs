@@ -176,3 +176,13 @@ test('全国の稼働中の蒸溜所：基本情報の蒸溜所は JWIC 等の�
   // 詳しく載せている蒸溜所にも、一覧表・地図用の市町村が入っている
   for (const d of data.distilleries.filter((x) => !x.basic)) assert.ok(d.city, `${d.id}: city`);
 });
+
+test('公式サイトのURLは https で、どの種類のサイトかを持つ', () => {
+  const withUrl = data.distilleries.filter((d) => d.basic && d.url);
+  assert.ok(withUrl.length >= 40, `${withUrl.length}か所`);
+  for (const d of withUrl) {
+    assert.match(d.url, /^https:\/\//, d.id);
+    assert.ok(['distillery', 'maker'].includes(d.urlKind), d.id);
+    assert.ok(d.sources.some((s) => s.url === d.url), `${d.id}: 出典にも載せる`);
+  }
+});

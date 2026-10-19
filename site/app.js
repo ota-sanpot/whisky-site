@@ -842,6 +842,9 @@ ${groups || '<p class="empty">この地方の蒸溜所は、まだ掲載して�
     const meta = d.basic
       ? [['所在地', d.address || placeOf(d)], ['ウイスキー蒸溜開始', d.started], ['運営', d.maker], ['つくっているお酒', (d.products || []).join('・')]].filter(([, v]) => v)
       : [['所在地', d.address], ['創業', d.founded], ['運営', d.maker]].filter(([, v]) => v);
+    const officialLink = d.basic && d.url
+      ? `<p class="official-link"><a class="btn btn--ghost" href="${esc(d.url)}" target="_blank" rel="noopener noreferrer">${d.urlKind === 'distillery' ? '蒸溜所の公式サイト' : '運営会社の公式サイト'}</a></p>`
+      : '';
     const basicNote = !d.basic ? ''
       : d.sparse
         ? `<p class="unverified" role="note">この蒸溜所は、<strong>基本情報だけ</strong>を載せています。ウイスキー文化研究所の情報サイト（JWIC）の一覧に稼働中として載っていますが、公表されている情報が少なく、分からない項目は空けています。</p>`
@@ -859,6 +862,7 @@ ${groups || '<p class="empty">この地方の蒸溜所は、まだ掲載して�
 ${basicNote}
 ${d.unverified ? `<p class="unverified" role="note">この蒸溜所は、メーカーの公式サイトが確認できないため、<strong>公式の情報で裏取りできていません</strong>。下の出典（業界団体のページ）によります。</p>` : ''}
 <dl class="dl d-meta">${meta.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
+${officialLink}
 <div class="deep">
   ${d.features ? `<section id="features" aria-labelledby="features-h">
     <h2 id="features-h">この蒸溜所の特徴</h2>

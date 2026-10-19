@@ -855,3 +855,15 @@ test('蒸溜所一覧：基本情報の蒸溜所は蒸溜開始年を出し、�
   const list = await load('#/list');
   assert.equal(list.document.querySelectorAll('select[name="distillery"] option[value="niseko"]').length, 0);
 });
+
+test('基本情報の蒸溜所ページ：公式サイトがあればリンクが出て、無ければ出ない', async () => {
+  const a = (await load('#/distillery/niseko')).document.querySelector('.official-link a');
+  assert.ok(a, '公式サイトのリンクが出る');
+  assert.equal(a.getAttribute('href'), 'https://niseko-distillery.com/');
+  assert.equal(a.getAttribute('target'), '_blank');
+  assert.match(a.getAttribute('rel'), /noopener/);
+  assert.equal(text(a), '蒸溜所の公式サイト');
+  const maker = (await load('#/distillery/tamba')).document.querySelector('.official-link a');
+  assert.equal(text(maker), '運営会社の公式サイト');
+  assert.equal((await load('#/distillery/stork-valley')).document.querySelectorAll('.official-link').length, 0);
+});
