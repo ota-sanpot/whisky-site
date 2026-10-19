@@ -202,11 +202,11 @@
   }
 
   // 出典の一覧（各ページの最後に置く）
-  function sourcesHtml(list, unverified) {
+  function sourcesHtml(list, unverified, checkedAt = DATA.checkedAt) {
     const head = unverified
       ? '<p class="src-caution">メーカーの公式サイトが確認できないため、公式以外のページを出典にしています。</p>'
       : '';
-    return `<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">出典</h2>${head}<ol class="sources">${list.map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a><span class="source-used">${esc(s.used)}</span></li>`).join('')}</ol><p class="note">確認日：${esc(fmtDate(DATA.checkedAt))}</p></section>`;
+    return `<section id="sources" aria-labelledby="sources-h"><h2 id="sources-h">出典</h2>${head}<ol class="sources">${list.map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a><span class="source-used">${esc(s.used)}</span></li>`).join('')}</ol><p class="note">確認日：${esc(fmtDate(checkedAt))}</p></section>`;
   }
 
   function whiskyCard(w, why) {
@@ -232,7 +232,7 @@
       return d ? [d.name, d.nameEn, d.kana, d.pref] : [c.country];
     }),
   ].join('|'))]));
-  const distilleryHay = new Map(DATA.distilleries.map((d) => [d.id, norm([d.name, d.nameEn, d.kana, d.maker, d.pref].join('|'))]));
+  const distilleryHay = new Map(DATA.distilleries.map((d) => [d.id, norm([d.name, d.nameEn, d.kana, d.maker, d.pref, d.city].join('|'))]));
 
   // 蒸溜所を先に、続けて銘柄を返す
   function search(q) {
@@ -421,7 +421,7 @@ ${serveSection()}
     const filters = [
       filterSelect('type', 'タイプ', TYPE_GROUPS.filter((g) => g.key !== 'other').map((g) => [g.key, g.label]).concat([['other', 'その他']]), r.type),
       filterSelect('region', '地方', REGIONS.map((x) => [x.key, x.label]), r.region),
-      filterSelect('distillery', '蒸溜所', DATA.distilleries.map((d) => [d.id, d.name]), r.distillery),
+      filterSelect('distillery', '蒸溜所', DATA.distilleries.filter((d) => !d.basic).map((d) => [d.id, d.name]), r.distillery),
       filterSelect('taste', '味わい', TASTE_FILTERS.map((x) => [x.key, x.label]), r.taste),
       filterSelect('serve', '飲み方', SERVES.map(([k, label]) => [k, `${label}が◎`]), r.serve),
       filterSelect('scene', 'シーン', SCENES.map((s) => [s, s]), r.scene),
@@ -790,13 +790,21 @@ ${relatedCompare}
     return pick(own) || pick(uses.filter((w) => w.maker === d.maker)) || pick(uses);
   }
 
+  // 所在地の短い表記（県＋市町村）
+  const placeOf = (d) => d.pref + (d.city || '');
+
   function distilleryCardFull(d) {
-    const f = flagship(d);
-    return `<li><a class="card card--dist" href="#/distillery/${esc(d.id)}"><span class="card-body">
+    const f = d.basic ? null : flagship(d);
+    return `<li><a class="card card--dist${d.basic ? ' card--basic' : ''}" href="#/distillery/${esc(d.id)}"><span class="card-body">
 <span class="card-name">${esc(d.name)}</span>
-<span class="card-meta">${esc(d.pref)}・${esc(d.maker)}</span>
-${f ? `<span class="card-meta">代表銘柄（編集部が選ぶ）：${esc(f.name)}</span>` : ''}</span></a></li>`;
+<span class="card-meta">${esc(placeOf(d))}・${esc(d.maker)}</span>
+${f ? `<span class="card-meta">代表銘柄（編集部が選ぶ）：${esc(f.name)}</span>` : ''}
+${d.basic ? `<span class="card-meta">${d.started ? `ウイスキー蒸溜開始：${esc(d.started)}` : '基本情報のみ'}</span>` : ''}</span></a></li>`;
   }
+
+  // 地方の中は、北から県の順。同じ県では銘柄を載せている蒸溜所を先に
+  const PREF_ORDER = REGIONS.flatMap((x) => x.prefs);
+  const byPlace = (a, b) => PREF_ORDER.indexOf(a.pref) - PREF_ORDER.indexOf(b.pref) || (a.basic ? 1 : 0) - (b.basic ? 1 : 0);
 
   function viewDistilleries(r) {
     const chips = [['', 'すべて']].concat(
@@ -807,7 +815,7 @@ ${f ? `<span class="card-meta">代表銘柄（編集部が選ぶ）：${esc(f.na
     }).join('');
 
     const groups = REGIONS.map((reg) => {
-      const ds = DATA.distilleries.filter((d) => regionOf(d.pref)?.key === reg.key);
+      const ds = DATA.distilleries.filter((d) => regionOf(d.pref)?.key === reg.key).sort(byPlace);
       if (!ds.length || (r.region && r.region !== reg.key)) return '';
       return `<section class="region"><div class="sec-head"><h2 class="region-head">${esc(reg.label)}<span class="count">${ds.length}か所</span></h2></div>
 <ul class="cards">${ds.map(distilleryCardFull).join('')}</ul></section>`;
@@ -815,7 +823,7 @@ ${f ? `<span class="card-meta">代表銘柄（編集部が選ぶ）：${esc(f.na
 
     return {
       title: `蒸溜所から探す｜${SITE}`,
-      html: `<section class="hero hero--sm"><h1>蒸溜所から探す</h1><p class="hero-lead">いま掲載しているのは${DATA.distilleries.length}か所です。所在地は各ページの出典で確認しています。</p></section>
+      html: `<section class="hero hero--sm"><h1>蒸溜所から探す</h1><p class="hero-lead">日本で稼働しているウイスキー蒸溜所 ${DATA.distilleries.length}か所を、地方別に並べています。うち${DATA.distilleries.filter((d) => !d.basic).length}か所は銘柄つきで詳しく、ほかは所在地・運営会社・蒸溜開始年などの基本情報を載せています。所在地は各ページの出典で確認しています。</p></section>
 <div class="region-filters chips">${chips}</div>
 ${groups || '<p class="empty">この地方の蒸溜所は、まだ掲載していません。</p>'}`,
     };
@@ -831,7 +839,13 @@ ${groups || '<p class="empty">この地方の蒸溜所は、まだ掲載して�
       .filter((w) => !own.includes(w))
       .map((w) => ({ w, c: w.components.find((c) => c.distillery === d.id) }))
       .filter((x) => x.c);
-    const meta = [['所在地', d.address], ['創業', d.founded], ['運営', d.maker]].filter(([, v]) => v);
+    const meta = d.basic
+      ? [['所在地', d.address || placeOf(d)], ['ウイスキー蒸溜開始', d.started], ['運営', d.maker], ['つくっているお酒', (d.products || []).join('・')]].filter(([, v]) => v)
+      : [['所在地', d.address], ['創業', d.founded], ['運営', d.maker]].filter(([, v]) => v);
+    const basicNote = !d.basic ? ''
+      : d.sparse
+        ? `<p class="unverified" role="note">この蒸溜所は、<strong>基本情報だけ</strong>を載せています。ウイスキー文化研究所の情報サイト（JWIC）の一覧に稼働中として載っていますが、公表されている情報が少なく、分からない項目は空けています。</p>`
+        : `<p class="note basic-note" role="note">この蒸溜所は、基本情報だけを載せています。所在地・運営会社・蒸溜開始年は、ウイスキー文化研究所の情報サイト（JWIC）によります。銘柄は順次増やしていきます。</p>`;
     return {
       title: `${d.name}｜${SITE}`,
       html: `
@@ -842,6 +856,7 @@ ${groups || '<p class="empty">この地方の蒸溜所は、まだ掲載して�
   ${d.nameEn ? `<p class="w-en">${esc(d.nameEn)}</p>` : ''}
   ${d.lead ? `<p class="d-lead">${esc(d.lead)}</p>` : ''}
 </header>
+${basicNote}
 ${d.unverified ? `<p class="unverified" role="note">この蒸溜所は、メーカーの公式サイトが確認できないため、<strong>公式の情報で裏取りできていません</strong>。下の出典（業界団体のページ）によります。</p>` : ''}
 <dl class="dl d-meta">${meta.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
 <div class="deep">
@@ -858,8 +873,8 @@ ${d.unverified ? `<p class="unverified" role="note">この蒸溜所は、メー�
     <ul class="cards">${used.map(({ w, c }) => `<li><a class="card" href="#/whisky/${esc(w.id)}">${bottle(w, 'sm')}<span class="card-body"><span class="used-role">${esc(c.kind)}として使用</span><span class="card-name">${esc(w.name)}</span><span class="card-meta">${esc(w.maker)}・${esc(w.type)}</span><span class="card-tags">${badge(w.standard, false)}${limitedTag(w)}</span></span></a></li>`).join('')}</ul>
     <p class="note">原酒の使用を公表で確認できた銘柄だけを載せています。</p>
   </section>` : ''}
-  <p><a class="btn btn--ghost" href="#/list?distillery=${esc(d.id)}">この蒸溜所の原酒を使う銘柄を一覧で見る</a></p>
-  ${sourcesHtml(d.sources, d.unverified)}
+  ${d.basic ? '' : `<p><a class="btn btn--ghost" href="#/list?distillery=${esc(d.id)}">この蒸溜所の原酒を使う銘柄を一覧で見る</a></p>`}
+  ${sourcesHtml(d.sources, d.unverified, d.basic ? DATA.directoryCheckedAt : DATA.checkedAt)}
 </div>`,
     };
   }

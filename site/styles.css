@@ -316,3 +316,4 @@ a.next{border-color:rgba(220,157,66,.5)}
 .unverified strong{color:var(--text)}
 /* 出典の欄で「公式ではない」と断る一行（確認日の .note とは別物） */
 .src-caution{margin:8px 0 0;font-size:12px;line-height:1.7;color:var(--text-3)}
+.basic-note{margin:0 0 14px}

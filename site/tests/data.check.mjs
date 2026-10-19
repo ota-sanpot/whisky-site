@@ -66,7 +66,8 @@ test('事実には出典が付いている（全銘柄・全蒸溜所）', () =>
 
 test('全蒸溜所に県と運営会社がある', () => {
   for (const d of data.distilleries) {
-    for (const k of ['name', 'kana', 'maker', 'pref']) assert.ok(d[k], `${d.id}: ${k}`);
+    // 基本情報だけの蒸溜所は読み仮名を持たない
+    for (const k of d.basic ? ['name', 'maker', 'pref'] : ['name', 'kana', 'maker', 'pref']) assert.ok(d[k], `${d.id}: ${k}`);
   }
 });
 
@@ -163,4 +164,15 @@ test('公式で裏取りできていない銘柄・蒸溜所は、その印と�
     if (w.unverified) assert.equal(w.standard, 'unknown', `${w.id}: 区分`);
   }
   assert.ok(data.whiskies.some((w) => w.unverified), '印の付いた銘柄が1つも無い');
+});
+
+test('全国の稼働中の蒸溜所：基本情報の蒸溜所は JWIC 等の出典と確認日を持つ', () => {
+  assert.ok(data.distilleries.length >= 100, `${data.distilleries.length}か所`);
+  assert.match(data.directoryCheckedAt, /^\d{4}-\d{2}-\d{2}$/);
+  for (const d of data.distilleries.filter((x) => x.basic)) {
+    assert.ok(d.sources.some((s) => s.url.startsWith('https://jwic.jp/distillery/')), `${d.id}: JWIC の出典`);
+    assert.ok(!data.whiskies.some((w) => w.components.some((c) => c.distillery === d.id)), `${d.id}: 銘柄がある蒸溜所は basic にしない`);
+  }
+  // 詳しく載せている蒸溜所にも、一覧表・地図用の市町村が入っている
+  for (const d of data.distilleries.filter((x) => !x.basic)) assert.ok(d.city, `${d.id}: city`);
 });

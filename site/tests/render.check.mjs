@@ -362,7 +362,9 @@ test('蒸溜所一覧：地方ごとにまとまり、全蒸溜所が出る', as
   const heads = [...env.document.querySelectorAll('.region-head')].map((e) => e.textContent.replace(/\d+か所/, '').trim());
   assert.ok(heads.includes('北海道'));
   assert.ok(heads.includes('九州・沖縄'));
-  assert.ok(!heads.includes('四国'), '蒸溜所のない地方は出さない');
+  // 蒸溜所のない地方は出さない（いまは全地方にある）
+  const regionsWith = new Set(DATA.distilleries.map((x) => x.pref));
+  if (!['徳島県', '香川県', '愛媛県', '高知県'].some((p) => regionsWith.has(p))) assert.ok(!heads.includes('四国'));
   assert.deepEqual(env.errors, []);
 });
 
@@ -398,8 +400,8 @@ test('蒸溜所ページ：その蒸溜所の銘柄を一覧で見る導線が�
   assert.ok(a, '一覧への導線がある');
 });
 
-test('蒸溜所ページ：全蒸溜所で銘柄一覧への導線が1つ出る（自社銘柄が無い蒸溜所も含む）', async () => {
-  for (const dist of DATA.distilleries) {
+test('蒸溜所ページ：銘柄を載せている全蒸溜所で銘柄一覧への導線が1つ出る（自社銘柄が無い蒸溜所も含む）', async () => {
+  for (const dist of DATA.distilleries.filter((x) => !x.basic)) {
     const d = (await load(`#/distillery/${dist.id}`)).document;
     const as = d.querySelectorAll(`a[href="#/list?distillery=${dist.id}"]`);
     assert.equal(as.length, 1, dist.id);
@@ -826,4 +828,30 @@ test('トップ：飲み方から選ぶ（4つのタブ、定番8本以外の◎
   assert.equal(d.getElementById('serve-panel-highball').hidden, true);
   assert.equal(d.getElementById('serve-panel-rock').hidden, false);
   assert.equal(tabs[1].getAttribute('aria-selected'), 'true');
+});
+
+test('基本情報の蒸溜所ページ：所在地・蒸溜開始・断り書きが出て、銘柄一覧への導線は出ない', async () => {
+  const env = await load('#/distillery/niseko');
+  const d = env.document;
+  assert.equal(d.querySelector('h1').textContent, 'ニセコ蒸溜所');
+  const meta = text(d.querySelector('.d-meta'));
+  assert.ok(meta.includes('虻田郡ニセコ町'), meta);
+  assert.ok(meta.includes('2021年'), meta);
+  assert.match(text(d.querySelector('.basic-note')), /基本情報だけ/);
+  assert.equal(d.querySelectorAll('a[href="#/list?distillery=niseko"]').length, 0);
+  assert.deepEqual(env.errors, []);
+});
+
+test('情報の少ない蒸溜所ページ：その断りが出る', async () => {
+  const env = await load('#/distillery/stork-valley');
+  assert.match(text(env.document.querySelector('main .unverified')), /基本情報だけ/);
+  assert.deepEqual(env.errors, []);
+});
+
+test('蒸溜所一覧：基本情報の蒸溜所は蒸溜開始年を出し、銘柄一覧の絞り込みには出さない', async () => {
+  const env = await load('#/distilleries');
+  const card = env.document.querySelector('a.card--dist[href="#/distillery/niseko"]');
+  assert.ok(text(card).includes('ウイスキー蒸溜開始：2021年'));
+  const list = await load('#/list');
+  assert.equal(list.document.querySelectorAll('select[name="distillery"] option[value="niseko"]').length, 0);
 });
