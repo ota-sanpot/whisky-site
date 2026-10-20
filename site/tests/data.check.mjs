@@ -107,8 +107,10 @@ test('旧サイトの URL は新しいトップへ転送する（404.html）', (
   const p = join(dirname(HTML_PATH), '404.html');
   assert.ok(existsSync(p), '404.html がない');
   const s = readFileSync(p, 'utf8');
-  assert.match(s, /http-equiv="refresh" content="0; url=\/whisky-site\/"/);
-  assert.match(s, /location\.replace\('\/whisky-site\/'\)/);
+  // 2026-10-20 から whisky.ota-sanpot.com のドメイン直下で公開しているので、移動先は「/」
+  assert.match(s, /http-equiv="refresh" content="0; url=\/"/);
+  assert.match(s, /location\.replace\('\/'\)/);
+  assert.ok(!s.includes('/whisky-site/'), '旧パスへ飛ばさない');
 });
 
 test('アイコンがある', () => {
