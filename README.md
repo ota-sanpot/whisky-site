@@ -2,7 +2,7 @@
 
 ジャパニーズウイスキーを1本ずつ、どこの県の、どの原酒で、どんな味で、どう飲むとうまいかまで解説するガイドです。運営は大田区サンポット。
 
-公開URL: https://ota-sanpot.github.io/whisky-site/
+公開URL: https://whisky.ota-sanpot.com/ （2026-10-20 から。旧 https://ota-sanpot.github.io/whisky-site/ は GitHub が自動で転送）
 
 ## 画面一覧
 

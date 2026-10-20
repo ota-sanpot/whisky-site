@@ -10,7 +10,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 // jsdom の実装上つねに拒否される（同一パスでも SecurityError）ため、実際の公開先と同じ
 // https オリジンを使う。ただし実際の通信は一切発生させず、下の LocalFilesOnly がこの
 // オリジン宛のリクエストをディスク上の同名ファイルへ差し替える
-const SITE_ORIGIN = 'https://ota-sanpot.github.io/whisky-site/';
+const SITE_ORIGIN = 'https://whisky.ota-sanpot.com/';
 
 // テストではサイト自身のファイル（styles.css・data.js・app.js等）だけをディスクから読み、
 // それ以外（Googleフォント等の外部）へは一切リクエストしない。DNS不通やCI側の一時的な
