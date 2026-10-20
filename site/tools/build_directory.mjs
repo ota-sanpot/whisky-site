@@ -90,6 +90,10 @@ for (const [id, o] of Object.entries(extra.overrides)) {
   if (d) d.city = o.city;
 }
 
+// ウイスキーの製造を確かめられず外した蒸溜所（tools/directory/excluded.json）
+const excluded = JSON.parse(readFileSync(join(here, 'directory', 'excluded.json'), 'utf8'));
+for (let i = basics.length - 1; i >= 0; i--) if (excluded[basics[i].id]) basics.splice(i, 1);
+
 // 公式サイト（実際に開いて確かめたものだけ。tools/directory/official_urls.json）
 const official = JSON.parse(readFileSync(join(here, 'directory', 'official_urls.json'), 'utf8'));
 for (const b of basics) {

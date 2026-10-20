@@ -1503,28 +1503,6 @@ window.WDATA = {
       ]
     },
     {
-      "id": "kiyosuzakura",
-      "name": "清洲桜醸造 本社工場",
-      "maker": "清洲桜醸造",
-      "pref": "愛知県",
-      "city": "清須市",
-      "address": "愛知県清須市清洲1692",
-      "started": "2014年",
-      "products": [
-        "ウイスキー",
-        "ジン",
-        "その他スピリッツ"
-      ],
-      "basic": true,
-      "sources": [
-        {
-          "title": "JWIC（ウイスキー文化研究所）蒸留所データ「清洲桜醸造 本社工場」（2025年03月18日更新）",
-          "url": "https://jwic.jp/distillery/kiyosuzakura/",
-          "used": "所在地・運営会社・ウイスキー蒸留開始年・つくっているお酒"
-        }
-      ]
-    },
-    {
       "id": "kobe",
       "name": "神戸蒸溜所",
       "maker": "グロースターズ",
@@ -2552,35 +2530,6 @@ window.WDATA = {
       ]
     },
     {
-      "id": "nanbubijin",
-      "name": "南部美人 本社蔵",
-      "maker": "南部美人",
-      "pref": "岩手県",
-      "city": "二戸市",
-      "address": "岩手県二戸市福岡字上町13",
-      "basic": true,
-      "sparse": true,
-      "sources": [
-        {
-          "title": "JWIC（ウイスキー文化研究所）蒸留所データ 一覧",
-          "url": "https://jwic.jp/distillery/",
-          "used": "稼働中の蒸溜所としての掲載、都道府県、運営会社"
-        },
-        {
-          "title": "岩手県 資料（株式会社南部美人）",
-          "url": "https://www.pref.iwate.jp/_res/projects/default_project/_page_/001/017/052/r7nanbubijin.pdf",
-          "used": "本社の所在地（二戸市）"
-        },
-        {
-          "title": "南部美人 公式サイト",
-          "url": "https://www.nanbubijin.co.jp/",
-          "used": "本社の所在地"
-        }
-      ],
-      "url": "https://www.nanbubijin.co.jp/",
-      "urlKind": "maker"
-    },
-    {
       "id": "stork-valley",
       "name": "Stork Valley Distillery",
       "maker": "安井商店",
@@ -3052,34 +3001,6 @@ window.WDATA = {
         }
       ],
       "url": "https://satoshochu.com/",
-      "urlKind": "maker"
-    },
-    {
-      "id": "kurokabegura",
-      "name": "宝酒造 黒壁蔵",
-      "maker": "宝酒造",
-      "pref": "宮崎県",
-      "city": "児湯郡高鍋町",
-      "basic": true,
-      "sparse": true,
-      "sources": [
-        {
-          "title": "JWIC（ウイスキー文化研究所）蒸留所データ 一覧",
-          "url": "https://jwic.jp/distillery/",
-          "used": "稼働中の蒸溜所としての掲載、都道府県、運営会社"
-        },
-        {
-          "title": "GetNavi web「焼酎のふるさと宮崎『黒壁蔵』へ」",
-          "url": "https://getnavi.jp/cuisine/651687/",
-          "used": "高鍋町にあること"
-        },
-        {
-          "title": "宝酒造 公式サイト",
-          "url": "https://www.takarashuzo.co.jp/",
-          "used": "公式サイトへのリンク（運営会社のサイト）"
-        }
-      ],
-      "url": "https://www.takarashuzo.co.jp/",
       "urlKind": "maker"
     }
   ],
