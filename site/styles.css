@@ -319,3 +319,38 @@ a.next{border-color:rgba(220,157,66,.5)}
 .basic-note{margin:0 0 14px}
 .official-link{margin:14px 0 0}
 .official-link .btn{min-height:44px;display:inline-flex;align-items:center}
+
+/* ===== ウイスキークイズ ===== */
+#top-basics .b-entry + .b-entry{margin-top:-14px}
+.qz-levels{list-style:none;margin:8px 0 18px;padding:0;display:grid;gap:12px}
+.qz-level{display:flex;flex-direction:column;gap:4px;padding:16px;border:1px solid var(--line-2);border-radius:var(--radius);background:var(--surface);color:var(--text);text-decoration:none}
+.qz-level:hover{border-color:var(--amber)}
+.qz-level-k{font-size:12px;letter-spacing:.08em;color:var(--amber-2)}
+.qz-level-t{font-size:18px;font-weight:700}
+.qz-level-d{font-size:13px;color:var(--text-2);word-break:auto-phrase}
+.qz-score{position:sticky;top:var(--header-h);z-index:2;margin:0 0 12px;padding:10px 14px;border-radius:999px;background:var(--bg-2);border:1px solid var(--line);font-size:14px;color:var(--text-2);text-align:center}
+.qz-list{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.qz-q{padding:16px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.qz-q--ok{border-color:var(--amber)}
+.qz-no{margin:0 0 4px;font-size:12px;letter-spacing:.08em;color:var(--amber-2)}
+.qz-text{margin:0 0 12px;font-size:17px;line-height:1.6;word-break:auto-phrase}
+.qz-choices{display:grid;gap:8px}
+.qz-choice{min-height:48px;padding:10px 14px;border-radius:12px;border:1px solid var(--line-2);background:var(--bg-2);color:var(--text);font:inherit;font-size:15px;text-align:left;cursor:pointer}
+.qz-choice:hover:not(:disabled){border-color:var(--amber)}
+.qz-choice:disabled{cursor:default;opacity:.55}
+.qz-choice--ok,.qz-choice--ok:disabled{opacity:1;background:var(--amber);border-color:var(--amber);color:var(--amber-ink);font-weight:700}
+.qz-choice--ng,.qz-choice--ng:disabled{opacity:1;border-color:#c46a5a;color:#f0b3a8;text-decoration:line-through}
+.qz-explain{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:14px;line-height:1.7;color:var(--text-2)}
+.qz-explain p{margin:0 0 6px}
+.qz-judge{font-size:15px;font-weight:700;color:var(--text)}
+.qz-q--ok .qz-judge{color:var(--amber-2)}
+.qz-q--ng .qz-judge{color:#f0b3a8}
+.qz-more a{display:inline-flex;align-items:center;min-height:44px;color:var(--amber-2)}
+.qz-src{font-size:12px;color:var(--text-3)}
+.qz-src a{color:var(--text-3)}
+.qz-result{margin:20px 0;padding:20px 16px;border:1px solid var(--amber);border-radius:var(--radius);background:linear-gradient(135deg,var(--amber-dim),var(--surface));text-align:center;scroll-margin-top:calc(var(--header-h) + 12px)}
+.qz-result-k{margin:0;font-size:12px;letter-spacing:.08em;color:var(--amber-2)}
+.qz-result-n{margin:4px 0;font-size:28px;font-weight:900}
+.qz-result-d{margin:0 0 14px;color:var(--text-2)}
+.qz-result-btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0}
+.qz-result-btns .btn{min-height:44px;display:inline-flex;align-items:center}

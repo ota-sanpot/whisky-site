@@ -332,7 +332,8 @@
   <div class="entries">${ENTRIES.map((e) => `<a class="entry" href="${e.href}"><span class="entry-t">${esc(e.title)}</span><span class="entry-d">${esc(e.desc)}</span></a>`).join('')}</div>
 </section>
 
-<section id="top-basics"><a class="b-entry" href="#/basics"><span class="b-entry-k">はじめての方へ</span><span class="b-entry-t">ウイスキーの基礎</span><span class="b-entry-d">シングルモルトとブレンデッドの違い、できるまで、ジャパニーズウイスキーの定義</span></a></section>
+<section id="top-basics"><a class="b-entry" href="#/basics"><span class="b-entry-k">はじめての方へ</span><span class="b-entry-t">ウイスキーの基礎</span><span class="b-entry-d">シングルモルトとブレンデッドの違い、できるまで、ジャパニーズウイスキーの定義</span></a>
+<a class="b-entry" href="#/quiz"><span class="b-entry-k">腕試し</span><span class="b-entry-t">${esc(DATA.quiz.title)}</span><span class="b-entry-d">基礎・つくり方・ジャパニーズから、掲載銘柄と全国の蒸溜所まで。1回10問、答えるとすぐに解説</span></a></section>
 
 <section id="staples"><div class="sec-head"><h2>まずはここから</h2><span class="count">編集部が選ぶ定番8本</span></div>
   <ul class="cards">${staples.map((w) => whiskyCard(w)).join('')}</ul>
@@ -964,6 +965,8 @@ ${officialLink}
     <p><a class="btn btn--ghost" href="#/standard">表示基準とこのサイトの区分を見る</a></p>
   </section>
 
+  <p><a class="btn" href="#/quiz/basic">読んだらクイズで確かめる</a></p>
+
   <section id="b-terms" aria-labelledby="b-terms-h">
     <h2 id="b-terms-h">ラベルでよく見る言葉</h2>
     <dl class="dl">${b.terms.map((t) => `<dt>${esc(t.k)}</dt><dd>${esc(t.v)}</dd>`).join('')}</dl>
@@ -983,6 +986,230 @@ ${officialLink}
         if (el && el.scrollIntoView) el.scrollIntoView({ block: 'start', behavior: 'smooth' });
       });
     });
+  }
+
+  // ===== 画面：ウイスキークイズ =====
+  const QZ = DATA.quiz;
+  const quizLevel = (key) => QZ.levels.find((l) => l.key === key);
+  const shuffle = (arr) => {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+  // 正解以外から重複なしで k 個
+  const pickOthers = (pool, correct, k) => shuffle([...new Set(pool)].filter((x) => x !== correct)).slice(0, k);
+  const srcOf = (...lists) => lists.flat().filter(Boolean).slice(0, 2).map((x) => ({ title: x.title, url: x.url }));
+  // 同じ地方の県を優先して、まぎらわしい選択肢にする
+  const prefOthers = (pref) => {
+    const near = pickOthers(regionOf(pref)?.prefs || [], pref, 3);
+    return near.concat(pickOthers(REGIONS.flatMap((x) => x.prefs), pref, 6).filter((x) => !near.includes(x))).slice(0, 3);
+  };
+  // 名前に答えが透けて見えるもの（例：ニッカ◯◯ の作り手）は出さない
+  const hints = (name, ans) => name.includes(ans) || ans.includes(name) || name.includes(ans.slice(0, 2));
+  // 県名（「県・府・都」を除いた部分）が名前に入っていたら、県の問題は出さない
+  const prefHint = (name, pref) => name.includes(pref.replace(/[都府県]$/, ''));
+
+  const QUIZ_TYPES = ['シングルモルト', 'ブレンデッド', 'シングルグレーン', 'ピュアモルト', 'シングルブレンデッド'];
+  const TYPE_NORM = { 'ブレンデッドモルト': 'ピュアモルト' };
+  // 銘柄：作り手・タイプ・原酒の産地・度数（すべて掲載データの事実から）
+  function brandQuestions() {
+    const ws = DATA.whiskies.filter((w) => !w.unverified);
+    const makers = ws.map((w) => w.maker);
+    const abvs = [...new Set(ws.map(abvNum).filter((x) => x !== null))];
+    const qs = [];
+    for (const w of ws) {
+      const base = { group: w.maker, link: `#/whisky/${w.id}` };
+      if (!hints(w.name, w.maker)) {
+        qs.push({ ...base, id: `brand-maker-${w.id}`, q: `「${w.name}」をつくっているのは？`, correct: w.maker, wrong: pickOthers(makers, w.maker, 3),
+          explain: `${w.name}は${w.maker}の${w.type}です。`, sources: srcOf(w.sources) });
+      }
+      const t = TYPE_NORM[w.type] || w.type;
+      if (QUIZ_TYPES.includes(t)) {
+        qs.push({ ...base, id: `brand-type-${w.id}`, q: `「${w.name}」のタイプは？`, correct: t, wrong: pickOthers(QUIZ_TYPES, t, 3),
+          explain: `${w.name}は${w.type}${t !== w.type ? `（${t}と同じ意味）` : ''}です。${w.maker}がつくっています。`, sources: srcOf(w.sources) });
+      }
+      const ids = [...new Set(w.components.map((c) => c.distillery))];
+      const d = ids.length === 1 && ids[0] && w.components.every((c) => c.country === '日本') ? D.get(ids[0]) : null;
+      if (d && d.pref && !prefHint(w.name, d.pref)) {
+        qs.push({ ...base, id: `brand-pref-${w.id}`, q: `「${w.name}」の原酒をつくっている蒸溜所があるのは？`, correct: d.pref, wrong: prefOthers(d.pref),
+          explain: `原酒は${d.pref}${d.city || ''}の${d.name}でつくられています。`, link: `#/distillery/${d.id}`, sources: srcOf(w.sources, d.sources) });
+      }
+      const v = abvNum(w);
+      if (v !== null) {
+        const near = abvs.filter((x) => x !== v).sort((x, y) => Math.abs(x - v) - Math.abs(y - v)).slice(0, 5);
+        qs.push({ ...base, id: `brand-abv-${w.id}`, q: `「${w.name}」のアルコール度数は？`, correct: `${v}%`, wrong: shuffle(near).slice(0, 3).map((x) => `${x}%`),
+          explain: `${w.name}は${v}%です（メーカーの公表値）。`, sources: srcOf(w.sources) });
+      }
+    }
+    return qs;
+  }
+
+  // 全国の蒸溜所：所在地の県と運営会社
+  function distilleryQuestions() {
+    const ds = DATA.distilleries.filter((d) => d.pref);
+    const makers = ds.map((d) => d.maker).filter(Boolean);
+    const qs = [];
+    for (const d of ds) {
+      const base = { group: regionOf(d.pref)?.key || d.pref, link: `#/distillery/${d.id}` };
+      if (!prefHint(d.name, d.pref)) qs.push({ ...base, id: `dist-pref-${d.id}`, q: `${d.name}があるのは？`, correct: d.pref, wrong: prefOthers(d.pref),
+        explain: `${d.name}は${d.pref}${d.city || ''}にあります${d.maker ? `（運営：${d.maker}）` : ''}。`, sources: srcOf(d.sources) });
+      const core = d.name.replace(/(蒸[溜留]所|蒸溜蔵|酒造|ウイスキー蒸溜所)$/, '').trim();
+      if (d.maker && !hints(d.name, d.maker) && !d.maker.includes(core)) {
+        qs.push({ ...base, id: `dist-maker-${d.id}`, q: `${d.name}を運営しているのは？`, correct: d.maker, wrong: pickOthers(makers, d.maker, 3),
+          explain: `${d.name}（${d.pref}）は${d.maker}が運営しています。`, sources: srcOf(d.sources) });
+      }
+    }
+    return qs;
+  }
+
+  // そのレベルの問題の元（固定問題、または自動でつくる問題）
+  function quizBank(lv) {
+    if (lv.auto === 'brands') return brandQuestions();
+    if (lv.auto === 'distilleries') return distilleryQuestions();
+    return QZ.questions.filter((q) => q.level === lv.key);
+  }
+  const quizCount = (lv) => Math.min(lv.count || 10, quizBank(lv).length);
+
+  // 作り手・地方ごとに順番に取り出し、同じ顔ぶれに偏らないようにする
+  function sampleQuiz(list, count) {
+    const groups = new Map();
+    for (const q of shuffle(list)) {
+      const g = q.group || q.id;
+      if (!groups.has(g)) groups.set(g, []);
+      groups.get(g).push(q);
+    }
+    let keys = shuffle([...groups.keys()]);
+    const out = [];
+    while (out.length < count && keys.length) {
+      for (const k of keys) {
+        const arr = groups.get(k);
+        if (arr.length && out.length < count) out.push(arr.shift());
+      }
+      keys = keys.filter((k) => groups.get(k).length);
+    }
+    return out;
+  }
+
+  // 出題する形にそろえる（選択肢は毎回並べ替える）
+  function playable(q) {
+    if (q.correct) {
+      if (!q.wrong || q.wrong.length < 3) return null;
+      const choices = shuffle([q.correct, ...q.wrong.slice(0, 3)]);
+      return { ...q, choices, answer: choices.indexOf(q.correct) };
+    }
+    const correct = q.choices[q.answer];
+    const choices = shuffle(q.choices);
+    return { ...q, choices, answer: choices.indexOf(correct) };
+  }
+
+  function quizSet(lv) {
+    const bank = quizBank(lv);
+    const n = lv.count || bank.length;
+    const picked = lv.count ? sampleQuiz(bank, n * 2) : bank;
+    return picked.map(playable).filter(Boolean).slice(0, n);
+  }
+
+  function viewQuizTop() {
+    const cards = QZ.levels.map((l, i) => {
+      const total = quizBank(l).length;
+      const n = quizCount(l);
+      const k = total > n ? `${total}問から毎回${n}問` : `${n}問`;
+      return `<li><a class="qz-level" href="#/quiz/${esc(l.key)}">
+  <span class="qz-level-k">STEP ${i + 1}・${k}</span>
+  <span class="qz-level-t">${esc(l.name)}</span>
+  <span class="qz-level-d">${esc(l.lead)}</span></a></li>`;
+    }).join('');
+    return {
+      title: `${QZ.title}｜${SITE}`,
+      html: `<section class="hero hero--sm"><h1>${esc(QZ.title)}</h1><p class="hero-lead">${esc(QZ.lead)}</p></section>
+<ul class="qz-levels">${cards}</ul>
+<p class="note">${esc(QZ.note)}</p>
+<p><a class="btn btn--ghost" href="#/basics">先に「ウイスキーの基礎」を読む</a></p>`,
+    };
+  }
+
+  function viewQuiz(key) {
+    const lv = quizLevel(key);
+    if (!lv) return viewNotFound();
+    const qs = quizSet(lv);
+    const random = quizBank(lv).length > qs.length;
+    const idx = QZ.levels.indexOf(lv);
+    const next = QZ.levels[idx + 1];
+    const items = qs.map((q, i) => `<li class="qz-q" data-answer="${q.answer}">
+  <p class="qz-no">第${i + 1}問</p>
+  <h2 class="qz-text">${esc(q.q)}</h2>
+  <div class="qz-choices">${q.choices.map((c, j) => `<button type="button" class="qz-choice" data-i="${j}">${esc(c)}</button>`).join('')}</div>
+  <div class="qz-explain" hidden>
+    <p class="qz-judge" aria-live="polite"></p>
+    <p>${esc(q.explain)}</p>
+    <p class="qz-more"><a href="${esc(q.link)}">関連ページを見る</a></p>
+    <p class="qz-src">出典：${q.sources.map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>`).join('、')}</p>
+  </div>
+</li>`).join('');
+    return {
+      title: `${QZ.title}（${lv.name}）｜${SITE}`,
+      html: `<nav class="crumb" aria-label="現在地"><a href="#/">トップ</a> / <a href="#/quiz">${esc(QZ.title)}</a> / ${esc(lv.name)}</nav>
+<section class="hero hero--sm"><h1>${esc(lv.name)}</h1><p class="hero-lead">${esc(lv.lead)}</p></section>
+<p id="qz-score" class="qz-score" aria-live="polite">0 / ${qs.length}問 答えました</p>
+<ol class="qz-list">${items}</ol>
+<section id="qz-result" class="qz-result" hidden>
+  <p class="qz-result-k">結果</p>
+  <p class="qz-result-n"><span id="qz-correct">0</span> / ${qs.length}問 正解</p>
+  <p id="qz-comment" class="qz-result-d"></p>
+  <p class="qz-result-btns">${next ? `<a class="btn" href="#/quiz/${esc(next.key)}">次は「${esc(next.name)}」へ</a>` : '<a class="btn" href="#/list">ウイスキーを探す</a>'}
+  <a class="btn btn--ghost" href="${esc(lv.page)}">関連ページで復習する</a>
+  <a id="qz-retry" class="btn btn--ghost" href="#/quiz/${esc(lv.key)}">${random ? '別の問題で挑戦する' : 'もう一度挑戦する'}</a></p>
+</section>
+<p><a class="btn btn--ghost" href="#/quiz">レベルを選び直す</a></p>`,
+    };
+  }
+
+  function quizComment(c, total) {
+    if (c === total) return '全問正解です。次の1杯を、蒸溜所の話と一緒にどうぞ。';
+    if (c >= total * 0.7) return 'かなり詳しいです。間違えた問題の解説だけ読めば完璧です。';
+    if (c >= total * 0.4) return 'いい線です。解説と関連ページで、もう一歩深めてみてください。';
+    return 'ここから覚えれば大丈夫です。解説を読んで、もう一度挑戦してみてください。';
+  }
+
+  function bindQuiz() {
+    const list = document.querySelector('.qz-list');
+    if (!list) return;
+    const total = list.children.length;
+    let answered = 0;
+    let correct = 0;
+    list.addEventListener('click', (e) => {
+      const btn = e.target.closest('.qz-choice');
+      if (!btn) return;
+      const li = btn.closest('.qz-q');
+      if (li.dataset.done) return;
+      li.dataset.done = '1';
+      const ans = Number(li.dataset.answer);
+      const ok = Number(btn.dataset.i) === ans;
+      answered++;
+      if (ok) correct++;
+      li.querySelectorAll('.qz-choice').forEach((b, j) => {
+        b.disabled = true;
+        if (j === ans) b.classList.add('qz-choice--ok');
+        else if (b === btn) b.classList.add('qz-choice--ng');
+      });
+      li.classList.add(ok ? 'qz-q--ok' : 'qz-q--ng');
+      li.querySelector('.qz-judge').textContent = ok ? '正解' : `不正解（正解は「${li.querySelectorAll('.qz-choice')[ans].textContent}」）`;
+      li.querySelector('.qz-explain').hidden = false;
+      document.getElementById('qz-score').textContent = `${answered} / ${total}問 答えました（正解 ${correct}問）`;
+      if (answered === total) {
+        document.getElementById('qz-correct').textContent = String(correct);
+        document.getElementById('qz-comment').textContent = quizComment(correct, total);
+        const res = document.getElementById('qz-result');
+        res.hidden = false;
+        if (res.scrollIntoView) res.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      }
+    });
+    // 同じURLへのリンクでは hashchange が起きないので、描き直して最初から
+    const retry = document.getElementById('qz-retry');
+    if (retry) retry.addEventListener('click', (e) => { e.preventDefault(); render(); window.scrollTo(0, 0); });
   }
 
   // ===== 画面：比較 =====
@@ -1193,6 +1420,8 @@ ${officialLink}
     }
     if (parts.length === 1 && parts[0] === 'standard') return { view: 'standard' };
     if (parts.length === 1 && parts[0] === 'basics') return { view: 'basics' };
+    if (parts.length === 1 && parts[0] === 'quiz') return { view: 'quiz' };
+    if (parts.length === 2 && parts[0] === 'quiz') return { view: 'quiz', level: decodeURIComponent(parts[1]) };
     if (parts.length === 1 && parts[0] === 'compare') {
       return { view: 'compare', a: params.get('a') || '', b: params.get('b') || '' };
     }
@@ -1211,6 +1440,7 @@ ${officialLink}
               : r.view === 'distilleries' ? viewDistilleries(r)
                 : r.view === 'standard' ? viewStandard()
                 : r.view === 'basics' ? viewBasics()
+                : r.view === 'quiz' ? (r.level ? viewQuiz(r.level) : viewQuizTop())
                   : r.view === 'compare' ? viewCompare(r)
                     : r.view === 'map' ? viewMap(r)
                       : r.view === 'today' ? viewToday(r)
@@ -1221,6 +1451,7 @@ ${officialLink}
     if (r.view === 'list') bindList();
     if (r.view === 'compare') bindCompare();
     if (r.view === 'basics') bindBasics();
+    if (r.view === 'quiz') bindQuiz();
     return r;
   }
 

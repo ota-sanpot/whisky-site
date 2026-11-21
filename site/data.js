@@ -15471,5 +15471,1570 @@ window.WDATA = {
       "addedAt": "2026-09-25"
     }
   ],
-  "directoryCheckedAt": "2026-10-19"
+  "directoryCheckedAt": "2026-10-19",
+  "quiz": {
+    "title": "ウイスキークイズ",
+    "lead": "基礎・つくり方・ジャパニーズから、掲載銘柄と全国の蒸溜所まで。1回10問、答えるとすぐに解説が出ます。",
+    "levels": [
+      {
+        "key": "basic",
+        "name": "基礎",
+        "lead": "ウイスキーの種類・できるまで・ラベルの言葉",
+        "page": "#/basics"
+      },
+      {
+        "key": "making",
+        "name": "つくり方の工程",
+        "lead": "製麦・糖化・発酵・蒸溜・熟成を、ひとつずつ深く",
+        "page": "#/basics",
+        "count": 10
+      },
+      {
+        "key": "jp1",
+        "name": "ジャパニーズ初級",
+        "lead": "代表的な蒸溜所と、ジャパニーズウイスキーの決まり",
+        "page": "#/distilleries"
+      },
+      {
+        "key": "jp2",
+        "name": "ジャパニーズ上級",
+        "lead": "表示基準と法律の細かい違い、個性派の蒸溜所",
+        "page": "#/standard"
+      },
+      {
+        "key": "brands",
+        "name": "銘柄クイズ",
+        "lead": "掲載している銘柄のつくり手・タイプ・産地・度数",
+        "page": "#/list",
+        "count": 10,
+        "auto": "brands"
+      },
+      {
+        "key": "map",
+        "name": "全国の蒸溜所",
+        "lead": "全国の蒸溜所が、どの県にあるか・どこが運営しているか",
+        "page": "#/distilleries",
+        "count": 10,
+        "auto": "distilleries"
+      },
+      {
+        "key": "world",
+        "name": "世界・歴史・飲み方",
+        "lead": "5大ウイスキー、日本のウイスキーの歴史、おいしい飲み方",
+        "page": "#/basics",
+        "count": 10
+      }
+    ],
+    "questions": [
+      {
+        "id": "basic-01",
+        "level": "basic",
+        "q": "ウイスキーの原酒は大きく2種類。大麦麦芽だけでつくる「モルト原酒」と、もうひとつは？",
+        "choices": [
+          "ライス原酒",
+          "グレーン原酒",
+          "ポット原酒",
+          "シェリー原酒"
+        ],
+        "answer": 1,
+        "explain": "とうもろこしなどの穀類（グレーン）を主な原料にするのがグレーン原酒です。この2つをどう使うかで、シングルモルトやブレンデッドといった呼び名が変わります。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー お客様センター「『グレーン』とはなんですか？」",
+            "url": "https://www.suntory.co.jp/customer/faq/001722.html"
+          }
+        ]
+      },
+      {
+        "id": "basic-02",
+        "level": "basic",
+        "q": "「シングルモルト」の「シングル」は、何が1つという意味？",
+        "choices": [
+          "樽",
+          "原料の産地",
+          "蒸溜の回数",
+          "蒸溜所"
+        ],
+        "answer": 3,
+        "explain": "1つの蒸溜所でつくったモルト原酒だけでつくるのがシングルモルトです。「1つの樽」という意味になるのはシングルカスクだけです。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー お客様センター「『グレーン』とはなんですか？」",
+            "url": "https://www.suntory.co.jp/customer/faq/001722.html"
+          },
+          {
+            "title": "アサヒビール お客様相談室「製法の違いによる、ウイスキーの種類を教えてください。」",
+            "url": "https://www.asahibeer.co.jp/customer/post-61.html"
+          }
+        ]
+      },
+      {
+        "id": "basic-03",
+        "level": "basic",
+        "q": "モルト原酒とグレーン原酒を合わせたウイスキーを何と呼ぶ？",
+        "choices": [
+          "ブレンデッド",
+          "ピュアモルト",
+          "シングルカスク",
+          "シングルグレーン"
+        ],
+        "answer": 0,
+        "explain": "ブレンデッドはいちばん一般的なタイプです。個性の強いモルトと穏やかなグレーンを組み合わせて、バランスのよい味に仕上げます。",
+        "link": "#/list?type=blended",
+        "sources": [
+          {
+            "title": "アサヒビール お客様相談室「製法の違いによる、ウイスキーの種類を教えてください。」",
+            "url": "https://www.asahibeer.co.jp/customer/post-61.html"
+          }
+        ]
+      },
+      {
+        "id": "basic-04",
+        "level": "basic",
+        "q": "1つの樽の原酒だけを、ほかの樽と混ぜずに瓶に詰めたものは？",
+        "choices": [
+          "シングルモルト",
+          "ヴァッテッドモルト",
+          "シングルカスク",
+          "ニューポット"
+        ],
+        "answer": 2,
+        "explain": "同じ銘柄でも、樽ごとに味が違うのがシングルカスクの面白さです。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "アサヒビール お客様相談室「製法の違いによる、ウイスキーの種類を教えてください。」",
+            "url": "https://www.asahibeer.co.jp/customer/post-61.html"
+          }
+        ]
+      },
+      {
+        "id": "basic-05",
+        "level": "basic",
+        "q": "モルト原酒100％で、主に2つ以上の蒸溜所のモルトを合わせたものは？",
+        "choices": [
+          "シングルグレーン",
+          "ブレンデッド",
+          "ピュアモルト",
+          "シングルブレンデッド"
+        ],
+        "answer": 2,
+        "explain": "ピュアモルトはモルト原酒100％のウイスキー。スコットランドでは「ブレンデッドモルト」と呼ばれます。",
+        "link": "#/list?type=malt",
+        "sources": [
+          {
+            "title": "サントリー お客様センター「『ピュアモルトウイスキー』とはどんなウイスキーですか？」",
+            "url": "https://www.suntory.co.jp/customer/faq/001732.html"
+          }
+        ]
+      },
+      {
+        "id": "basic-06",
+        "level": "basic",
+        "q": "麦芽を乾かすときに焚くと、スモーキーな香りがつくものは？",
+        "choices": [
+          "ピート（泥炭）",
+          "石炭",
+          "桜のチップ",
+          "竹炭"
+        ],
+        "answer": 0,
+        "explain": "ピートは泥炭のこと。乾燥のときに焚く量で、スモーキーさの強さが変わります。",
+        "link": "#/list?taste=smoky",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーのできるまで」",
+            "url": "https://www.suntory.co.jp/whisky/beginner/making/"
+          },
+          {
+            "title": "サントリー「ウイスキーの用語集（は行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ha.html"
+          }
+        ]
+      },
+      {
+        "id": "basic-07",
+        "level": "basic",
+        "q": "蒸溜したばかりの、無色の原酒を何と呼ぶ？",
+        "choices": [
+          "もろみ",
+          "ヴァッティング",
+          "ホワイトオーク",
+          "ニューポット"
+        ],
+        "answer": 3,
+        "explain": "ニューポットはアルコール分65〜70％の無色の原酒。木の樽で寝かせるうちに、琥珀色と深い味わいが生まれます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーのできるまで」",
+            "url": "https://www.suntory.co.jp/whisky/beginner/making/"
+          }
+        ]
+      },
+      {
+        "id": "basic-08",
+        "level": "basic",
+        "q": "モルト原酒の蒸溜に使う、銅製の単式蒸溜器は？",
+        "choices": [
+          "カフェスチル",
+          "ポットスチル",
+          "コラムスチル",
+          "ランビキ"
+        ],
+        "answer": 1,
+        "explain": "もろみをポットスチルで2回蒸溜するのが、モルト原酒の基本のつくり方です。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーのできるまで」",
+            "url": "https://www.suntory.co.jp/whisky/beginner/making/"
+          }
+        ]
+      },
+      {
+        "id": "basic-09",
+        "level": "basic",
+        "q": "ラベルの「12年」は、何の年数を表している？",
+        "choices": [
+          "使った原酒のうち、いちばん若いものの熟成年数",
+          "使った原酒の平均の熟成年数",
+          "いちばん古い原酒の熟成年数",
+          "瓶に詰めてからの年数"
+        ],
+        "answer": 0,
+        "explain": "年数表記は、いちばん若い原酒の熟成年数です。実際の平均はそれより長くなります。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーのできるまで」",
+            "url": "https://www.suntory.co.jp/whisky/beginner/making/"
+          }
+        ]
+      },
+      {
+        "id": "basic-10",
+        "level": "basic",
+        "q": "麦汁に酵母を加えて約60時間。できあがる「もろみ」のアルコール分はおよそ？",
+        "choices": [
+          "約20％",
+          "約40％",
+          "約7％",
+          "約70％"
+        ],
+        "answer": 2,
+        "explain": "発酵でできるもろみは約7％。これを蒸溜して65〜70％のニューポットにします。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーのできるまで」",
+            "url": "https://www.suntory.co.jp/whisky/beginner/making/"
+          }
+        ]
+      },
+      {
+        "id": "jp1-01",
+        "level": "jp1",
+        "q": "日本で最初のモルトウイスキー蒸溜所は？",
+        "choices": [
+          "余市蒸溜所",
+          "山崎蒸溜所",
+          "白州蒸溜所",
+          "秩父蒸溜所"
+        ],
+        "answer": 1,
+        "explain": "山崎蒸溜所は1923年に建設を始め、1924年に完成しました。サントリーの創業者・鳥井信治郎が選んだ土地です。",
+        "link": "#/distillery/yamazaki",
+        "sources": [
+          {
+            "title": "サントリー公式ブログ「【100周年企画】ジャパニーズウイスキーの始まりの場所～山崎蒸溜所～」",
+            "url": "https://www.suntory.co.jp/factory/blog-d/000196.html"
+          }
+        ]
+      },
+      {
+        "id": "jp1-02",
+        "level": "jp1",
+        "q": "山崎蒸溜所がある都道府県は？",
+        "choices": [
+          "京都府",
+          "奈良県",
+          "兵庫県",
+          "大阪府"
+        ],
+        "answer": 3,
+        "explain": "所在地は大阪府三島郡島本町。北に天王山、南に3つの川の合流点があり、霧が出やすい土地です。",
+        "link": "#/distillery/yamazaki",
+        "sources": [
+          {
+            "title": "サントリー 山崎蒸溜所「アクセス」",
+            "url": "https://www.suntory.co.jp/factory/yamazaki/access/"
+          },
+          {
+            "title": "サントリー公式ブログ「【100周年企画】ジャパニーズウイスキーの始まりの場所～山崎蒸溜所～」",
+            "url": "https://www.suntory.co.jp/factory/blog-d/000196.html"
+          }
+        ]
+      },
+      {
+        "id": "jp1-03",
+        "level": "jp1",
+        "q": "南アルプスの麓にあり「森の蒸溜所」と呼ばれるのは？",
+        "choices": [
+          "宮城峡蒸溜所",
+          "マルス駒ヶ岳蒸溜所",
+          "富士御殿場蒸溜所",
+          "白州蒸溜所"
+        ],
+        "answer": 3,
+        "explain": "白州蒸溜所は1973年竣工。南アルプスの天然水で仕込んでいます。",
+        "link": "#/distillery/hakushu",
+        "sources": [
+          {
+            "title": "サントリー白州蒸溜所 工場見学",
+            "url": "https://www.suntory.co.jp/factory/hakushu/"
+          },
+          {
+            "title": "サントリー白州蒸溜所「ものづくりのこだわり」",
+            "url": "https://www.suntory.co.jp/factory/hakushu/about/"
+          }
+        ]
+      },
+      {
+        "id": "jp1-04",
+        "level": "jp1",
+        "q": "ニッカウヰスキー最初の蒸溜所、余市蒸溜所がある都道府県は？",
+        "choices": [
+          "宮城県",
+          "北海道",
+          "青森県",
+          "山形県"
+        ],
+        "answer": 1,
+        "explain": "積丹半島の付け根、北に日本海を望み三方を山に囲まれた冷涼な土地です。",
+        "link": "#/distillery/yoichi",
+        "sources": [
+          {
+            "title": "ニッカウヰスキー「北海道 余市蒸溜所」",
+            "url": "https://www.nikka.com/distilleries/yoichi/"
+          }
+        ]
+      },
+      {
+        "id": "jp1-05",
+        "level": "jp1",
+        "q": "スコットランドのような環境を求めて、余市を選んだ人物は？",
+        "choices": [
+          "鳥井信治郎",
+          "肥土伊知郎",
+          "竹鶴政孝",
+          "岩井喜一郎"
+        ],
+        "answer": 2,
+        "explain": "竹鶴政孝です。のちに「余市と異なる原酒をブレンドしたい」と宮城峡もつくりました。",
+        "link": "#/distillery/yoichi",
+        "sources": [
+          {
+            "title": "ニッカウヰスキー「北海道 余市蒸溜所」",
+            "url": "https://www.nikka.com/distilleries/yoichi/"
+          },
+          {
+            "title": "ニッカウヰスキー「仙台 宮城峡蒸溜所」",
+            "url": "https://www.nikka.com/distilleries/miyagikyo/"
+          }
+        ]
+      },
+      {
+        "id": "jp1-06",
+        "level": "jp1",
+        "q": "余市蒸溜所の蒸溜の特徴は？",
+        "choices": [
+          "石炭の直火でポットスチルを熱する",
+          "蒸気でポットスチルを熱する",
+          "薪の直火で熱する",
+          "電気で熱する"
+        ],
+        "answer": 0,
+        "explain": "石炭直火蒸溜で、原酒に独特の香ばしさが生まれます。宮城峡は蒸気で熱するスチーム間接蒸溜です。",
+        "link": "#/distillery/yoichi",
+        "sources": [
+          {
+            "title": "ニッカウヰスキー「蒸溜所紹介｜シングルモルト 余市・宮城峡」",
+            "url": "https://www.nikka.com/products/malt/yoichi_miyagikyo/sp/distilleries/index.html"
+          }
+        ]
+      },
+      {
+        "id": "jp1-07",
+        "level": "jp1",
+        "q": "ニッカ第二の蒸溜所、宮城峡蒸溜所がある県は？",
+        "choices": [
+          "岩手県",
+          "宮城県",
+          "福島県",
+          "秋田県"
+        ],
+        "answer": 1,
+        "explain": "仙台の西、ふたつの清流に恵まれた峡谷にあります。1969年の設立です。",
+        "link": "#/distillery/miyagikyo",
+        "sources": [
+          {
+            "title": "ニッカウヰスキー「仙台 宮城峡蒸溜所」",
+            "url": "https://www.nikka.com/distilleries/miyagikyo/"
+          }
+        ]
+      },
+      {
+        "id": "jp1-08",
+        "level": "jp1",
+        "q": "サントリー知多蒸溜所が主につくっている原酒は？",
+        "choices": [
+          "グレーン原酒",
+          "ピートの強いモルト原酒",
+          "米を使った原酒",
+          "ライ麦100％の原酒"
+        ],
+        "answer": 0,
+        "explain": "とうもろこしを主原料に、連続式蒸溜機でクリーン・ミディアム・ヘビーの3タイプのグレーン原酒をつくり分けています。響・角瓶にも欠かせない原酒です。",
+        "link": "#/distillery/chita",
+        "sources": [
+          {
+            "title": "サントリー「サントリーウイスキー『知多』とは？」",
+            "url": "https://www.suntory.co.jp/whisky/chita/about/"
+          }
+        ]
+      },
+      {
+        "id": "jp1-09",
+        "level": "jp1",
+        "q": "「ジャパニーズウイスキー」と名乗るための基準をつくった団体は？",
+        "choices": [
+          "国税庁",
+          "日本酒造組合中央会",
+          "農林水産省",
+          "日本洋酒酒造組合"
+        ],
+        "answer": 3,
+        "explain": "2021年2月に日本洋酒酒造組合が定めた自主基準です。法律ではなく、業界のルールです。",
+        "link": "#/standard",
+        "sources": [
+          {
+            "title": "日本洋酒酒造組合「ウイスキーにおけるジャパニーズウイスキーの表示に関する基準」",
+            "url": "https://www.yoshu.or.jp/pages/151/"
+          },
+          {
+            "title": "アサヒビール「『ウイスキーにおけるジャパニーズウイスキーの表示に関する基準』について」",
+            "url": "https://www.asahibeer.co.jp/whisky_brandy/info/"
+          }
+        ]
+      },
+      {
+        "id": "jp1-10",
+        "level": "jp1",
+        "q": "表示基準で、ジャパニーズウイスキーに必要な日本国内での熟成年数は？",
+        "choices": [
+          "1年以上",
+          "5年以上",
+          "3年以上",
+          "10年以上"
+        ],
+        "answer": 2,
+        "explain": "700リットル以下の木樽に詰め、日本国内で3年以上の熟成が必要です。",
+        "link": "#/standard",
+        "sources": [
+          {
+            "title": "アサヒビール「『ウイスキーにおけるジャパニーズウイスキーの表示に関する基準』について」",
+            "url": "https://www.asahibeer.co.jp/whisky_brandy/info/"
+          }
+        ]
+      },
+      {
+        "id": "jp2-01",
+        "level": "jp2",
+        "q": "表示基準で、熟成に使う木樽の大きさの決まりは？",
+        "choices": [
+          "200リットル以下",
+          "500リットル以下",
+          "700リットル以下",
+          "1,000リットル以下"
+        ],
+        "answer": 2,
+        "explain": "700リットル以下の木樽に詰めて、日本国内で3年以上寝かせることが条件です。",
+        "link": "#/standard",
+        "sources": [
+          {
+            "title": "アサヒビール「『ウイスキーにおけるジャパニーズウイスキーの表示に関する基準』について」",
+            "url": "https://www.asahibeer.co.jp/whisky_brandy/info/"
+          }
+        ]
+      },
+      {
+        "id": "jp2-02",
+        "level": "jp2",
+        "q": "表示基準で、瓶に詰めるときのアルコール分の決まりは？",
+        "choices": [
+          "37度以上",
+          "43度以上",
+          "46度以上",
+          "40度以上"
+        ],
+        "answer": 3,
+        "explain": "日本国内で瓶詰めし、アルコール分は40度以上と決められています。",
+        "link": "#/standard",
+        "sources": [
+          {
+            "title": "アサヒビール「『ウイスキーにおけるジャパニーズウイスキーの表示に関する基準』について」",
+            "url": "https://www.asahibeer.co.jp/whisky_brandy/info/"
+          }
+        ]
+      },
+      {
+        "id": "jp2-03",
+        "level": "jp2",
+        "q": "表示基準が本格的に施行されたのはいつ？",
+        "choices": [
+          "2024年4月1日",
+          "2019年4月1日",
+          "2022年10月1日",
+          "2025年4月1日"
+        ],
+        "answer": 0,
+        "explain": "2021年に定められ、移行期間を経て2024年4月1日から本格的に施行されています。",
+        "link": "#/standard",
+        "sources": [
+          {
+            "title": "アサヒビール「『ウイスキーにおけるジャパニーズウイスキーの表示に関する基準』について」",
+            "url": "https://www.asahibeer.co.jp/whisky_brandy/info/"
+          }
+        ]
+      },
+      {
+        "id": "jp2-04",
+        "level": "jp2",
+        "q": "表示基準で「原料は麦芽・穀類・水だけ」の例外として、使ってよいものは？",
+        "choices": [
+          "香りづけのスピリッツ",
+          "色を整えるカラメル",
+          "輸入のモルト原酒",
+          "甘味料"
+        ],
+        "answer": 1,
+        "explain": "色の微調整のためのカラメルだけは使ってよいことになっています。",
+        "link": "#/standard",
+        "sources": [
+          {
+            "title": "アサヒビール「『ウイスキーにおけるジャパニーズウイスキーの表示に関する基準』について」",
+            "url": "https://www.asahibeer.co.jp/whisky_brandy/info/"
+          }
+        ]
+      },
+      {
+        "id": "jp2-05",
+        "level": "jp2",
+        "q": "酒税法では、原酒のアルコール分が全体の何％以上なら、スピリッツなどを加えても「ウイスキー」になる？",
+        "choices": [
+          "10％",
+          "30％",
+          "50％",
+          "90％"
+        ],
+        "answer": 0,
+        "explain": "法律の決まりはゆるく、原酒が10％以上ならスピリッツなどを加えてもウイスキーとして売れます。表示基準ができた理由のひとつです。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "e-Gov 法令検索「酒税法」第3条第15号",
+            "url": "https://laws.e-gov.go.jp/law/328AC0000000006"
+          }
+        ]
+      },
+      {
+        "id": "jp2-06",
+        "level": "jp2",
+        "q": "1つの蒸溜所のモルトとグレーンだけを合わせた「シングルブレンデッド」。キリンが造る蒸溜所は？",
+        "choices": [
+          "知多蒸溜所",
+          "富士御殿場蒸溜所",
+          "宮城峡蒸溜所",
+          "長濱蒸溜所"
+        ],
+        "answer": 1,
+        "explain": "富士御殿場蒸溜所はモルト原酒とグレーン原酒の両方をつくれるので、ひとつの蒸溜所だけでブレンドできます。",
+        "link": "#/distillery/fuji-gotemba",
+        "sources": [
+          {
+            "title": "キリン公式通販 DRINX「キリン シングルブレンデッドジャパニーズウイスキー 富士（700ml）」",
+            "url": "https://onlineshop.kirin.co.jp/view/item/000000000007"
+          }
+        ]
+      },
+      {
+        "id": "jp2-07",
+        "level": "jp2",
+        "q": "宮城峡蒸溜所にある、連続式の蒸溜機は？",
+        "choices": [
+          "ロッホローモンドスチル",
+          "ハイブリッドスチル",
+          "カフェスチル",
+          "ランビキ"
+        ],
+        "answer": 2,
+        "explain": "連続式のカフェスチルで、カフェモルトとカフェグレーンもつくっています。",
+        "link": "#/distillery/miyagikyo",
+        "sources": [
+          {
+            "title": "ニッカウヰスキー「仙台 宮城峡蒸溜所」",
+            "url": "https://www.nikka.com/distilleries/miyagikyo/"
+          }
+        ]
+      },
+      {
+        "id": "jp2-08",
+        "level": "jp2",
+        "q": "北海道・厚岸蒸溜所は、どんなウイスキーを目指して建てられた？",
+        "choices": [
+          "バーボンのようなウイスキー",
+          "アイリッシュのようなウイスキー",
+          "カナディアンのようなウイスキー",
+          "アイラモルトのようなウイスキー"
+        ],
+        "answer": 3,
+        "explain": "アイラモルトのようなウイスキーを造りたいという想いから、海霧が多く冷涼で湿潤な北海道・厚岸町に建てられました。",
+        "link": "#/distillery/akkeshi",
+        "sources": [
+          {
+            "title": "厚岸蒸溜所「蒸溜所設備と熟成環境」",
+            "url": "https://akkeshi-distillery.com/company/overview/"
+          }
+        ]
+      },
+      {
+        "id": "jp2-09",
+        "level": "jp2",
+        "q": "静岡蒸溜所の「蒸留機K」は、もともとどこにあった？",
+        "choices": [
+          "スコットランドのアイラ島の蒸溜所",
+          "山崎蒸溜所の初代蒸溜所",
+          "沖縄の泡盛の蔵",
+          "2011年に閉鎖された軽井沢の蒸留所"
+        ],
+        "answer": 3,
+        "explain": "ライトでフルーティな酒質を生む蒸留機です。もう1基の「蒸留機W」は薪の直火で蒸留します。",
+        "link": "#/distillery/shizuoka",
+        "sources": [
+          {
+            "title": "静岡蒸溜所「蒸溜所とウイスキー造り」",
+            "url": "https://shizuoka-distillery.jp/distillery/"
+          }
+        ]
+      },
+      {
+        "id": "jp2-10",
+        "level": "jp2",
+        "q": "富山の三郎丸蒸留所が使う、世界初の鋳物製の蒸留機の名前は？",
+        "choices": [
+          "KANOSUKE",
+          "MARS",
+          "ZEMON",
+          "AMAHAGAN"
+        ],
+        "answer": 2,
+        "explain": "鋳物でつくった蒸留機は世界で初めてです。三郎丸蒸留所の見学案内で紹介されています。",
+        "link": "#/distillery/saburomaru",
+        "sources": [
+          {
+            "title": "三郎丸蒸留所「見学・アクセス」",
+            "url": "https://www.wakatsuru.co.jp/saburomaru/factory/"
+          }
+        ]
+      },
+      {
+        "id": "making-01",
+        "level": "making",
+        "q": "モルトウイスキーの原料に使われる大麦の種類は？",
+        "choices": [
+          "六条大麦",
+          "もち麦",
+          "二条大麦",
+          "ライ麦"
+        ],
+        "answer": 2,
+        "explain": "モルトウイスキーづくりに適した性質をもつ二条大麦が使われます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーのできるまで」",
+            "url": "https://www.suntory.co.jp/whisky/beginner/making/"
+          }
+        ]
+      },
+      {
+        "id": "making-02",
+        "level": "making",
+        "q": "大麦をいったん発芽させてから麦芽にするのはなぜ？",
+        "choices": [
+          "糖化の役目をする酵素を、麦の中につくらせるため",
+          "スモーキーな香りをつけるため",
+          "色を濃くするため",
+          "アルコール度数を上げるため"
+        ],
+        "answer": 0,
+        "explain": "酵母は大麦のでんぷんをそのままアルコールに変えられません。そこで発芽させて、でんぷんを糖に変える酵素を麦自身につくらせます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーのできるまで」",
+            "url": "https://www.suntory.co.jp/whisky/beginner/making/"
+          }
+        ]
+      },
+      {
+        "id": "making-03",
+        "level": "making",
+        "q": "発芽した大麦を熱風で乾かす設備を何と呼ぶ？",
+        "choices": [
+          "ウォッシュバック",
+          "エージング・セラー",
+          "ポットスチル",
+          "キルン（乾燥塔）"
+        ],
+        "answer": 3,
+        "explain": "キルンは麦芽を熱風で乾燥させる設備です。ここでピートを焚くと、スモーキーな香りがつきます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（か行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ka.html"
+          }
+        ]
+      },
+      {
+        "id": "making-04",
+        "level": "making",
+        "q": "白州蒸溜所にあるウイスキー博物館は、何を復元した建物？",
+        "choices": [
+          "明治時代の酒蔵",
+          "大正時代に山崎蒸溜所に建てられたキルン",
+          "スコットランドの蒸溜所の倉庫",
+          "初代のポットスチル小屋"
+        ],
+        "answer": 1,
+        "explain": "蒸溜所にそびえるキルンの姿は、ウイスキーづくりのシンボルとされています。",
+        "link": "#/distillery/hakushu",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（か行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ka.html"
+          }
+        ]
+      },
+      {
+        "id": "making-05",
+        "level": "making",
+        "q": "仕込み（糖化）で、砕いた麦芽にお湯を加えておよそ何度にする？",
+        "choices": [
+          "約35度",
+          "約65度",
+          "約85度",
+          "約100度"
+        ],
+        "answer": 1,
+        "explain": "約65度で麦芽の中の糖化酵素が働き、でんぷんが糖に変わります。これをこしたものが麦汁です。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（た行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ta.html"
+          }
+        ]
+      },
+      {
+        "id": "making-06",
+        "level": "making",
+        "q": "グレーンウイスキーの糖化で、蒸し煮した穀物に加えるものは？",
+        "choices": [
+          "酵母",
+          "カラメル",
+          "乳酸菌",
+          "大麦麦芽"
+        ],
+        "answer": 3,
+        "explain": "とうもろこしなどを蒸し煮して大麦麦芽を加え、モルトと同じように糖に変えます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（た行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ta.html"
+          },
+          {
+            "title": "サントリー「ウイスキーの用語集（か行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ka.html"
+          }
+        ]
+      },
+      {
+        "id": "making-07",
+        "level": "making",
+        "q": "発酵で、酵母は麦汁の糖を何に変える？",
+        "choices": [
+          "アルコールと炭酸ガス",
+          "でんぷんと水",
+          "酢酸と水",
+          "アルコールと酸素"
+        ],
+        "answer": 0,
+        "explain": "酵母が糖を分解してアルコールと炭酸ガスに変え、ウイスキー特有の香りのもとも生まれます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーのできるまで」",
+            "url": "https://www.suntory.co.jp/whisky/beginner/making/"
+          }
+        ]
+      },
+      {
+        "id": "making-08",
+        "level": "making",
+        "q": "発酵槽の2種類は、ステンレスと何？",
+        "choices": [
+          "銅",
+          "陶器",
+          "木桶",
+          "コンクリート"
+        ],
+        "answer": 2,
+        "explain": "木桶では、乳酸菌などの微生物が発酵を複雑にし、もろみに多様な成分が生まれます。保温性が高いのも特徴です。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（か行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ka.html"
+          }
+        ]
+      },
+      {
+        "id": "making-09",
+        "level": "making",
+        "q": "発酵が終わった液（もろみ）を、英語で何と呼ぶ？",
+        "choices": [
+          "マッシュ",
+          "フェインツ",
+          "カスク",
+          "ウオッシュ"
+        ],
+        "answer": 3,
+        "explain": "発酵した液はウオッシュ。ちなみにマッシュは、麦芽にお湯を加えたお粥状のものです。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（は行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ha.html"
+          },
+          {
+            "title": "サントリー「ウイスキーの用語集（た行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ta.html"
+          }
+        ]
+      },
+      {
+        "id": "making-10",
+        "level": "making",
+        "q": "蒸溜は、水とアルコールの何の違いを利用している？",
+        "choices": [
+          "色",
+          "重さ",
+          "沸点（沸騰する温度）",
+          "凍る温度"
+        ],
+        "answer": 2,
+        "explain": "アルコールは約78度、水は100度で沸騰します。この差を使い、先に出てくるアルコールの蒸気を冷やして集めます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーのできるまで」",
+            "url": "https://www.suntory.co.jp/whisky/beginner/making/"
+          },
+          {
+            "title": "サントリー「ウイスキーの用語集（さ行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/sa.html"
+          }
+        ]
+      },
+      {
+        "id": "making-11",
+        "level": "making",
+        "q": "ポットスチルでの2回の蒸溜。1回目と2回目の呼び名は？",
+        "choices": [
+          "初溜と再溜",
+          "前溜と後溜",
+          "一番搾りと二番搾り",
+          "粗溜と精溜"
+        ],
+        "answer": 0,
+        "explain": "1回目を初溜、2回目を再溜と呼び、アルコール分65〜70％のニューポットにします。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーのできるまで」",
+            "url": "https://www.suntory.co.jp/whisky/beginner/making/"
+          }
+        ]
+      },
+      {
+        "id": "making-12",
+        "level": "making",
+        "q": "蒸溜で最初に出てくる、不快な香りを含むので熟成に使わない部分は？",
+        "choices": [
+          "ハート（中溜）",
+          "ヘッド（前溜）",
+          "テイル（後溜）",
+          "ニューポット"
+        ],
+        "answer": 1,
+        "explain": "ヘッドはフォアショットとも呼ばれ、ハートを受ける前に分けて取り除きます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（さ行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/sa.html"
+          }
+        ]
+      },
+      {
+        "id": "making-13",
+        "level": "making",
+        "q": "樽で熟成させるのは、蒸溜液のどの部分？",
+        "choices": [
+          "ハート（中溜）",
+          "ヘッド（前溜）",
+          "テイル（後溜）",
+          "全部をまとめて"
+        ],
+        "answer": 0,
+        "explain": "最初のヘッドと最後のテイルを除いた中溜部分がハートで、ミドルカットとも呼ばれます。どこで切り分けるかは蒸溜技術者の腕しだいです。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（は行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ha.html"
+          }
+        ]
+      },
+      {
+        "id": "making-14",
+        "level": "making",
+        "q": "蒸溜の最後に出てくる、アルコール度数が低く熟成に向かない部分は？",
+        "choices": [
+          "ヘッド（前溜）",
+          "テイル（後溜）",
+          "ハート（中溜）",
+          "ウオッシュ"
+        ],
+        "answer": 1,
+        "explain": "テイルはフェインツとも呼ばれ、ハートから分けて取り除かれます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（か行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ka.html"
+          }
+        ]
+      },
+      {
+        "id": "making-15",
+        "level": "making",
+        "q": "直火蒸溜では、ポットスチルにおよそ何度の炎を直接あてる？",
+        "choices": [
+          "約100度",
+          "約300度",
+          "約3000度",
+          "約1000度"
+        ],
+        "answer": 3,
+        "explain": "もろみの一部が高熱でトーストされ、香ばしく力強い味わいのモルトが生まれます。",
+        "link": "#/distillery/yoichi",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（さ行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/sa.html"
+          }
+        ]
+      },
+      {
+        "id": "making-16",
+        "level": "making",
+        "q": "ヘッドの膨らみで重い香りの成分が釜に戻り、軽く華やかなモルトになるポットスチルの形は？",
+        "choices": [
+          "ストレート・ヘッド型",
+          "バルジ型",
+          "ランターン・ヘッド型",
+          "カフェ型"
+        ],
+        "answer": 2,
+        "explain": "サントリーの単式蒸溜機は、ストレート・ヘッド型、ランターン・ヘッド型、バルジ型の3つに大別されます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（た行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ta.html"
+          }
+        ]
+      },
+      {
+        "id": "making-17",
+        "level": "making",
+        "q": "連続式蒸溜機でつくるグレーン原酒のアルコール度数は、およそ何度？",
+        "choices": [
+          "70度前後",
+          "50度前後",
+          "93度前後",
+          "99度以上"
+        ],
+        "answer": 2,
+        "explain": "モルト原酒は単式蒸溜機2回で70度前後、グレーン原酒は連続式蒸溜機で93度前後です。",
+        "link": "#/distillery/chita",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（さ行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/sa.html"
+          }
+        ]
+      },
+      {
+        "id": "making-18",
+        "level": "making",
+        "q": "グレーンの蒸溜で、出てくる液が95度以上になると何に区分される？",
+        "choices": [
+          "グレーン・スピリッツ",
+          "シングルグレーン",
+          "ニューポット",
+          "カスクストレングス"
+        ],
+        "answer": 0,
+        "explain": "95度以上になると原料のクセが消え、ウイスキーとしての個性が失われるためです。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（か行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ka.html"
+          }
+        ]
+      },
+      {
+        "id": "making-19",
+        "level": "making",
+        "q": "個性が穏やかなグレーンウイスキーは、何と呼ばれることがある？",
+        "choices": [
+          "ラウド・スピリッツ",
+          "ハード・スピリッツ",
+          "ニュートラル・モルト",
+          "サイレント・スピリッツ"
+        ],
+        "answer": 3,
+        "explain": "個性の強いモルトはラウド（声高な）・スピリッツ、穏やかなグレーンはサイレント・スピリッツと呼ばれます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（か行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ka.html"
+          }
+        ]
+      },
+      {
+        "id": "making-20",
+        "level": "making",
+        "q": "ホッグスヘッド樽の容量は、およそ何リットル？",
+        "choices": [
+          "約180リットル",
+          "約230リットル",
+          "約480リットル",
+          "約700リットル"
+        ],
+        "answer": 1,
+        "explain": "バーレルは約180L、ホッグスヘッドは約230L、パンチョンやシェリー樽は約480Lです。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーのできるまで」",
+            "url": "https://www.suntory.co.jp/whisky/beginner/making/"
+          },
+          {
+            "title": "サントリー「ウイスキーの用語集（た行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ta.html"
+          }
+        ]
+      },
+      {
+        "id": "making-21",
+        "level": "making",
+        "q": "バーレル樽の容量は、およそ何リットル？",
+        "choices": [
+          "約230リットル",
+          "約180リットル",
+          "約480リットル",
+          "約50リットル"
+        ],
+        "answer": 1,
+        "explain": "バーレルは約180L。樽の大きさは香味・色・熟成の速さに影響します。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーのできるまで」",
+            "url": "https://www.suntory.co.jp/whisky/beginner/making/"
+          },
+          {
+            "title": "サントリー「ウイスキーの用語集（た行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ta.html"
+          }
+        ]
+      },
+      {
+        "id": "making-22",
+        "level": "making",
+        "q": "樽の大きさと熟成の速さの関係は？",
+        "choices": [
+          "大きい樽ほど熟成が早い",
+          "大きさは関係ない",
+          "中くらいの樽がいちばん遅い",
+          "小さい樽ほど熟成が早い"
+        ],
+        "answer": 3,
+        "explain": "樽の大きさは香味・色・熟成の速さに影響し、小さい樽ほど熟成は早く進みます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（た行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ta.html"
+          }
+        ]
+      },
+      {
+        "id": "making-23",
+        "level": "making",
+        "q": "サントリーが樽に使うホワイトオークは、主にどこの産？",
+        "choices": [
+          "北米",
+          "日本",
+          "スペイン",
+          "オーストラリア"
+        ],
+        "answer": 0,
+        "explain": "北米産のホワイトオークの、ねじれやそりのない柾目の材だけを輸入し、白州や近江の製樽工場で職人が組み立てています。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（た行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ta.html"
+          }
+        ]
+      },
+      {
+        "id": "making-24",
+        "level": "making",
+        "q": "無色のニューポットが、樽の中で琥珀色になるのはなぜ？",
+        "choices": [
+          "カラメルを毎年足すから",
+          "空気中のほこりが入るから",
+          "樽材のタンニンやリグニンなどが溶け出すから",
+          "光に当てて日焼けさせるから"
+        ],
+        "answer": 2,
+        "explain": "ホワイトオークの成分や、樽を焦がして変化した成分が溶け出して、少しずつ琥珀色になります。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（か行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ka.html"
+          }
+        ]
+      },
+      {
+        "id": "making-25",
+        "level": "making",
+        "q": "樽から出した原酒を、水で割らずにそのまま詰めたときの度数を何と呼ぶ？",
+        "choices": [
+          "シングル・カスク",
+          "ノンエイジ",
+          "プルーフ",
+          "カスク・ストレングス"
+        ],
+        "answer": 3,
+        "explain": "アルコール度数は樽ごとに違うので、同じ時期に蒸溜した原酒でも同じ度数に仕上がることはまずありません。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（か行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ka.html"
+          }
+        ]
+      },
+      {
+        "id": "making-26",
+        "level": "making",
+        "q": "「ヴァッティング」の「ヴァット」の意味は？",
+        "choices": [
+          "樽",
+          "蒸溜器",
+          "大きな桶",
+          "倉庫"
+        ],
+        "answer": 2,
+        "explain": "モルト原酒どうしを大桶で混ぜ合わせることがヴァッティング。グレーンと混ぜる場合はブレンディングと呼び分けます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（あ行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/index.html"
+          }
+        ]
+      },
+      {
+        "id": "making-27",
+        "level": "making",
+        "q": "原酒を混ぜ合わせたあと、しばらく寝かせてなじませる工程は？",
+        "choices": [
+          "マリッジ（後熟）",
+          "ヴァッティング",
+          "チャコール・メロウイング",
+          "カスク・フィニッシュ"
+        ],
+        "answer": 0,
+        "explain": "マリッジの間にモルトどうし、モルトとグレーンが融合し、バランスのよい製品になります。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（ま行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ma.html"
+          }
+        ]
+      },
+      {
+        "id": "making-28",
+        "level": "making",
+        "q": "ブレンダーの中の最高責任者は何と呼ばれる？",
+        "choices": [
+          "チーフ・ディスティラー",
+          "マスター・ブレンダー",
+          "セラー・マスター",
+          "ヘッド・クーパー"
+        ],
+        "answer": 1,
+        "explain": "ブレンダーの長がチーフ・ブレンダー、最高責任者がマスター・ブレンダーです。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（は行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ha.html"
+          }
+        ]
+      },
+      {
+        "id": "making-29",
+        "level": "making",
+        "q": "熟成中の樽を保管する酒庫を何と呼ぶ？",
+        "choices": [
+          "エージング・セラー",
+          "キルン",
+          "スピリット・セーフ",
+          "ウォッシュ・バック"
+        ],
+        "answer": 0,
+        "explain": "冷涼で空気の澄んだ土地が望ましいとされます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（あ行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/index.html"
+          }
+        ]
+      },
+      {
+        "id": "making-30",
+        "level": "making",
+        "q": "ピート（泥炭）は、主に何が炭化したもの？",
+        "choices": [
+          "石炭",
+          "ヒースなどの植物",
+          "動物の骨",
+          "海藻だけ"
+        ],
+        "answer": 1,
+        "explain": "スコットランド北部の湿地で、ヒースや水性植物などが部分的に炭化したものです。",
+        "link": "#/list?taste=smoky",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（は行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ha.html"
+          }
+        ]
+      },
+      {
+        "id": "world-01",
+        "level": "world",
+        "q": "ウイスキーの語源「ウシュク・ベーハー」の意味は？",
+        "choices": [
+          "黄金の水",
+          "大麦の酒",
+          "燃える水",
+          "生命の水"
+        ],
+        "answer": 3,
+        "explain": "ゲール語で「生命の水」。ラテン語のアクア・ヴィテを訳したものといわれます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（あ行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/index.html"
+          }
+        ]
+      },
+      {
+        "id": "world-02",
+        "level": "world",
+        "q": "世界の5大ウイスキーに入らないのは？",
+        "choices": [
+          "カナディアン",
+          "アイリッシュ",
+          "ドイツ",
+          "アメリカン"
+        ],
+        "answer": 2,
+        "explain": "ジャパニーズ、スコッチ、アイリッシュ、アメリカン、カナディアンが5大ウイスキーです。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（あ行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/index.html"
+          }
+        ]
+      },
+      {
+        "id": "world-03",
+        "level": "world",
+        "q": "アイリッシュウイスキーのつづりは？",
+        "choices": [
+          "Whisky",
+          "Wisky",
+          "Whiskey",
+          "Whiskie"
+        ],
+        "answer": 2,
+        "explain": "ジャパニーズ・スコッチ・カナディアンは Whisky、アイリッシュは Whiskey を使います。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（あ行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/index.html"
+          }
+        ]
+      },
+      {
+        "id": "world-04",
+        "level": "world",
+        "q": "アイリッシュウイスキーの伝統的なつくり方で、単式蒸溜機で蒸溜する回数は？",
+        "choices": [
+          "3回",
+          "1回",
+          "2回",
+          "4回"
+        ],
+        "answer": 0,
+        "explain": "ジャパニーズやスコッチのモルトは2回、伝統的なアイリッシュは3回蒸溜します。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（さ行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/sa.html"
+          },
+          {
+            "title": "サントリー「ウイスキーの用語集（あ行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/index.html"
+          }
+        ]
+      },
+      {
+        "id": "world-05",
+        "level": "world",
+        "q": "スコットランドのアイラ島のモルトの特徴は？",
+        "choices": [
+          "甘いバニラ香だけ",
+          "米由来のやさしい甘み",
+          "メープルの香り",
+          "ヨードの香りとピートの燻香が強い"
+        ],
+        "answer": 3,
+        "explain": "蒸溜所ごとに濃淡はありますが、ヨードとピートの燻香の強さで知られます。",
+        "link": "#/distillery/akkeshi",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（あ行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/index.html"
+          }
+        ]
+      },
+      {
+        "id": "world-06",
+        "level": "world",
+        "q": "ストレート・バーボンで、原料のとうもろこしは何％以上？",
+        "choices": [
+          "30％以上",
+          "51％以上",
+          "80％以上",
+          "100％"
+        ],
+        "answer": 1,
+        "explain": "とうもろこしを51％以上使い、内面を焦がしたホワイトオークの新樽で2年以上熟成させます。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（は行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ha.html"
+          }
+        ]
+      },
+      {
+        "id": "world-07",
+        "level": "world",
+        "q": "テネシーウイスキーで、蒸溜直後にサトウカエデの木炭でろ過することを何と呼ぶ？",
+        "choices": [
+          "サワー・マッシュ",
+          "チャコール・メロウイング",
+          "マリッジ",
+          "ヴァッティング"
+        ],
+        "answer": 1,
+        "explain": "まろやかな風味が生まれる工程です。代表的な銘柄に「ジャック・ダニエル」があります。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（た行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ta.html"
+          }
+        ]
+      },
+      {
+        "id": "world-08",
+        "level": "world",
+        "q": "日本初の本格ウイスキー、サントリー「白札」が発売されたのは何年？",
+        "choices": [
+          "1899年",
+          "1937年",
+          "1950年",
+          "1929年"
+        ],
+        "answer": 3,
+        "explain": "山崎蒸溜所での試行錯誤ののち、1929年に発表されました。1937年には「十二年もの」（のちの角瓶）が生まれます。",
+        "link": "#/distillery/yamazaki",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（さ行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/sa.html"
+          }
+        ]
+      },
+      {
+        "id": "world-09",
+        "level": "world",
+        "q": "1937年発表の「十二年もの」は、のちの何？",
+        "choices": [
+          "角瓶",
+          "トリス",
+          "オールド",
+          "響"
+        ],
+        "answer": 0,
+        "explain": "日本人の舌に合うウイスキーを目指した傑作で、のちの「角瓶」です。",
+        "link": "#/whisky/kakubin",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（さ行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/sa.html"
+          }
+        ]
+      },
+      {
+        "id": "world-10",
+        "level": "world",
+        "q": "ストレートで飲んだあとに追いかけて飲む水などを何と呼ぶ？",
+        "choices": [
+          "ドラム",
+          "ショット",
+          "チェイサー",
+          "フィンガー"
+        ],
+        "answer": 2,
+        "explain": "ふつうは水ですが、ソーダやビールを好む人もいます。",
+        "link": "#/list",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（た行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ta.html"
+          }
+        ]
+      },
+      {
+        "id": "world-11",
+        "level": "world",
+        "q": "サントリーがすすめる、おいしい水割りのウイスキーと水の比率は？",
+        "choices": [
+          "1対1",
+          "1対5",
+          "2対1",
+          "1対2.5"
+        ],
+        "answer": 3,
+        "explain": "このときアルコール度数は約12％。ミネラルウォーターと、あらかじめ冷やしたグラスを使うのがポイントです。",
+        "link": "#/list?serve=mizuwari",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（ま行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ma.html"
+          }
+        ]
+      },
+      {
+        "id": "world-12",
+        "level": "world",
+        "q": "ハイボールをおいしく飲むために、混ぜる回数の目安は？",
+        "choices": [
+          "10回以上",
+          "混ぜない方がよいので0回",
+          "2回ぐらい",
+          "30秒以上しっかり"
+        ],
+        "answer": 2,
+        "explain": "何回も混ぜると炭酸ガスが逃げて、爽やかさが台無しになります。",
+        "link": "#/list?serve=highball",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（は行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ha.html"
+          }
+        ]
+      },
+      {
+        "id": "world-13",
+        "level": "world",
+        "q": "アメリカン・プルーフで「80プルーフ」は、アルコール何度？",
+        "choices": [
+          "40度",
+          "80度",
+          "20度",
+          "57度"
+        ],
+        "answer": 0,
+        "explain": "アメリカン・プルーフはアルコール度数を2倍した数字です。",
+        "link": "#/basics",
+        "sources": [
+          {
+            "title": "サントリー「ウイスキーの用語集（は行）」",
+            "url": "https://www.suntory.co.jp/whisky/dictionary/atoz/ha.html"
+          }
+        ]
+      }
+    ],
+    "note": "問題と解説は、各問の出典（メーカー公式・法令・業界団体）で確認した事実と、このサイトに出典つきで載せている銘柄・蒸溜所の情報だけでつくっています。"
+  }
 };
